@@ -1,0 +1,20 @@
+- add to cart
+- create order (guest +admin/user)
+admin/user
+- manage user
+- manage product
+- manage promotion 
+- manage order
+- Login/Logout
+
+
+
+-Find product
+- deliver successfully
+
+
+Đức:
+users,cart,role,order (front)
+Trung:
+
+Quyết:
