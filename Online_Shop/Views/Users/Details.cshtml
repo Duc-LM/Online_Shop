@@ -12,14 +12,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Role.name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Role.name)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.user_name)
         </dt>
 
@@ -28,11 +20,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.password_hash)
+            @Html.DisplayNameFor(model => model.password)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.password_hash)
+            @Html.DisplayFor(model => model.password)
         </dd>
 
         <dt>
@@ -81,6 +73,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.phone_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role.name)
         </dd>
 
     </dl>
