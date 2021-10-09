@@ -23,7 +23,6 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(100)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
         public string password { get; set; }
 
         [Required]

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
 
         ShopEntities db = new ShopEntities();
@@ -43,6 +43,25 @@ namespace Online_Shop.Controllers
             }
         }
 
+        public ActionResult UpdateQuantity(int newQuantity, int id)
+        {
+            var list = (List<Product>)Session["Cart"];
+            list.Where(p => p.id == id).Select(p => p.quantity == newQuantity);
+            Session["Cart"] = list;
+            return View();
+        }
+
+        public ActionResult DeleteItem(int id)
+        {
+            var list = (List<Product>)Session["Cart"];
+            var p = list.Where(a => a.id == id).FirstOrDefault();
+            if (p != null)
+            {
+                list.Remove(p);
+                Session["Cart"] = list;
+            }
+            return View();
+        }
         
 
 

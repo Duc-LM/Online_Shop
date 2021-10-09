@@ -13,13 +13,11 @@ namespace Online_Shop.Models
         }
 
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Delivery_status> Delivery_status { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Order_Product> Order_Product { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -34,12 +32,6 @@ namespace Online_Shop.Models
                 .HasForeignKey(e => e.category_id)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Delivery_status>()
-                .HasMany(e => e.Orders)
-                .WithRequired(e => e.Delivery_status)
-                .HasForeignKey(e => e.delivery_status_id)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Order>()
                 .Property(e => e.payment_method)
                 .IsUnicode(false);
@@ -47,6 +39,10 @@ namespace Online_Shop.Models
             modelBuilder.Entity<Order>()
                 .Property(e => e.total_price)
                 .HasPrecision(18, 0);
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.delivery_status)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Order>()
                 .Property(e => e.ship_price)

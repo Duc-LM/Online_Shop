@@ -14,7 +14,7 @@ namespace Online_Shop.Models
         {
             Order_Product = new HashSet<Order_Product>();
         }
-       
+
         public int id { get; set; }
 
         [Required]

@@ -35,7 +35,9 @@ namespace Online_Shop.Models
 
         public decimal total_price { get; set; }
 
-        public int delivery_status_id { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string delivery_status { get; set; }
 
         public int is_paid { get; set; }
 
@@ -45,8 +47,6 @@ namespace Online_Shop.Models
         public DateTime created_date { get; set; }
 
         public int? creator_id { get; set; }
-
-        public virtual Delivery_status Delivery_status { get; set; }
 
         public virtual Order_Product Order_Product { get; set; }
 

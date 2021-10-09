@@ -12,6 +12,7 @@ namespace Online_Shop.Models.DTO
         public int id { get; set; }
 
         [Required]
+        [Range(1,10000)]
         public int quantity { get; set; }
 
     }

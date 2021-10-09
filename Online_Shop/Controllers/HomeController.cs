@@ -1,4 +1,5 @@
 ﻿using Online_Shop.Models;
+using Online_Shop.Models.DAO;
 using Online_Shop.Models.DTO;
 using Online_Shop.Utils;
 using System;
@@ -9,9 +10,9 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        static ShopEntities db = new ShopEntities();
+       
 
         public ActionResult Index()
         {
@@ -22,18 +23,26 @@ namespace Online_Shop.Controllers
 
         public ActionResult Login(UserLogin userLogin)
         {
-            User u = db.Users.Where(a => a.user_name == userLogin.user_name && a.password == MD5Helper.GetHash(userLogin.password)).FirstOrDefault();
-            if (u != null)
+           
+            if (ModelState.IsValid)
             {
-                Session["user_id"] = u.id;
-                return View();
+                User u = db.Users.Find(userLogin);
+                if (u != null)
+                {
+                    Session["user_id"] = u.id;
+                    return View();
+                }
+                else
+                    ModelState.AddModelError("Account", "Account does not exist!");
             }
+               
             return View();
         }
 
         public ActionResult Logout()
         {
             Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Index");
         }
     }
