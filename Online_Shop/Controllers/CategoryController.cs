@@ -7,17 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Online_Shop.Models;
+using PagedList;
 
 namespace Online_Shop.Controllers
 {
     public class CategoryController : BaseController
     {
-        private ShopEntities db = new ShopEntities();
+
 
         // GET: Category
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Categories.ToList());
+           var model = db.Categories.ToList().ToPagedList(page ?? 1,20);
+            return View(model);
         }
 
         // GET: Category/Details/5
@@ -41,9 +43,7 @@ namespace Online_Shop.Controllers
             return View();
         }
 
-        // POST: Category/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name")] Category category)
@@ -73,9 +73,7 @@ namespace Online_Shop.Controllers
             return View(category);
         }
 
-        // POST: Category/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+  
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name")] Category category)
@@ -90,30 +88,24 @@ namespace Online_Shop.Controllers
         }
 
         // GET: Category/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            
             Category category = db.Categories.Find(id);
             if (category == null)
             {
-                return HttpNotFound();
+                return Json("Can not find this category!", JsonRequestBehavior.AllowGet);
             }
-            return View(category);
+            else
+            {
+                db.Categories.Remove(category);
+                db.SaveChanges();
+            }
+            return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: Category/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+
 
         protected override void Dispose(bool disposing)
         {

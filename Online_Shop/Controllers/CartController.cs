@@ -1,6 +1,7 @@
 ﻿using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using Online_Shop.Utils;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,10 @@ namespace Online_Shop.Controllers
 {
     public class CartController : BaseController
     {
-
-        ShopEntities db = new ShopEntities();
+        
         
         // GET: Cart
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var list = (List<Product>)Session["Cart"];
             var cartDetails = new Dictionary<Product, int>();
@@ -23,8 +23,11 @@ namespace Online_Shop.Controllers
             {
                 cartDetails.Add(db.Products.Where(p => p.id == item.id).FirstOrDefault(), item.quantity);
             }
-            return View(cartDetails);
+            // 1page-20record
+            var model = cartDetails.ToPagedList(page ?? 1, 20);
+            return View(model);
         }
+     
 
         public void AddToCart(int pid)
         {
@@ -42,16 +45,16 @@ namespace Online_Shop.Controllers
                 Session["Cart"] = list;
             }
         }
-
-        public ActionResult UpdateQuantity(int newQuantity, int id)
+        [HttpPost]
+        public JsonResult UpdateQuantity(int newQuantity, int id)
         {
             var list = (List<Product>)Session["Cart"];
             list.Where(p => p.id == id).Select(p => p.quantity == newQuantity);
             Session["Cart"] = list;
-            return View();
+            return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult DeleteItem(int id)
+        [HttpPost]
+        public JsonResult DeleteItem(int id)
         {
             var list = (List<Product>)Session["Cart"];
             var p = list.Where(a => a.id == id).FirstOrDefault();
@@ -59,8 +62,11 @@ namespace Online_Shop.Controllers
             {
                 list.Remove(p);
                 Session["Cart"] = list;
+                return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
             }
-            return View();
+           
+            return Json(new { success = false, message = "Deleted Failed!" }, JsonRequestBehavior.AllowGet);
+
         }
         
 
