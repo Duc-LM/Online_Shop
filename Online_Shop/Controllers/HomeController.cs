@@ -17,7 +17,7 @@ namespace Online_Shop.Controllers
         {
             return View();
         }
-
+        public ActionResult MailUs() => View();
         public ActionResult Login() => View();
 
         public ActionResult Login(UserLogin userLogin)

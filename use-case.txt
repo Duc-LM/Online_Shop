@@ -1,11 +1,16 @@
 - add to cart
 - create order (guest +admin/user)
-admin/user
+- view product list (filted by category, price, manufacturer)
+
+admin/user:
 - manage user
+- manage role
 - manage product
 - manage promotion 
 - manage order
-- Login/Logout
+
+
+-Authenticate (login,logout, registration)
 
 
 
