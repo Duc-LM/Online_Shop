@@ -1,0 +1,58 @@
+﻿@model IPagedList<Online_Shop.Models.Category>
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Category")
+</p>
+<table class=".table-hover">
+    <tr>
+        <th>
+           ID
+        </th>
+        <th>
+           Name
+        </th>
+        <th>
+           Short Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.short_desc)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="submit" style=" display: inline" value="Delete" />
+                }
+            </td>
+        </tr>
+    }
+
+
+</table>
+<div class="col-md-12 text-center clear-both">
+    @Html.PagedListPager(Model, pages => Url.Action("Index", new { page = pages }))
+
+</div>

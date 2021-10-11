@@ -32,60 +32,58 @@ namespace Online_Shop.Models
 
         public decimal price { get; set; }
 
-        public int promotion_id { get; set; }
-
         public int category_id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string cpu { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string gpu { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string screen { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string storage { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string ram { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string os { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string size { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string weight { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string ports { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string connectivity { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string battery { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string extras { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string manufacturer { get; set; }
 
         [Column(TypeName = "date")]
@@ -93,11 +91,15 @@ namespace Online_Shop.Models
 
         public int quantity { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime created_at { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime updated_at { get; set; }
+
         public virtual Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
-
-        public virtual Promotion Promotion { get; set; }
     }
 }

@@ -18,19 +18,19 @@ namespace Online_Shop.Models
         public int id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string user_name { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string password { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string name { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string email { get; set; }
 
         [Required]
@@ -38,7 +38,6 @@ namespace Online_Shop.Models
         public string address { get; set; }
 
         [Required]
-        [StringLength(255)]
         public string avatar { get; set; }
 
         public int gender { get; set; }

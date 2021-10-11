@@ -12,13 +12,13 @@ namespace Online_Shop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Promotion()
         {
-            Products = new HashSet<Product>();
+            Orders = new HashSet<Order>();
         }
 
         public int id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string name { get; set; }
 
         [Required]
@@ -30,11 +30,11 @@ namespace Online_Shop.Models
         [Column(TypeName = "date")]
         public DateTime end_date { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        public string percent_discount { get; set; }
+        public int percent_discount { get; set; }
+
+        public int quantity_left { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
