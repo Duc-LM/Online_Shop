@@ -67,6 +67,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductCategory pc, HttpPostedFileBase[] files)
         {
+            Product p = pc.Product;
             if (ModelState.IsValid)
             {
                 foreach (HttpPostedFileBase file in files)

@@ -25,7 +25,7 @@ namespace Online_Shop.Models
         [Required]
         public string short_desc { get; set; }
 
-        [Required]
+
         [StringLength(255)]
         public string images { get; set; }
 
