@@ -10,7 +10,7 @@ namespace Online_Shop.Validators.CategoryValidation
         {
             Category c = (Category)validationContext.ObjectInstance;
             ShopEntities db = new ShopEntities();
-            Category result = db.Categories.Where(category => category.name == c.name).FirstOrDefault();
+            Category result = db.Categories.Where(category => category.Name == c.Name).FirstOrDefault();
             if (result != null)
             {
                 return new ValidationResult("This name existed in Database");

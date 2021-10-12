@@ -12,8 +12,25 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <button type="button" class="btn btn-inverse-primary ">
+                    @Html.ActionLink("Create New Category", "Create", "Category")
+                </button>
+                <br />
+                <br />
 
-                <h4 class="card-title">Categories</h4>
+                <h2 class="card-title">Categories:</h2>
+                @using (Html.BeginForm("Index", "Category", FormMethod.Post))
+                {
+                    //the following are search options
+                    <b>Search Option:</b>
+                    @Html.RadioButton("option", "Id")<text>ID</text>
+                    @Html.RadioButton("option", "Name")<text>Name</text>
+               
+
+                    @Html.TextBox("search");
+                    <input type="submit" name="submit" value="Search" class=" btn btn-inverse-secondary" / >
+                }
+                <br />
 
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -43,11 +60,11 @@
                                     @Html.DisplayFor(modelItem => item.Short_desc)
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display: inline" })</button>
+                                    <button type="button" class="btn btn-inverse-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display: inline" })</button>
                                     @using (Html.BeginForm("Delete", "Category", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline" }))
                                     {
                                         @Html.AntiForgeryToken()
-                                        <button type="submit" class=" btn btn-outline-danger">Delete</button>
+                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
                                     }
                                 </td>
                             </tr>

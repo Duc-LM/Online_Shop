@@ -22,7 +22,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             switch (option)
             {
                 case "ID":
-                    categories = db.Categories.Where(a => a.id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
+                    categories = db.Categories.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
                     if (categories == null)
                     {
                         ViewBag.Message = "No Result!";
@@ -30,7 +30,7 @@ namespace Online_Shop.Areas.Admin.Controllers
 
                     break;
                 case "Name":
-                    categories = db.Categories.Where(a => a.name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
+                    categories = db.Categories.Where(a => a.Name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
                     if (categories == null)
                     {
                         ViewBag.Message = "No Result!";
@@ -79,7 +79,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(db.Categories.Find(category.id))
+                db.Entry(db.Categories.Find(category.Id))
                   .CurrentValues
                   .SetValues(category);
                 db.SaveChanges();

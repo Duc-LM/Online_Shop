@@ -4,7 +4,6 @@ namespace Online_Shop.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Product")]
     public partial class Product
@@ -26,8 +25,9 @@ namespace Online_Shop.Models
         [Required]
         public string Images { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
-
+        [Required]
         public int Quantity { get; set; }
 
         [Required]

@@ -8,7 +8,7 @@ namespace Online_Shop.Validators
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Product c = (Product)validationContext.ObjectInstance;
-            if (c.category_id == null)
+            if (c.Category_id == null)
             {
                 return new ValidationResult("Category_id : not null");
             }

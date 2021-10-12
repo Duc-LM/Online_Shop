@@ -27,7 +27,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             switch (option)
             {
                 case "Name":
-                    products = db.Products.Where(p => p.name == search).ToPagedList(page ?? 1, 10);
+                    products = db.Products.Where(p => p.Name == search).ToPagedList(page ?? 1, 10);
                     if (products == null)
                     {
                         ViewBag.Message = "No Result!";
@@ -35,19 +35,14 @@ namespace Online_Shop.Areas.Admin.Controllers
 
                     break;
                 case "Id":
-                    products = db.Products.Where(p => p.id.ToString() == search).ToPagedList(page ?? 1, 10);
+                    products = db.Products.Where(p => p.Id.ToString() == search).ToPagedList(page ?? 1, 10);
                     if (products == null)
                     {
                         ViewBag.Message = "No Result!";
                     }
 
                     break;
-                case "CPU":
-                    products = db.Products.Where(p => p.cpu == search).ToPagedList(page ?? 1, 10);
-                    if (products == null)
-                    {
-                        ViewBag.Message = "No Result!";
-                    }
+
 
                     break;
                 default:
@@ -78,12 +73,12 @@ namespace Online_Shop.Areas.Admin.Controllers
                         string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/") + Path.GetFileName(file.FileName));
                         //Save file to server folder  
                         file.SaveAs(ServerSavePath);
-                        pc.Product.images += ServerSavePath + ";";
+                        pc.Product.Images += ServerSavePath + ";";
                     }
 
                 }
-                pc.Product.created_at = DateTime.Now;
-                pc.Product.updated_at = DateTime.Now;
+                pc.Product.Created_at = DateTime.Now;
+                pc.Product.Updated_at = DateTime.Now;
 
                 db.Products.Add(pc.Product);
                 db.SaveChanges();
@@ -111,7 +106,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                pc.Product.images = "";
+                pc.Product.Images = "";
                 foreach (HttpPostedFileBase file in files)
                 {
                     //Checking file is available to save.  
@@ -120,12 +115,12 @@ namespace Online_Shop.Areas.Admin.Controllers
                         string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
                         //Save file to server folder  
                         file.SaveAs(ServerSavePath);
-                        pc.Product.images += ServerSavePath + ";";
+                        pc.Product.Images += ServerSavePath + ";";
                     }
 
                 }
-                pc.Product.updated_at = DateTime.Now;
-                db.Entry(db.Products.Find(pc.Product.id))
+                pc.Product.Updated_at = DateTime.Now;
+                db.Entry(db.Products.Find(pc.Product.Id))
                   .CurrentValues
                   .SetValues(pc.Product);
                 db.SaveChanges();
