@@ -1,73 +1,57 @@
 ﻿@model IPagedList<Online_Shop.Models.Category>
 @using PagedList
-@using PagedList.Mvc
-@using X.PagedList.Mvc.Bootstrap4.Core
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Basic Table</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Short Description
+                            </th>
+                            <th></th>
+                        </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create", "Category")
-</p>
-@using (Html.BeginForm("Index", "Category", FormMethod.Post))
-{
-    //the following are search options
-    <b>Search Option:</b>
-    @Html.RadioButton("option", "ID")<text>ID</text>
-    @Html.RadioButton("option", "Name")<text>Name</text>
-
-    @Html.TextBox("search");
-    <input type="submit" name="submit" value="Search" / >
-}
-<p>@ViewBag.Message</p>
-<table class="table table-hover">
-    <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            Short Description
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.short_desc)
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @Style = "display: inline" })</button>
-                @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post, new { @Style = "display: inline" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class=" btn btn-outline-danger ">Delete</button>
-                }
-            </td>
-        </tr>
-    }
-
-
-</table>
-
-
-<p style="display: inline">
-    Page:
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page })
-)
-
-</p>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.short_desc)
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @Style = "display: inline" })</button>
+                                    @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post, new { @Style = "display: inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class=" btn btn-outline-danger ">Delete</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

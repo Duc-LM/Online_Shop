@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -245,11 +246,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -587,6 +584,7 @@
     <Content Include="Include\Web\Scripts\simpleCart.min.js" />
     <Content Include="Include\Web\Scripts\uisearch.js" />
     <Content Include="Include\Web\Scripts\wow.min.js" />
+    <Content Include="Online_Shop_Database.sql" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
