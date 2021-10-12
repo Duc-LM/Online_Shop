@@ -14,18 +14,18 @@ namespace Online_Shop.Models
             Orders = new HashSet<Order>();
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public int? order_id { get; set; }
+        public int? Order_id { get; set; }
 
-        public int product_id { get; set; }
+        public int Product_id { get; set; }
 
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
 
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime created_at { get; set; }
+        public DateTime Created_at { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

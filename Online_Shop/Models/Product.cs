@@ -1,10 +1,10 @@
 namespace Online_Shop.Models
 {
-    using Online_Shop.Validators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     [Table("Product")]
     public partial class Product
@@ -13,95 +13,40 @@ namespace Online_Shop.Models
         public Product()
         {
             Order_Product = new HashSet<Order_Product>();
+            Specs = new HashSet<Spec>();
         }
 
-        public int id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        [ProductNotExist]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public string short_desc { get; set; }
+        public string Images { get; set; }
 
+        public decimal Price { get; set; }
 
-        [StringLength(255)]
-        public string images { get; set; }
-
-        [Required]
-        public decimal price { get; set; }
+        public int Quantity { get; set; }
 
         [Required]
-        [ProductCategoryNotNull]
-        public int? category_id { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string cpu { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string gpu { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string screen { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string storage { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string ram { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string os { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string size { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string weight { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string ports { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string connectivity { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string battery { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string extras { get; set; }
-
-        [Required]
-        [StringLength(255)]
-        public string manufacturer { get; set; }
-        [Required]
-        [Column(TypeName = "date")]
-        public DateTime MFG { get; set; }
-        [Required]
-        public int quantity { get; set; }
+        public string Short_desc { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime created_at { get; set; }
+        public DateTime Created_at { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime updated_at { get; set; }
+        public DateTime Updated_at { get; set; }
+
+        public int Category_id { get; set; }
 
         public virtual Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Spec> Specs { get; set; }
     }
 }

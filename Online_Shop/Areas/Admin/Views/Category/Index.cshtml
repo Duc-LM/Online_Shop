@@ -2,6 +2,8 @@
 @using PagedList
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -32,17 +34,17 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.id)
+                                    @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.name)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.short_desc)
+                                    @Html.DisplayFor(modelItem => item.Short_desc)
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @Style = "display: inline" })</button>
-                                    @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post, new { @Style = "display: inline" }))
+                                    <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display: inline" })</button>
+                                    @using (Html.BeginForm("Delete", "Category", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         <button type="submit" class=" btn btn-outline-danger">Delete</button>
@@ -50,7 +52,7 @@
                                 </td>
                             </tr>
                         }
-                    </table>                    
+                    </table>
                 </div>
             </div>
         </div>

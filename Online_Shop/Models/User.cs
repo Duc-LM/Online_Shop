@@ -15,38 +15,38 @@ namespace Online_Shop.Models
             Orders = new HashSet<Order>();
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string user_name { get; set; }
+        public string User_name { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string address { get; set; }
+        public string Address { get; set; }
 
         [Required]
-        public string avatar { get; set; }
+        public string Avatar { get; set; }
 
-        public int gender { get; set; }
+        public int Gender { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string phone_number { get; set; }
+        public string Phone_number { get; set; }
 
-        public int role_id { get; set; }
+        public int Role_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

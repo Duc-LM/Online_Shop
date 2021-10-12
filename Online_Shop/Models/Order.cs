@@ -9,46 +9,46 @@ namespace Online_Shop.Models
     [Table("Order")]
     public partial class Order
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public int cart_id { get; set; }
+        public int Cart_id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string customer_name { get; set; }
+        public string Customer_name { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string phone_number { get; set; }
+        public string Phone_number { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string place_of_receipt { get; set; }
+        public string Place_of_receipt { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string note { get; set; }
+        public string Note { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string payment_method { get; set; }
+        public string Payment_method { get; set; }
 
-        public decimal total_price { get; set; }
+        public decimal Total_price { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string delivery_status { get; set; }
+        public string Delivery_status { get; set; }
 
-        public int is_paid { get; set; }
+        public int Is_paid { get; set; }
 
-        public decimal ship_price { get; set; }
+        public decimal Ship_price { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime created_date { get; set; }
+        public DateTime Created_date { get; set; }
 
-        public int? creator_id { get; set; }
+        public int? Creator_id { get; set; }
 
-        public int promotion_id { get; set; }
+        public int Promotion_id { get; set; }
 
         public virtual Promotion Promotion { get; set; }
 

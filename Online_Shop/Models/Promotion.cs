@@ -15,24 +15,24 @@ namespace Online_Shop.Models
             Orders = new HashSet<Order>();
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public string short_desc { get; set; }
+        public string Short_desc { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime begin_date { get; set; }
+        public DateTime Begin_date { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime end_date { get; set; }
+        public DateTime End_date { get; set; }
 
-        public int percent_discount { get; set; }
+        public int Percent_discount { get; set; }
 
-        public int quantity_left { get; set; }
+        public int Quantity_left { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
