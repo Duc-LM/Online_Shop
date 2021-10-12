@@ -15,7 +15,36 @@ namespace Online_Shop.Areas.Admin.Controllers
                                           .ToPagedList(page ?? 1, 10);
             return View(categories);
         }
+        [HttpPost]
+        public ActionResult Index(string option, string search, int? page)
+        {
+            IPagedList<Category> categories = null;
+            switch (option)
+            {
+                case "ID":
+                    categories = db.Categories.Where(a => a.id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
+                    if (categories == null)
+                    {
+                        ViewBag.Message = "No Result!";
+                    }
 
+                    break;
+                case "Name":
+                    categories = db.Categories.Where(a => a.name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
+                    if (categories == null)
+                    {
+                        ViewBag.Message = "No Result!";
+                    }
+
+                    break;
+                default:
+                    categories = db.Categories.ToList().ToPagedList(page ?? 1, 10);
+
+                    break;
+
+            }
+            return View(categories);
+        }
         public ActionResult Create()
         {
             return View();

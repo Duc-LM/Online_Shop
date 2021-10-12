@@ -1,10 +1,9 @@
 namespace Online_Shop.Models
 {
-    using System;
+    using Online_Shop.Validators.CategoryValidation;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Category")]
     public partial class Category
@@ -19,6 +18,7 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [CategoryNotExist]
         public string name { get; set; }
 
         [Required]

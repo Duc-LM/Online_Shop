@@ -1,7 +1,7 @@
 ﻿@model IPagedList<Online_Shop.Models.Category>
 @using PagedList
 @using PagedList.Mvc
-
+@using X.PagedList.Mvc.Bootstrap4.Core
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -12,16 +12,27 @@
 <p>
     @Html.ActionLink("Create New", "Create", "Category")
 </p>
-<table class=".table-hover">
+@using (Html.BeginForm("Index", "Category", FormMethod.Post))
+{
+    //the following are search options
+    <b>Search Option:</b>
+    @Html.RadioButton("option", "ID")<text>ID</text>
+    @Html.RadioButton("option", "Name")<text>Name</text>
+
+    @Html.TextBox("search");
+    <input type="submit" name="submit" value="Search" / >
+}
+<p>@ViewBag.Message</p>
+<table class="table table-hover">
     <tr>
         <th>
-           ID
+            ID
         </th>
         <th>
-           Name
+            Name
         </th>
         <th>
-           Short Description
+            Short Description
         </th>
         <th></th>
     </tr>
@@ -39,12 +50,11 @@
                 @Html.DisplayFor(modelItem => item.short_desc)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post))
+                <button type="button" class="btn btn-outline-primary ">@Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @Style = "display: inline" })</button>
+                @using (Html.BeginForm("Delete", "Category", new { id = item.id }, FormMethod.Post, new { @Style = "display: inline" }))
                 {
                     @Html.AntiForgeryToken()
-
-                    <input type="submit" style=" display: inline" value="Delete" />
+                    <button type="submit" class=" btn btn-outline-danger ">Delete</button>
                 }
             </td>
         </tr>
@@ -52,7 +62,12 @@
 
 
 </table>
-<div class="col-md-12 text-center clear-both">
-    @Html.PagedListPager(Model, pages => Url.Action("Index", new { page = pages }))
 
-</div>
+
+<p style="display: inline">
+    Page:
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page })
+)
+
+</p>
+

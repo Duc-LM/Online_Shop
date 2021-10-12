@@ -1,10 +1,10 @@
 namespace Online_Shop.Models
 {
+    using Online_Shop.Validators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Product")]
     public partial class Product
@@ -19,6 +19,7 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [ProductNotExist]
         public string name { get; set; }
 
         [Required]
@@ -28,11 +29,12 @@ namespace Online_Shop.Models
         [StringLength(255)]
         public string images { get; set; }
 
-        public int specs_id { get; set; }
-
+        [Required]
         public decimal price { get; set; }
 
-        public int category_id { get; set; }
+        [Required]
+        [ProductCategoryNotNull]
+        public int? category_id { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -85,10 +87,10 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         public string manufacturer { get; set; }
-
+        [Required]
         [Column(TypeName = "date")]
         public DateTime MFG { get; set; }
-
+        [Required]
         public int quantity { get; set; }
 
         [Column(TypeName = "date")]
