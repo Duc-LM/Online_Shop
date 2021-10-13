@@ -1,5 +1,6 @@
 namespace Online_Shop.Models
 {
+    using Online_Shop.Validators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -19,11 +20,13 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [PromotionNotExist]
         public string Name { get; set; }
 
         [Required]
         public string Short_desc { get; set; }
 
+        [PromotionValidateDate]
         [Column(TypeName = "date")]
         public DateTime Begin_date { get; set; }
 
@@ -31,7 +34,7 @@ namespace Online_Shop.Models
         public DateTime End_date { get; set; }
 
         public int Percent_discount { get; set; }
-
+        [Display(Name = "Quantity")]
         public int Quantity_left { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

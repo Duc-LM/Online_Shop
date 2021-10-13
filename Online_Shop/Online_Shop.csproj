@@ -321,11 +321,13 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Admin\Controllers\SpecController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -345,8 +347,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\MD5Helper.cs" />
     <Compile Include="Validators\CategoryNotExist.cs" />
+    <Compile Include="Validators\PromotionNotExist.cs" />
     <Compile Include="Validators\ProductNotExist.cs" />
     <Compile Include="Validators\ProductCategoryNotNull.cs" />
+    <Compile Include="Validators\PromotionValidateDate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Include\Web\Content\bootstrap-theme.css" />
@@ -566,6 +570,9 @@
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Edit.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />
@@ -618,6 +625,7 @@
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Include\Web\fonts\glyphicons-halflings-regular.woff2" />
