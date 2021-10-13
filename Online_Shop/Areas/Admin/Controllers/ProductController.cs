@@ -39,7 +39,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     products = db.Products.Where(p => p.Name.Contains(search)).ToPagedList(page ?? 1, 10);
                     if (products == null)
                     {
-                        ViewBag.Message = "No Result!";
+                        TempData["Status"] = "No Result!";
                     }
 
                     break;
@@ -47,13 +47,13 @@ namespace Online_Shop.Areas.Admin.Controllers
                     products = db.Products.Where(p => p.Id.ToString() == search).ToPagedList(page ?? 1, 10);
                     if (products == null)
                     {
-                        ViewBag.Message = "No Result!";
+                        TempData["Status"] = "No Result!";
                     }
 
                     break;
 
 
-                    break;
+
                 default:
                     products = db.Products.ToList().ToPagedList(page ?? 1, 10);
                     break;
@@ -71,9 +71,14 @@ namespace Online_Shop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductCategory pc, HttpPostedFileBase[] files)
         {
-            Product p = pc.Product;
+
             if (ModelState.IsValid)
             {
+                if (db.Products.FirstOrDefault(a => a.Name == pc.Product.Name) != null)
+                {
+                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    return View();
+                }
                 if (files[0] != null)
                 {
                     pc.Product.Images = "";
@@ -102,8 +107,8 @@ namespace Online_Shop.Areas.Admin.Controllers
 
                 db.Products.Add(pc.Product);
                 db.SaveChanges();
-                ViewBag.Message = "Created successfully!";
-                ViewBag.Status = "Created New Product Successfully!";
+
+                TempData["Status"] = "Created New Product Successfully!";
                 return RedirectToAction("Index");
             }
             pc.Categories = db.Categories.ToList();
@@ -114,7 +119,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Admin");
             }
             Product product = db.Products.Find(id);
             return View(new ProductCategory() { Product = product, Categories = db.Categories.ToList() });
@@ -126,43 +131,55 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product updatedProduct = db.Products.Find(pc.Product.Id);
-                if (files[0] != null)
+                Product checkProduct = db.Products.FirstOrDefault(p => p.Name == pc.Product.Name);
+                if (checkProduct == null || checkProduct.Id == pc.Product.Id)
                 {
-                    // delete current images to add new images
-                    string[] imageList = updatedProduct.Images.Split(';');
-                    for (int i = 0; i < imageList.Length - 1; i++)
+                    Product updatedProduct = db.Products.Find(pc.Product.Id);
+                    if (files[0] != null)
                     {
-                        System.IO.File.Delete(imageList[i]);
-                    }
-                    // add new images
-                    pc.Product.Images = "";
-                    foreach (HttpPostedFileBase file in files)
-                    {
-                        //Checking file is available to save.  
-                        if (file != null)
+                        // delete current images to add new images
+                        string[] imageList = updatedProduct.Images.Split(';');
+                        for (int i = 0; i < imageList.Length - 1; i++)
                         {
-                            string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
-                            //Save file to server folder  
-                            file.SaveAs(ServerSavePath);
-                            pc.Product.Images += Path.GetFileName(file.FileName) + ";";
+                            System.IO.File.Delete(imageList[i]);
                         }
+                        // add new images
+                        pc.Product.Images = "";
+                        foreach (HttpPostedFileBase file in files)
+                        {
+                            //Checking file is available to save.  
+                            if (file != null)
+                            {
+                                string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
+                                //Save file to server folder  
+                                file.SaveAs(ServerSavePath);
+                                pc.Product.Images += Path.GetFileName(file.FileName) + ";";
+                            }
 
+                        }
                     }
+                    else
+                    {
+                        pc.Product.Images = updatedProduct.Images;
+                    }
+                    Product a = pc.Product;
+                    pc.Product.Updated_at = DateTime.Now;
+
+                    db.Entry(updatedProduct)
+                      .CurrentValues
+                      .SetValues(pc.Product);
+                    db.SaveChanges();
+                    TempData["Status"] = "Updated Product Successfully!";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    pc.Product.Images = updatedProduct.Images;
+                    ModelState.AddModelError("Product.Name", "This name already existed in the Database");
+                    pc.Categories = db.Categories.ToList();
+                    return View(pc);
                 }
-                Product a = pc.Product;
-                pc.Product.Updated_at = DateTime.Now;
 
-                db.Entry(updatedProduct)
-                  .CurrentValues
-                  .SetValues(pc.Product);
-                db.SaveChanges();
-                ViewBag.Status = "Updated Product Successfully!";
-                return RedirectToAction("Index");
+
             }
             pc.Categories = db.Categories.ToList();
             return View(pc);
@@ -173,8 +190,16 @@ namespace Online_Shop.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             Product product = db.Products.Find(id);
+            // delete images
+            string[] imageList = product.Images.Split(';');
+            for (int i = 0; i < imageList.Length - 1; i++)
+            {
+                System.IO.File.Delete(imageList[i]);
+            }
+            // delete product
             db.Products.Remove(product);
             db.SaveChanges();
+            TempData["Status"] = "Deleted Product Successfully!";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

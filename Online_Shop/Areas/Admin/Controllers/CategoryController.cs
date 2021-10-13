@@ -25,7 +25,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     categories = db.Categories.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
                     if (categories == null)
                     {
-                        ViewBag.Message = "No Result!";
+                        TempData["Status"] = "No Result!";
                     }
 
                     break;
@@ -33,7 +33,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     categories = db.Categories.Where(a => a.Name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
                     if (categories == null)
                     {
-                        ViewBag.Message = "No Result!";
+                        TempData["Status"] = "No Result!";
                     }
 
                     break;
@@ -56,8 +56,15 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (db.Categories.FirstOrDefault(c => c.Name == category.Name) != null)
+                {
+                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    return View();
+                }
                 db.Categories.Add(category);
                 db.SaveChanges();
+                TempData["Status"] = "Created Category Successfully";
+
                 return RedirectToAction("Index");
             }
             return View();
@@ -67,7 +74,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Admin");
             }
             Category category = db.Categories.Find(id);
             return View(category);
@@ -79,11 +86,22 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(db.Categories.Find(category.Id))
+                Category checkCategory = db.Categories.FirstOrDefault(c => c.Name == category.Name);
+                if (checkCategory == null || checkCategory.Id == category.Id)
+                {
+                    db.Entry(db.Categories.Find(category.Id))
                   .CurrentValues
                   .SetValues(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    db.SaveChanges();
+                    TempData["Status"] = "Updated Category Successfully";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    return View(category);
+                }
+
             }
             return View(category);
         }
@@ -95,6 +113,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
+            TempData["Status"] = "Deleted Category Successfully";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

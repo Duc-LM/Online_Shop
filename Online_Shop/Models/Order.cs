@@ -9,9 +9,13 @@ namespace Online_Shop.Models
     [Table("Order")]
     public partial class Order
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Order()
+        {
+            Order_Product = new HashSet<Order_Product>();
+        }
 
-        public int Cart_id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -46,14 +50,15 @@ namespace Online_Shop.Models
         [Column(TypeName = "date")]
         public DateTime Created_date { get; set; }
 
-        public int? Creator_id { get; set; }
+        public int Is_customer { get; set; }
 
-        public int Promotion_id { get; set; }
+        public int? Promotion_id { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Product> Order_Product { get; set; }
 
         public virtual Promotion Promotion { get; set; }
 
-        public virtual Order_Product Order_Product { get; set; }
-
-        public virtual User User { get; set; }
+        public virtual Promotion Promotion1 { get; set; }
     }
 }

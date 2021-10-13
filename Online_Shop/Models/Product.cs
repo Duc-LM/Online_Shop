@@ -1,6 +1,5 @@
 namespace Online_Shop.Models
 {
-    using Online_Shop.Validators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -13,21 +12,23 @@ namespace Online_Shop.Models
         public Product()
         {
             Order_Product = new HashSet<Order_Product>();
+            Order_Product1 = new HashSet<Order_Product>();
             Specs = new HashSet<Spec>();
+            Specs1 = new HashSet<Spec>();
         }
 
         public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        [ProductNotExist]
         public string Name { get; set; }
 
 
         public string Images { get; set; }
-        [Required]
+
+        [Range(0, double.MaxValue, ErrorMessage = "The value entered must be greater than or equal to 0 ")]
         public decimal Price { get; set; }
-        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "The value entered must be greater than or equal to 0 ")]
         public int Quantity { get; set; }
 
         [Required]
@@ -39,15 +40,23 @@ namespace Online_Shop.Models
         [Column(TypeName = "date")]
         public DateTime Updated_at { get; set; }
 
-        [ProductCategoryNotNull]
+
         public int? Category_id { get; set; }
 
         public virtual Category Category { get; set; }
+
+        public virtual Category Category1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Product> Order_Product1 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Spec> Specs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Spec> Specs1 { get; set; }
     }
 }

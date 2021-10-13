@@ -14,6 +14,7 @@ namespace Online_Shop.Models
         public Promotion()
         {
             Orders = new HashSet<Order>();
+            Orders1 = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -39,5 +40,8 @@ namespace Online_Shop.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders1 { get; set; }
     }
 }
