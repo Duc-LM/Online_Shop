@@ -55,8 +55,10 @@ namespace Online_Shop.Models
         [StringLength(100)]
         public string Manufacturer { get; set; }
 
-        public int Product_id { get; set; }
+        public int? Product_id { get; set; }
 
         public virtual Product Product { get; set; }
+
+        public virtual Product Product1 { get; set; }
     }
 }

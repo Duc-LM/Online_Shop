@@ -12,7 +12,8 @@ namespace Online_Shop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            Orders = new HashSet<Order>();
+            Order_Product = new HashSet<Order_Product>();
+            Order_Product1 = new HashSet<Order_Product>();
         }
 
         public int Id { get; set; }
@@ -46,11 +47,16 @@ namespace Online_Shop.Models
         [StringLength(50)]
         public string Phone_number { get; set; }
 
-        public int Role_id { get; set; }
+        public int? Role_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order_Product> Order_Product { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Product> Order_Product1 { get; set; }
 
         public virtual Role Role { get; set; }
+
+        public virtual Role Role1 { get; set; }
     }
 }

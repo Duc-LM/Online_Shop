@@ -25,9 +25,13 @@ namespace Online_Shop.Models
         {
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Products)
-                .WithRequired(e => e.Category)
-                .HasForeignKey(e => e.Category_id)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Category)
+                .HasForeignKey(e => e.Category_id);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.Products1)
+                .WithOptional(e => e.Category1)
+                .HasForeignKey(e => e.Category_id);
 
             modelBuilder.Entity<Order>()
                 .Property(e => e.Total_price)
@@ -41,15 +45,14 @@ namespace Online_Shop.Models
                 .Property(e => e.Ship_price)
                 .HasPrecision(18, 0);
 
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.Order_Product)
+                .WithOptional(e => e.Order)
+                .HasForeignKey(e => e.Order_id);
+
             modelBuilder.Entity<Order_Product>()
                 .Property(e => e.Price)
                 .HasPrecision(18, 0);
-
-            modelBuilder.Entity<Order_Product>()
-                .HasMany(e => e.Orders)
-                .WithRequired(e => e.Order_Product)
-                .HasForeignKey(e => e.Cart_id)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.Price)
@@ -57,36 +60,57 @@ namespace Online_Shop.Models
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Order_Product)
-                .WithRequired(e => e.Product)
-                .HasForeignKey(e => e.Product_id)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Product)
+                .HasForeignKey(e => e.Product_id);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Order_Product1)
+                .WithOptional(e => e.Product1)
+                .HasForeignKey(e => e.Product_id);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Specs)
-                .WithRequired(e => e.Product)
-                .HasForeignKey(e => e.Product_id)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Product)
+                .HasForeignKey(e => e.Product_id);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Specs1)
+                .WithOptional(e => e.Product1)
+                .HasForeignKey(e => e.Product_id);
 
             modelBuilder.Entity<Promotion>()
                 .HasMany(e => e.Orders)
-                .WithRequired(e => e.Promotion)
-                .HasForeignKey(e => e.Promotion_id)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Promotion)
+                .HasForeignKey(e => e.Promotion_id);
+
+            modelBuilder.Entity<Promotion>()
+                .HasMany(e => e.Orders1)
+                .WithOptional(e => e.Promotion1)
+                .HasForeignKey(e => e.Promotion_id);
 
             modelBuilder.Entity<Role>()
                 .HasMany(e => e.Users)
-                .WithRequired(e => e.Role)
-                .HasForeignKey(e => e.Role_id)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Role)
+                .HasForeignKey(e => e.Role_id);
+
+            modelBuilder.Entity<Role>()
+                .HasMany(e => e.Users1)
+                .WithOptional(e => e.Role1)
+                .HasForeignKey(e => e.Role_id);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Phone_number)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.Orders)
+                .HasMany(e => e.Order_Product)
                 .WithOptional(e => e.User)
-                .HasForeignKey(e => e.Creator_id);
+                .HasForeignKey(e => e.User_id);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Order_Product1)
+                .WithOptional(e => e.User1)
+                .HasForeignKey(e => e.User_id);
         }
     }
 }

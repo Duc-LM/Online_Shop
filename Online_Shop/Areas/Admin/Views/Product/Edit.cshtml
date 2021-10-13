@@ -16,10 +16,10 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-               
+
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.Product.Id);
+                        @Html.HiddenFor(model => model.Product.Id)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -30,41 +30,21 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.Product.Images, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @*<div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label>File upload</label>
-                                            <input type="file" multiple name="files" id="Files" class="file-upload-default">
-                                            <div class="input-group col-xs-12">
-                                                <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
-                                                <span class="input-group-append">
-                                                    <input type="submit" value="Upload" class="file-upload-browse btn btn-primary" />
-                                                </span>
-                                            </div>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-2 col-md-10 text-success">
-                                                @ViewBag.UploadStatus
-                                            </div>
-                                        </div>
-                                    </div>*@
+                            <div class="form-horizontal">
 
-                                <div class="form-horizontal">
+                                <div class="form-group">
 
-                                    <div class="form-group">
-
-                                        <div class="col-md-10">
-                                            <input type="file" multiple name="files" id="Files" />
-                                        </div>
+                                    <div class="col-md-10">
+                                        <input type="file" multiple name="files" id="Files" />
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10 text-success">
-                                            @ViewBag.UploadStatus
-                                        </div>
-                                    </div>
-
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10 text-danger">
+                                        @ViewBag.UploadStatus
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 

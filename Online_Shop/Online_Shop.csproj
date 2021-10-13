@@ -320,6 +320,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SpecController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
+    <Compile Include="Models\DTO\ProductSpec.cs" />
     <Compile Include="Models\DTO\ProductWithCheckSpec.cs" />
     <Compile Include="Models\DTO\UserLogin.cs" />
     <Compile Include="Models\Order.cs" />
@@ -614,6 +616,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Areas\Admin\Views\Spec\" />
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
