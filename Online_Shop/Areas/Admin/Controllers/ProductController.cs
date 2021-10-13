@@ -124,7 +124,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             Product product = db.Products.Find(id);
             return View(new ProductCategory() { Product = product, Categories = db.Categories.ToList() });
         }
-
+        //as
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductCategory pc, HttpPostedFileBase[] files)
