@@ -3,6 +3,7 @@ using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,9 +16,17 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int? page)
         {
-            IPagedList<Product> products = db.Products.ToList()
-                                          .ToPagedList(page ?? 1, 10);
-            return View(products);
+            List<Product> productList = db.Products.ToList();
+            List<ProductWithCheckSpec> productsWithCheckSpec = new List<ProductWithCheckSpec>();
+            foreach (Product item in productList)
+            {
+                productsWithCheckSpec.Add(new ProductWithCheckSpec()
+                {
+                    Product = item,
+                    CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
+                });
+            }
+            return View(productsWithCheckSpec);
         }
         [HttpPost]
 
@@ -27,7 +36,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             switch (option)
             {
                 case "Name":
-                    products = db.Products.Where(p => p.Name == search).ToPagedList(page ?? 1, 10);
+                    products = db.Products.Where(p => p.Name.Contains(search)).ToPagedList(page ?? 1, 10);
                     if (products == null)
                     {
                         ViewBag.Message = "No Result!";
@@ -65,17 +74,28 @@ namespace Online_Shop.Areas.Admin.Controllers
             Product p = pc.Product;
             if (ModelState.IsValid)
             {
-                foreach (HttpPostedFileBase file in files)
+                if (files[0] != null)
                 {
-                    //Checking file is available to save.  
-                    if (file != null)
+                    pc.Product.Images = "";
+                    foreach (HttpPostedFileBase file in files)
                     {
-                        string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/") + Path.GetFileName(file.FileName));
-                        //Save file to server folder  
-                        file.SaveAs(ServerSavePath);
-                        pc.Product.Images += ServerSavePath + ";";
+                        //Checking file is available to save.  
+                        if (file != null)
+                        {
+                            string InputFileName = Path.GetFileName(file.FileName);
+                            string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
+                            //Save file to server folder  
+                            file.SaveAs(ServerSavePath);
+                            //System.IO.File.Delete(ServerSavePath);
+                            pc.Product.Images += InputFileName + ";";
+                        }
                     }
-
+                }
+                else
+                {
+                    ViewBag.UploadStatus = "Must choose an image!";
+                    pc.Categories = db.Categories.ToList();
+                    return View(pc);
                 }
                 pc.Product.Created_at = DateTime.Now;
                 pc.Product.Updated_at = DateTime.Now;
@@ -83,6 +103,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Products.Add(pc.Product);
                 db.SaveChanges();
                 ViewBag.Message = "Created successfully!";
+                ViewBag.Status = "Created New Product Successfully!";
                 return RedirectToAction("Index");
             }
             pc.Categories = db.Categories.ToList();
@@ -96,7 +117,6 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return HttpNotFound();
             }
             Product product = db.Products.Find(id);
-
             return View(new ProductCategory() { Product = product, Categories = db.Categories.ToList() });
         }
 
@@ -106,27 +126,46 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                pc.Product.Images = "";
-                foreach (HttpPostedFileBase file in files)
+                Product updatedProduct = db.Products.Find(pc.Product.Id);
+                if (files[0] != null)
                 {
-                    //Checking file is available to save.  
-                    if (file != null)
+                    // delete current images to add new images
+                    string[] imageList = updatedProduct.Images.Split(';');
+                    for (int i = 0; i < imageList.Length - 1; i++)
                     {
-                        string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
-                        //Save file to server folder  
-                        file.SaveAs(ServerSavePath);
-                        pc.Product.Images += ServerSavePath + ";";
+                        System.IO.File.Delete(imageList[i]);
                     }
+                    // add new images
+                    pc.Product.Images = "";
+                    foreach (HttpPostedFileBase file in files)
+                    {
+                        //Checking file is available to save.  
+                        if (file != null)
+                        {
+                            string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
+                            //Save file to server folder  
+                            file.SaveAs(ServerSavePath);
+                            pc.Product.Images += Path.GetFileName(file.FileName) + ";";
+                        }
 
+                    }
                 }
+                else
+                {
+                    pc.Product.Images = updatedProduct.Images;
+                }
+                Product a = pc.Product;
                 pc.Product.Updated_at = DateTime.Now;
-                db.Entry(db.Products.Find(pc.Product.Id))
+
+                db.Entry(updatedProduct)
                   .CurrentValues
                   .SetValues(pc.Product);
                 db.SaveChanges();
+                ViewBag.Status = "Updated Product Successfully!";
                 return RedirectToAction("Index");
             }
-            return View(pc.Product);
+            pc.Categories = db.Categories.ToList();
+            return View(pc);
         }
 
         [HttpPost]

@@ -1,5 +1,6 @@
 namespace Online_Shop.Models
 {
+    using Online_Shop.Validators;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -15,16 +16,15 @@ namespace Online_Shop.Models
             Specs = new HashSet<Spec>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
+        [ProductNotExist]
         public string Name { get; set; }
 
-        [Required]
-        public string Images { get; set; }
 
+        public string Images { get; set; }
         [Required]
         public decimal Price { get; set; }
         [Required]
@@ -39,7 +39,8 @@ namespace Online_Shop.Models
         [Column(TypeName = "date")]
         public DateTime Updated_at { get; set; }
 
-        public int Category_id { get; set; }
+        [ProductCategoryNotNull]
+        public int? Category_id { get; set; }
 
         public virtual Category Category { get; set; }
 

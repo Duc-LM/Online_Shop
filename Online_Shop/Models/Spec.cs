@@ -9,66 +9,52 @@ namespace Online_Shop.Models
     [Table("Spec")]
     public partial class Spec
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 0)]
+        [Required]
         [StringLength(255)]
         public string CPU { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(255)]
         public string GPU { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        [Required]
         [StringLength(255)]
         public string Screen { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
+        [Required]
         [StringLength(255)]
         public string Ports { get; set; }
 
-        [Key]
-        [Column(Order = 4)]
+        [Required]
         [StringLength(255)]
         public string RAM { get; set; }
 
-        [Key]
-        [Column(Order = 5)]
+        [Required]
         [StringLength(255)]
         public string Storage { get; set; }
 
-        [Key]
-        [Column(Order = 6)]
+        [Required]
         [StringLength(255)]
         public string Connectivity { get; set; }
 
-        [Key]
-        [Column(Order = 7)]
+        [Required]
         [StringLength(255)]
         public string Size { get; set; }
 
-        [Key]
-        [Column(Order = 8)]
+        [Required]
         [StringLength(100)]
         public string Weight { get; set; }
 
-        [Key]
-        [Column(Order = 9)]
+        [Required]
         [StringLength(100)]
         public string Battery { get; set; }
 
-        [Key]
-        [Column(Order = 10)]
+        [Required]
         [StringLength(100)]
         public string Manufacturer { get; set; }
 
-        [Key]
-        [Column(Order = 11)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Product_id { get; set; }
 
         public virtual Product Product { get; set; }

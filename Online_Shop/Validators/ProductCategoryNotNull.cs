@@ -10,9 +10,8 @@ namespace Online_Shop.Validators
             Product c = (Product)validationContext.ObjectInstance;
             if (c.Category_id == null)
             {
-                return new ValidationResult("Category_id : not null");
+                return new ValidationResult("Category_id : nust not null!");
             }
-
             return null;
         }
     }
