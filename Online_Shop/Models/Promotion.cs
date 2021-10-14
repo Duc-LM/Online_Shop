@@ -4,7 +4,6 @@ namespace Online_Shop.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Promotion")]
     public partial class Promotion
@@ -20,20 +19,26 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
-        
+
         public string Name { get; set; }
 
         [Required]
         public string Short_desc { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true)]
+        [Display(Name = "Begin Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Column(TypeName = "date")]
         public DateTime Begin_date { get; set; }
 
+        [Display(Name = "End Date")]
         [Column(TypeName = "date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime End_date { get; set; }
 
+        [Range(0, 100)]
+        [Display(Name = "Percent Discount")]
         public int Percent_discount { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be greater than or equal to 0")]
         [Display(Name = "Quantity")]
         public int Quantity_left { get; set; }
 
