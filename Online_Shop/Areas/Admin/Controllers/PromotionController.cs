@@ -54,6 +54,16 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(db.Promotions.FirstOrDefault(p => p.Name == promotion.Name) != null)
+                {
+                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    return View();
+                }
+                if(DateTime.Compare(promotion.Begin_date, promotion.End_date ) > 0)
+                {
+                    ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
+                    return View();
+                }
                 db.Promotions.Add(promotion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -75,12 +85,28 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(db.Promotions.Find(promotion.Id))
+
+                if (DateTime.Compare(promotion.Begin_date, promotion.End_date) > 0)
+                {
+                    ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
+                    return View();
+                }
+                Promotion checkPromotion = db.Promotions.FirstOrDefault(p => p.Name == promotion.Name);
+                if(checkPromotion == null || checkPromotion.Id == promotion.Id)
+                {
+                    db.Entry(db.Promotions.Find(promotion.Id))
                     .CurrentValues
                     .SetValues(promotion);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    return View(promotion);
+                }
             }
+                
             return View(promotion);
         }
         [HttpPost]
