@@ -119,12 +119,12 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Dashboard");
             }
             Product product = db.Products.Find(id);
             return View(new ProductCategory() { Product = product, Categories = db.Categories.ToList() });
         }
-
+        //as
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductCategory pc, HttpPostedFileBase[] files)

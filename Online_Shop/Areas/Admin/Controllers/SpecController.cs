@@ -13,7 +13,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (productId == null)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Dashboard");
             }
             Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == productId);
             Product product = db.Products.FirstOrDefault(p => p.Id == productId);
@@ -23,12 +23,12 @@ namespace Online_Shop.Areas.Admin.Controllers
 
         public ActionResult Create(int? productId)
         {
-            if (productId == null)
+            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
+            if (productId == null || product == null)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Dashboard");
             }
             Spec spec = new Spec() { Product_id = (int)productId };
-            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
             return View(new ProductSpec() { Product = product, Spec = spec });
         }
 
@@ -49,13 +49,40 @@ namespace Online_Shop.Areas.Admin.Controllers
 
         public ActionResult Edit(int? productId)
         {
-            if (productId == null)
+            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
+            if (productId == null || product == null)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Dashboard");
             }
             Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == productId);
-            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
             return View(new ProductSpec() { Product = product, Spec = spec });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProductSpec ps)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(db.Specs.FirstOrDefault(s => s.Product_id == ps.Spec.Product_id))
+                    .CurrentValues.SetValues(ps.Spec);
+                db.SaveChanges();
+                TempData["Status"] = "Updated Spec Successfully";
+                return RedirectToAction("Index", "Product");
+            }
+            ps.Product = db.Products.Find(ps.Spec.Product_id);
+            return View(ps);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int productId)
+        {
+            Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == productId);
+            db.Specs.Remove(spec);
+            db.SaveChanges();
+            TempData["Status"] = "Deleted Spec Successfully";
+            return RedirectToAction("Index", "Product");
         }
     }
 }
