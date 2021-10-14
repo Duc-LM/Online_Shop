@@ -322,6 +322,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SpecController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -570,6 +571,9 @@
     <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />

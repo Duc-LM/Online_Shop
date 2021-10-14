@@ -20,11 +20,13 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        
         public string Name { get; set; }
 
         [Required]
         public string Short_desc { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateTime Begin_date { get; set; }
 
@@ -32,7 +34,7 @@ namespace Online_Shop.Models
         public DateTime End_date { get; set; }
 
         public int Percent_discount { get; set; }
-
+        [Display(Name = "Quantity")]
         public int Quantity_left { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
