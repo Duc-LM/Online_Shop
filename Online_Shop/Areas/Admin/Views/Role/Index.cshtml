@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Online_Shop.Models.Role>
+@using PagedList
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <button type="button" class="btn btn-inverse-primary">
+                    @Html.ActionLink("Create New Role", "Create", "Role")
+                </button>
+                <br />
+                <br />
+
+                <h2 class="card-title">Roles</h2>
+                @using (Html.BeginForm("Index", "Role", FormMethod.Post))
+                {
+                    //the following are search options
+                    <b>Search Option:</b>
+                    @Html.RadioButton("option", "Id")<text>ID</text>
+                    @Html.RadioButton("option", "Name")<text>Name</text>
+
+
+                    @Html.TextBox("search");
+                    <input type="submit" name="submit" value="Search" class=" btn btn-inverse-secondary" / >
+                }
+                <br />
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
+                                @using (Html.BeginForm("Delete", "Role", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this role?');" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</table>
