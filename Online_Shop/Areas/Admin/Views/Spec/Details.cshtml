@@ -1,0 +1,157 @@
+﻿@model Online_Shop.Models.DTO.ProductSpec
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h2>Details</h2>
+                <div>
+                    <h4>Product</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Category</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Short Description</th>
+                            </tr>
+                            <tr>
+                                <td>   @Html.DisplayFor(model => model.Product.Id)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Name)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Price)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Quantity)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Category.Name)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Created_at)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Updated_at)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Short_desc)</td>
+                            </tr>
+                        </table>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Product.Images)
+                        </dt>
+
+                        <dd>
+                            @{
+                                var InputFileName = Model.Product.Images.Split(';');
+                                var list = new List<string>();
+                                for (int i = 0; i < InputFileName.Length - 1; i++)
+                                {
+                                    list.Add(Path.Combine("/Include/Images/", InputFileName[i]));
+                                }
+                            }
+                            <div id="banner">
+                                @foreach (string item in list)
+                                {
+                                    <div style="display : inline-block">
+                                        <img src="@item" width="300" height="300">
+                                    </div>
+                                }
+
+                            </div>
+                        </dd>
+
+                </div>
+
+                @if (Model.Spec != null)
+                {
+                    <div>
+                        <hr />
+                        <div style=" margin: 0 auto;display: inline-block">
+                            <h4>
+
+                                <button type="button" class="btn btn-inverse-primary btn-sm " style="position: absolute; float:right; right: 110px; ">
+                                    @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = Model.Product.Id })
+                                </button>
+                                @using (Html.BeginForm("Delete", "Spec", new { productId = Model.Product.Id }, FormMethod.Post, new { @Style = "position: absolute; float:right;right: 38px;", onclick = "return confirm('Are you sure you wish to delete this Specification?');" }))
+                                {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class=" btn btn-inverse-danger btn-sm">Delete</button>
+                                }
+                                <div style="float: left">Specification</div>
+                                <br />
+                            </h4>
+                        </div>
+
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th> Specification</th>
+                                    <th>Detail</th>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.CPU)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.CPU)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.GPU)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.GPU)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.RAM)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.RAM)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Spec.Screen)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.Screen)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.Ports)</td>
+                                    <td>  @Html.DisplayFor(model => model.Spec.Ports)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Spec.Storage)</td>
+                                    <td>@Html.DisplayFor(model => model.Spec.Storage)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.Connectivity)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.Connectivity)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.DisplayNameFor(model => model.Spec.Size)</td>
+                                    <td> @Html.DisplayFor(model => model.Spec.Size)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Spec.Weight)</td>
+                                    <td>@Html.DisplayFor(model => model.Spec.Weight)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Spec.Battery)</td>
+                                    <td>@Html.DisplayFor(model => model.Spec.Battery)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Spec.Manufacturer)</td>
+                                    <td>@Html.DisplayFor(model => model.Spec.Manufacturer)</td>
+                                </tr>
+                            </table>
+                        </dl>
+                    </div>
+
+                }
+                else
+                {
+                    <hr />
+                    <button type="button" class="btn btn-inverse-info ">
+                        @Html.ActionLink("Add Spec", "Create", "Spec", new { productId = Model.Product.Id }, new { @Style = "display: inline" })
+                    </button>
+                    <hr />
+                }
+                <p>
+
+                    @Html.ActionLink("Back to List", "Index", "Product")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

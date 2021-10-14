@@ -1,0 +1,189 @@
+﻿@model Online_Shop.Models.DTO.ProductSpec
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h2>Product</h2>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Category</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Short Description</th>
+                            </tr>
+                            <tr>
+                                <td>   @Html.DisplayFor(model => model.Product.Id)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Name)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Price)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Quantity)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Category.Name)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Created_at)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Updated_at)</td>
+                                <td>   @Html.DisplayFor(model => model.Product.Short_desc)</td>
+                            </tr>
+                        </table>
+                        <dt>
+                            <h4>@Html.DisplayNameFor(model => model.Product.Images):</h4>
+                        </dt>
+
+                        <dd>
+                            @{
+                                var InputFileName = Model.Product.Images.Split(';');
+                                var list = new List<string>
+                                    ();
+                                for (int i = 0; i < InputFileName.Length - 1; i++)
+                                {
+                                    list.Add(Path.Combine("/Include/Images/", InputFileName[i]));
+                                }
+                            }
+                            <div id="banner">
+                                @foreach (string item in list)
+                                {
+                                    <div style="display : inline-block">
+                                        <img src="@item" width="300" height="300">
+                                    </div>
+                                }
+
+                            </div>
+                        </dd>
+
+                </div>
+                <hr />
+                <div>
+                    <h2>Update Specification</h2>
+
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                            @Html.HiddenFor(model => model.Spec.Id)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.CPU, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.CPU, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter CPU" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.CPU, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.GPU, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.GPU, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter GPU" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.GPU, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Screen, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Screen, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Screen Type" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Screen, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Ports, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Ports, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Ports" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Ports, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.RAM, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.RAM, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter RAM" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.RAM, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Storage, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Storage, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Storage" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Storage, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Connectivity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Connectivity, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Connectivity" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Connectivity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Size, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Size, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Size" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Size, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Weight, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Weight" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Weight, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Battery, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Battery, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Battery" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Battery, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spec.Manufacturer, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Spec.Manufacturer, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Manufacturer" } })
+                                    @Html.ValidationMessageFor(model => model.Spec.Manufacturer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @Html.HiddenFor(model => model.Spec.Product_id)
+
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-inverse-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div>
+                    @Html.ActionLink("Back to List", "Index", "Product")
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

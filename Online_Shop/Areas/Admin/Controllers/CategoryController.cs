@@ -56,11 +56,13 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //check name -> exist
                 if (db.Categories.FirstOrDefault(c => c.Name == category.Name) != null)
                 {
                     ModelState.AddModelError("Name", "This name already existed in the Database");
                     return View();
                 }
+                // add to Db
                 db.Categories.Add(category);
                 db.SaveChanges();
                 TempData["Status"] = "Created Category Successfully";
@@ -74,7 +76,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Dashboard");
             }
             Category category = db.Categories.Find(id);
             return View(category);
@@ -86,6 +88,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                //check 
                 Category checkCategory = db.Categories.FirstOrDefault(c => c.Name == category.Name);
                 if (checkCategory == null || checkCategory.Id == category.Id)
                 {

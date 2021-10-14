@@ -29,11 +29,11 @@
                     @Html.TextBox("search");
                     <input type="submit" name="submit" value="Search" class=" btn btn-inverse-secondary" / >
                 }
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10 text-success">
-                        <h3 class=" text-success">@ViewData["Status"]</h3>
-                    </div>
-                </div>
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10 text-success">
+                            <h3 class=" text-success">@ViewData["Status"]</h3>
+                        </div>
+                    </div>*@
                 <br />
                 <div class="table-responsive">
                     <table class="table table-hover ">
@@ -58,7 +58,7 @@
                                 @Html.DisplayNameFor(model => model.Product.Updated_at)
                             </th>
                             <th>
-                                Category 
+                                Category
                             </th>
                             <th>Specification</th>
                             <th>Actions</th>
@@ -95,23 +95,28 @@
                                 <td>
                                     @if (item.Product.Category != null)
                                     {@Html.DisplayFor(modelItem => item.Product.Category.Name)}
-                                    else
-                                    {
-                                        <em><b>Not Set</b></em>
-                                    }
+                                else
+                                {
+                                    <em><b>Not Set</b></em>
+                                }
                                 </td>
                                 <td>
                                     @if (item.CheckSpec)
                                     {
 
-                                        <button type="button" class="btn btn-inverse-infor ">
-                                            @Html.ActionLink("Edit Spec", "Edit", "Spec", new { id = item.Product.Id }, new { @Style = "display: inline" })
+                                        <button type="button" class="btn btn-inverse-primary ">
+                                            @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
                                         </button>
+                                        using (Html.BeginForm("Delete", "Spec", new { productId = item.Product.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this Specification?');" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                                        }
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-inverse-info ">
-                                            @Html.ActionLink("Add Spec", "Create", "Spec", new { id = item.Product.Id }, new { @Style = "display: inline" })
+                                        <button type="button" class="btn btn-inverse-success ">
+                                            @Html.ActionLink("Add Specification", "Create", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
                                         </button>
                                     }
                                 </td>
@@ -128,7 +133,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-inverse-primary ">
-                                        @Html.ActionLink("Details", "Details", "Spec", new { id = item.Product.Id }, new { @Style = "display: inline" })
+                                        @Html.ActionLink("Details", "Details", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
                                     </button>
                                 </td>
                             </tr>
