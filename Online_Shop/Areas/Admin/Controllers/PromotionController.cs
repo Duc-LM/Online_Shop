@@ -2,9 +2,7 @@
 using Online_Shop.Models;
 using PagedList;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
@@ -26,18 +24,18 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 case "ID":
                     promotions = db.Promotions.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
-                    if(promotions == null)
+                    if (promotions == null)
                     {
                         ViewBag.Message = "No Result";
                     }
-                break;
+                    break;
                 case "Name":
                     promotions = db.Promotions.Where(a => a.Name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
                     if (promotions == null)
                     {
                         ViewBag.Message = "No Result";
                     }
-                break;
+                    break;
                 default:
                     promotions = db.Promotions.ToList().ToPagedList(page ?? 1, 10);
                     break;
@@ -54,27 +52,38 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(db.Promotions.FirstOrDefault(p => p.Name == promotion.Name) != null)
+                if (db.Promotions.FirstOrDefault(p => p.Name == promotion.Name) != null)
                 {
                     ModelState.AddModelError("Name", "This name already existed in the Database");
                     return View();
                 }
-                if(DateTime.Compare(promotion.Begin_date, promotion.End_date ) > 0)
+                if (DateTime.Compare(promotion.Begin_date, DateTime.Now) < 0)
+                {
+                    ModelState.AddModelError("Begin_date", "Begin date must not be earlier than now");
+                    return View();
+                }
+                if (DateTime.Compare(promotion.End_date, DateTime.Now) < 0)
+                {
+                    ModelState.AddModelError("End_date", "End date must not be earlier than now");
+                    return View();
+                }
+                if (DateTime.Compare(promotion.Begin_date, promotion.End_date) > 0)
                 {
                     ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
                     return View();
                 }
+
                 db.Promotions.Add(promotion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View();
         }
-        public ActionResult Edit(int ? id)
+        public ActionResult Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Dashboard");
             }
             Promotion promotion = db.Promotions.Find(id);
             return View(promotion);
@@ -89,10 +98,20 @@ namespace Online_Shop.Areas.Admin.Controllers
                 if (DateTime.Compare(promotion.Begin_date, promotion.End_date) > 0)
                 {
                     ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
-                    return View();
+                    return View(promotion);
+                }
+                if (DateTime.Compare(promotion.Begin_date, DateTime.Now) < 0)
+                {
+                    ModelState.AddModelError("Begin_date", "Begin date must not be earlier than now");
+                    return View(promotion);
+                }
+                if (DateTime.Compare(promotion.End_date, DateTime.Now) < 0)
+                {
+                    ModelState.AddModelError("End_date", "End date must not be earlier than now");
+                    return View(promotion);
                 }
                 Promotion checkPromotion = db.Promotions.FirstOrDefault(p => p.Name == promotion.Name);
-                if(checkPromotion == null || checkPromotion.Id == promotion.Id)
+                if (checkPromotion == null || checkPromotion.Id == promotion.Id)
                 {
                     db.Entry(db.Promotions.Find(promotion.Id))
                     .CurrentValues
@@ -106,12 +125,12 @@ namespace Online_Shop.Areas.Admin.Controllers
                     return View(promotion);
                 }
             }
-                
+
             return View(promotion);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int ? id)
+        public ActionResult Delete(int id)
         {
             Promotion promotion = db.Promotions.Find(id);
             db.Promotions.Remove(promotion);

@@ -28,18 +28,9 @@ namespace Online_Shop.Models
                 .WithOptional(e => e.Category)
                 .HasForeignKey(e => e.Category_id);
 
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Products1)
-                .WithOptional(e => e.Category1)
-                .HasForeignKey(e => e.Category_id);
-
             modelBuilder.Entity<Order>()
-                .Property(e => e.Total_price)
+                .Property(e => e.Total_Price)
                 .HasPrecision(18, 0);
-
-            modelBuilder.Entity<Order>()
-                .Property(e => e.Delivery_status)
-                .IsUnicode(false);
 
             modelBuilder.Entity<Order>()
                 .Property(e => e.Ship_price)
@@ -64,18 +55,8 @@ namespace Online_Shop.Models
                 .HasForeignKey(e => e.Product_id);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.Order_Product1)
-                .WithOptional(e => e.Product1)
-                .HasForeignKey(e => e.Product_id);
-
-            modelBuilder.Entity<Product>()
                 .HasMany(e => e.Specs)
                 .WithOptional(e => e.Product)
-                .HasForeignKey(e => e.Product_id);
-
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Specs1)
-                .WithOptional(e => e.Product1)
                 .HasForeignKey(e => e.Product_id);
 
             modelBuilder.Entity<Promotion>()
@@ -83,20 +64,14 @@ namespace Online_Shop.Models
                 .WithOptional(e => e.Promotion)
                 .HasForeignKey(e => e.Promotion_id);
 
-            modelBuilder.Entity<Promotion>()
-                .HasMany(e => e.Orders1)
-                .WithOptional(e => e.Promotion1)
-                .HasForeignKey(e => e.Promotion_id);
-
             modelBuilder.Entity<Role>()
                 .HasMany(e => e.Users)
                 .WithOptional(e => e.Role)
                 .HasForeignKey(e => e.Role_id);
 
-            modelBuilder.Entity<Role>()
-                .HasMany(e => e.Users1)
-                .WithOptional(e => e.Role1)
-                .HasForeignKey(e => e.Role_id);
+            modelBuilder.Entity<User>()
+                .Property(e => e.Gender)
+                .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Phone_number)
@@ -105,11 +80,6 @@ namespace Online_Shop.Models
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Order_Product)
                 .WithOptional(e => e.User)
-                .HasForeignKey(e => e.User_id);
-
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Order_Product1)
-                .WithOptional(e => e.User1)
                 .HasForeignKey(e => e.User_id);
         }
     }
