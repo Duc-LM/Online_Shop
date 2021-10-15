@@ -194,7 +194,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             string[] imageList = product.Images.Split(';');
             for (int i = 0; i < imageList.Length - 1; i++)
             {
-                System.IO.File.Delete(imageList[i]);
+                System.IO.File.Delete(Path.Combine(Server.MapPath("~/Include/Images"), imageList[i]));
             }
             // delete product
             db.Products.Remove(product);
