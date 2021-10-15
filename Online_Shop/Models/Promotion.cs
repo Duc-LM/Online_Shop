@@ -36,7 +36,7 @@ namespace Online_Shop.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime End_date { get; set; }
         [Range(0, 100)]
-        [Display(Name = "Percent Discount")]
+        [Display(Name = "Discount(%)")]
         public int Percent_discount { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be greater than or equal to 0")]
         [Display(Name = "Quantity")]

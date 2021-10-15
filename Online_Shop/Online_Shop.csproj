@@ -581,7 +581,7 @@
     <Content Include="Areas\Admin\Views\Promotion\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Promotion\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />

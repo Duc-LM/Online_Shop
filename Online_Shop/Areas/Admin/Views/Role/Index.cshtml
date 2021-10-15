@@ -44,22 +44,22 @@
                         </tr>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
-                                @using (Html.BeginForm("Delete", "Role", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this role?');" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                }
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
+                                    @using (Html.BeginForm("Delete", "Role", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this role?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                                    }
+                                </td>
+                            </tr>
                         }
                     </table>
                 </div>
@@ -71,4 +71,6 @@
 
 
 
-</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
