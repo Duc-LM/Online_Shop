@@ -12,29 +12,29 @@ namespace Online_Shop.Models
         public Promotion()
         {
             Orders = new HashSet<Order>();
-            Orders1 = new HashSet<Order>();
         }
 
         public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-
         public string Name { get; set; }
 
         [Required]
+        [StringLength(255)]
         public string Short_desc { get; set; }
 
+        [Required]
         [Display(Name = "Begin Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Column(TypeName = "date")]
         public DateTime Begin_date { get; set; }
 
+        [Required]
         [Display(Name = "End Date")]
         [Column(TypeName = "date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime End_date { get; set; }
-
         [Range(0, 100)]
         [Display(Name = "Percent Discount")]
         public int Percent_discount { get; set; }
@@ -44,8 +44,5 @@ namespace Online_Shop.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders1 { get; set; }
     }
 }

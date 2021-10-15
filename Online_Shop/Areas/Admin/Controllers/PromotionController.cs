@@ -83,7 +83,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Dashboard");
             }
             Promotion promotion = db.Promotions.Find(id);
             return View(promotion);
@@ -130,7 +130,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             Promotion promotion = db.Promotions.Find(id);
             db.Promotions.Remove(promotion);

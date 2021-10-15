@@ -22,7 +22,7 @@ namespace Online_Shop.Models
         public string Customer_name { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(255)]
         public string Phone_number { get; set; }
 
         [Required]
@@ -34,10 +34,10 @@ namespace Online_Shop.Models
         public string Note { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Payment_method { get; set; }
 
-        public decimal Total_price { get; set; }
+        public decimal Total_Price { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -54,11 +54,9 @@ namespace Online_Shop.Models
 
         public int? Promotion_id { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order_Product> Order_Product { get; set; }
-
         public virtual Promotion Promotion { get; set; }
 
-        public virtual Promotion Promotion1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Product> Order_Product { get; set; }
     }
 }

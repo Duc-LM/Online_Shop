@@ -44,21 +44,19 @@ namespace Online_Shop.Models
         public string Size { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Weight { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Battery { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Manufacturer { get; set; }
 
         public int? Product_id { get; set; }
 
         public virtual Product Product { get; set; }
-
-        public virtual Product Product1 { get; set; }
     }
 }

@@ -4,7 +4,6 @@ namespace Online_Shop.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("User")]
     public partial class User
@@ -13,18 +12,24 @@ namespace Online_Shop.Models
         public User()
         {
             Order_Product = new HashSet<Order_Product>();
-            Order_Product1 = new HashSet<Order_Product>();
         }
 
         public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "User name")]
         public string User_name { get; set; }
 
         [Required]
         [StringLength(255)]
+        [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
+           ErrorMessage = "Password: at least one lower case letter,at least one upper case letter,at least special character,at least one number, at least 8 characters length")]
         public string Password { get; set; }
+
+        [NotMapped]
+        [StringLength(255)]
+        public string RePassword { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -41,22 +46,25 @@ namespace Online_Shop.Models
         [Required]
         public string Avatar { get; set; }
 
-        public int Gender { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Gender { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Phone_number { get; set; }
 
         public int? Role_id { get; set; }
 
+        [Required]
+        [Display(Name = "Date of birth")]
+        [Column(TypeName = "date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime Dob { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order_Product> Order_Product1 { get; set; }
-
         public virtual Role Role { get; set; }
-
-        public virtual Role Role1 { get; set; }
     }
 }
