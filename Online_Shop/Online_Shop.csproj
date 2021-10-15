@@ -329,6 +329,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -599,6 +600,7 @@
     <Content Include="Online_Shop_Database.sql" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
+    <Content Include="Views\ProductView\Index.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
