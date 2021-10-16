@@ -1,9 +1,51 @@
-﻿@model IEnumerable<Online_Shop.Models.Role>
-@using PagedList
+﻿@model PagedList.IPagedList<Online_Shop.Models.Role>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    div.pagination {
+        display: flex;
+        justify-content: center;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+        ul.pagination li.active {
+            color: black;
+            font-weight: bold;
+            border: 1px solid;
+            border-color: #80b3ff;
+        }
+    ul.pagination li {
+        background-color: white;
+        border-radius: 5px;
+    }
+
+
+        ul.pagination li a:hover:not(.active) {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+</style>
 
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
@@ -16,16 +58,11 @@
                 <br />
 
                 <h2 class="card-title">Roles</h2>
-                @using (Html.BeginForm("Index", "Role", FormMethod.Post))
+                @using (Html.BeginForm())
                 {
-                    //the following are search options
-                    <b>Search Option:</b>
-                    @Html.RadioButton("option", "Id")<text>ID</text>
-                    @Html.RadioButton("option", "Name")<text>Name</text>
-
-
-                    @Html.TextBox("search");
-                    <input type="submit" name="submit" value="Search" class=" btn btn-inverse-secondary" / >
+                    <p>
+                        Title: @Html.TextBox("SearchString") <input type="submit" value="Search" />
+                    </p>
                 }
                 <br />
 
@@ -44,22 +81,22 @@
                         </tr>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
-                                @using (Html.BeginForm("Delete", "Role", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this role?');" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                }
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
+                                    @using (Html.BeginForm("Delete", "Role", new { id = item.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this role?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                                    }
+                                </td>
+                            </tr>
                         }
                     </table>
                 </div>
@@ -68,7 +105,13 @@
     </div>
 </div>
 
+<br />
+<div class="pagination">
 
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                {
+                         MaximumPageNumbersToDisplay = 5
 
+                     })
 
-</table>
+</div>
