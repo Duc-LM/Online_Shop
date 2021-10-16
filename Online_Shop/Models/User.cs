@@ -24,11 +24,12 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
-           ErrorMessage = "Password: at least one lower case letter,at least one upper case letter,at least special character,at least one number, at least 8 characters length")]
+           ErrorMessage = "Password: at least one lower case letter, one upper case letter, special character, one number and at least 8 characters length")]
         public string Password { get; set; }
 
         [NotMapped]
         [StringLength(255)]
+        [Compare("Password", ErrorMessage = "Password and ReEnter Password do not match")]
         public string RePassword { get; set; }
 
         [Required]
@@ -37,6 +38,7 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
         [Required]

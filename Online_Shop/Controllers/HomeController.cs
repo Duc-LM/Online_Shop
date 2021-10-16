@@ -30,7 +30,7 @@ namespace Online_Shop.Controllers
                 User u = db.Users.Find(userLogin);
                 if (u != null)
                 {
-                    Session["user_id"] = u.Id;
+                    Session["user"] = u;
                     return View();
                 }
                 else

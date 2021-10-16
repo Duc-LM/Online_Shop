@@ -37,15 +37,11 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Name", "This name already existed in the Database");
                     return View();
                 }
-                if (!userRole.User.Password.Equals(userRole.User.RePassword))
-                {
-                    ModelState.AddModelError("Password", "Two passwords must be the same");
-                    return View();
-                }
+
                 if (file != null)
                 {
 
-                    string InputFileName = Path.GetFileName(file.FileName);
+                    string InputFileName = userRole.User.Id + Path.GetFileName(file.FileName);
                     string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                     file.SaveAs(ServerSavePath);
 

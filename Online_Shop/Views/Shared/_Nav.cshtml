@@ -1,4 +1,9 @@
-﻿ <!-- header -->
+﻿@using Online_Shop.Utils
+@{
+    var catergories = NavHelper.GetCategories();
+    var manufacturers = NavHelper.GetManufacturers();
+}
+<!-- header -->
 <div class="header">
     <div class="container">
         <div class="header-grid">
@@ -46,6 +51,7 @@
                                         <div class="col-sm-4">
                                             <ul class="multi-column-dropdown">
                                                 <h6>Men's Wear</h6>
+
                                                 <li><a href="products.html">Clothing</a></li>
                                                 <li><a href="products.html">Wallets</a></li>
                                                 <li><a href="products.html">Shoes</a></li>
