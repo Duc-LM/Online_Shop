@@ -87,7 +87,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                         //Checking file is available to save.  
                         if (file != null)
                         {
-                            string InputFileName = Path.GetFileName(file.FileName);
+                            string InputFileName = pc.Product.Id.ToString() + Path.GetFileName(file.FileName);
                             string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                             //Save file to server folder  
                             file.SaveAs(ServerSavePath);
@@ -150,10 +150,11 @@ namespace Online_Shop.Areas.Admin.Controllers
                             //Checking file is available to save.  
                             if (file != null)
                             {
-                                string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
+                                string InputFileName = pc.Product.Id.ToString() + Path.GetFileName(file.FileName);
+                                string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images"), InputFileName);
                                 //Save file to server folder  
                                 file.SaveAs(ServerSavePath);
-                                pc.Product.Images += Path.GetFileName(file.FileName) + ";";
+                                pc.Product.Images += InputFileName + ";";
                             }
 
                         }
