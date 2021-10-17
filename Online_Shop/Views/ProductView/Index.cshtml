@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@model IEnumerable<Online_Shop.Models.Spec>
+@{ 
     ViewData["Title"] = "Display Data";
     string[] productData = new string[] { "Id", "Name", "Images", "Price", "Quantity", "Short_desc", "Created_at", "Updated_at", "Category_id" };
 }
@@ -109,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a href="single.html"><img src="images/6.jpg" alt=" " class="img-responsive" /></a>
                             </div>
                             <div class="new-products-grid-right">
-                                <h4><a href="single.html">occaecat cupidatat</a></h4>
+                                <h4><a href="single.html">@Html.DisplayNameFor(model => model)</a></h4>
                                 <div class="rating">
                                     <div class="rating-left">
                                         <img src="images/2.png" alt=" " class="img-responsive">

@@ -15,7 +15,7 @@ namespace Online_Shop.Controllers
             return View();
         }
 
-        public ActionResult Dell()
+        public ActionResult SpecificItem()
         {
             Product product = new Product();
             return View();
