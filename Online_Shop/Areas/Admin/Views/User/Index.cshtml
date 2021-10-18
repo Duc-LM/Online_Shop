@@ -70,7 +70,7 @@
                                 @using (Html.BeginForm("ChangeRole", "User", new { id = item.Id }, FormMethod.Post))
                                 {
 
-                                    @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), item.Role.Name,
+                                    @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---"+ item.Role.Name+"---",
          new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)" , style = "border:1px solid black" })
                                 }
 

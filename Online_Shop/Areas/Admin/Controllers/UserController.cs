@@ -43,11 +43,11 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Password", "The password is required");
                     return View();
                 }
-                if (!userRoles.User.Password.Equals(userRoles.User.RePassword))
-                {
-                    ModelState.AddModelError("User_name", "This name must have no space ");
-                    return View();
-                }
+                //if (!userRoles.User.Password.Equals(userRoles.User.RePassword))
+                //{
+                //    ModelState.AddModelError("User_name", "This name must have no space ");
+                //    return View();
+                //}
                 if (db.Users.Any(a => a.Name == userRoles.User.Name))
                 {
                     ModelState.AddModelError("Name", "This name already existed in the Database");
@@ -72,6 +72,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     userRoles.User.Avatar = "";
                 }
                 userRoles.User.Password = BCrypt.Net.BCrypt.HashPassword(userRoles.User.Password);
+                userRoles.User.RePassword = userRoles.User.Password;
                 db.Users.Add(userRoles.User);
                 db.SaveChanges();
                 TempData["Status"] = "User Created Successfully";

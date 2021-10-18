@@ -19,7 +19,7 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         [Display(Name = "User name")]
-
+        [Index(IsUnique = true)]
         public string User_name { get; set; }
 
 
@@ -31,7 +31,7 @@ namespace Online_Shop.Models
         [NotMapped]
         [StringLength(255)]
         [Display(Name = "Confirm Password")]
-        //[Compare("Password", ErrorMessage = "Password and ReEnter Password do not match")]
+        [Compare("Password", ErrorMessage = "Password and ReEnter Password do not match")]
         public string RePassword { get; set; }
 
         [Required]
