@@ -38,6 +38,11 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("User_name", "This name must have no space ");
                     return View();
                 }
+                if (db.Users.Any(m => m.User_name == userRoles.User.User_name))
+                {
+                    ModelState.AddModelError("User_name", "This name already existed in the Database ");
+                    return View();
+                }
                 if (userRoles.User.Password == null)
                 {
                     ModelState.AddModelError("Password", "The password is required");
@@ -129,6 +134,9 @@ namespace Online_Shop.Areas.Admin.Controllers
                     {
                         userRoles.User.Avatar = user.Avatar;
                     }
+                    User u = db.Users.Find(userRoles.User.Id);
+                    userRoles.User.Password = u.Password;
+                    userRoles.User.RePassword = userRoles.User.Password;
                     db.Entry(db.Users.Find(userRoles.User.Id))
                         .CurrentValues.SetValues(userRoles.User);
                     db.SaveChanges();
@@ -145,54 +153,49 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(userRoles);
         }
 
-        public ActionResult UpdatePassword(int? id)
-        {
+        //public ActionResult UpdatePassword(int? id)
+        //{
 
-            if (!db.Users.Any(u => u.Id == id) || id == null)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
-            User user = db.Users.Find(id);
-            Password p = new Password()
-            {
-                UserId = (int)id,
-                CurrentPassword = user.Password,
-                UserName = user.User_name
-            };
-            return View(p);
-        }
+        //    if (!db.Users.Any(u => u.Id == id) || id == null)
+        //    {
+        //        return RedirectToAction("Index", "Dashboard");
+        //    }
+        //    User user = db.Users.Find(id);
+        //    Password p = new Password()
+        //    {
+        //        UserId = (int)id,
+        //        CurrentPassword = user.Password,
+        //        UserName = user.User_name
+        //    };
+        //    return View(p);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdatePassword(Password p)
+        [HandleError]
+        public ActionResult UpdatePassword(int? id, Password p)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
             if (ModelState.IsValid)
             {
+
                 if (!p.NewPassword.Equals(p.ReNewPassword))
                 {
-                    ModelState.AddModelError("NewPassword", "Please enter the correct current password");
-                    return View(p);
+                    return PartialView("_Password", p);
                 }
-                if (!BCrypt.Net.BCrypt.Verify(p.CurrentPasswordInput, p.CurrentPassword))
-                {
-                    ModelState.AddModelError("CurrentPasswordInput", "Please enter the correct current password");
-                    return View(p);
-                }
-                if (!p.NewPassword.Equals(p.ReNewPassword))
-                {
-                    ModelState.AddModelError("NewPassword", "Two passwords must be the same");
-                    return View(p);
-                }
-                if (p.CurrentPasswordInput.Equals(p.NewPassword))
-                {
-                    ModelState.AddModelError("NewPassword", "The new password must not be the same as the old password");
-                    return View(p);
-                }
-                db.Users.Find(p.UserId).Password = BCrypt.Net.BCrypt.HashPassword(p.NewPassword);
+                User u = db.Users.Find(id);
+                u.Password = BCrypt.Net.BCrypt.HashPassword(p.NewPassword);
+                u.RePassword = db.Users.Find(id).Password;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Message = "Password Updated";
+                ModelState.Clear();
+                return PartialView("_Password", p);
+
             }
-            return View(p);
+            return PartialView("_Password", p);
         }
 
         [HttpPost]
