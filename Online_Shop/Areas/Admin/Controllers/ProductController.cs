@@ -26,40 +26,42 @@ namespace Online_Shop.Areas.Admin.Controllers
                     CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
                 });
             }
-            return View(productsWithCheckSpec);
+            var products = (from p in productsWithCheckSpec
+                            select p).OrderBy(a => a.Product.Id);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
         [HttpPost]
 
-        public ActionResult Index(int? page, string option, string search)
+        public ActionResult Index(int? page, string searchString)
         {
-            IPagedList<Product> products = null;
-            switch (option)
+            List<Product> productList = db.Products.ToList();
+            List<ProductWithCheckSpec> productsWithCheckSpec = new List<ProductWithCheckSpec>();
+            foreach (Product item in productList)
             {
-                case "Name":
-                    products = db.Products.Where(p => p.Name.Contains(search)).ToPagedList(page ?? 1, 10);
-                    if (products == null)
-                    {
-                        TempData["Status"] = "No Result!";
-                    }
-
-                    break;
-                case "Id":
-                    products = db.Products.Where(p => p.Id.ToString() == search).ToPagedList(page ?? 1, 10);
-                    if (products == null)
-                    {
-                        TempData["Status"] = "No Result!";
-                    }
-
-                    break;
-
-
-
-                default:
-                    products = db.Products.ToList().ToPagedList(page ?? 1, 10);
-                    break;
-
+                productsWithCheckSpec.Add(new ProductWithCheckSpec()
+                {
+                    Product = item,
+                    CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
+                });
             }
-            return View(products);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var products = (from p in productsWithCheckSpec.Where(a => a.Product.Name.Contains(searchString) ||
+                                  a.Product.Price.ToString().Contains(searchString) ||
+                                  a.Product.Short_desc.Contains(searchString) ||
+                                  a.Product.Category.Name.Contains(searchString)
+                                  )
+                                  select p).OrderBy(a => a.Product.Id);
+                return View(products.ToPagedList(page ?? 1, 10));
+            }
+            else
+            {
+                var products = (from p in productsWithCheckSpec
+                                select p).OrderBy(a => a.Product.Id);
+                return View(products.ToPagedList(page ?? 1, 10));
+            }
         }
 
         public ActionResult Create()
@@ -87,7 +89,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                         //Checking file is available to save.  
                         if (file != null)
                         {
-                            string InputFileName = Path.GetFileName(file.FileName);
+                            string InputFileName = pc.Product.Id.ToString() + Path.GetFileName(file.FileName);
                             string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                             //Save file to server folder  
                             file.SaveAs(ServerSavePath);
@@ -141,7 +143,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                         string[] imageList = updatedProduct.Images.Split(';');
                         for (int i = 0; i < imageList.Length - 1; i++)
                         {
-                            System.IO.File.Delete(imageList[i]);
+                            System.IO.File.Delete(Path.Combine(Server.MapPath("~/Include/Images"), imageList[i]));
                         }
                         // add new images
                         pc.Product.Images = "";
@@ -150,10 +152,11 @@ namespace Online_Shop.Areas.Admin.Controllers
                             //Checking file is available to save.  
                             if (file != null)
                             {
-                                string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images") + Path.GetFileName(file.FileName));
+                                string InputFileName = pc.Product.Id.ToString() + Path.GetFileName(file.FileName);
+                                string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images"), InputFileName);
                                 //Save file to server folder  
                                 file.SaveAs(ServerSavePath);
-                                pc.Product.Images += Path.GetFileName(file.FileName) + ";";
+                                pc.Product.Images += InputFileName + ";";
                             }
 
                         }
@@ -194,7 +197,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             string[] imageList = product.Images.Split(';');
             for (int i = 0; i < imageList.Length - 1; i++)
             {
-                System.IO.File.Delete(imageList[i]);
+                System.IO.File.Delete(Path.Combine(Server.MapPath("~/Include/Images"), imageList[i]));
             }
             // delete product
             db.Products.Remove(product);

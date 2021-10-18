@@ -1,6 +1,7 @@
 ﻿using Online_Shop.Controllers;
 using Online_Shop.Models;
 using PagedList;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -11,40 +12,31 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Category
         public ActionResult Index(int? page)
         {
-            IPagedList<Category> categories = db.Categories.ToList()
-                                          .ToPagedList(page ?? 1, 10);
-            return View(categories);
+            var categories = (from c in db.Categories
+                              select c).OrderBy(a => a.Id);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(categories.ToPagedList(pageNumber, pageSize));
         }
         [HttpPost]
-        public ActionResult Index(string option, string search, int? page)
+        public ActionResult Index(string searchString, int? page)
         {
-            IPagedList<Category> categories = null;
-            switch (option)
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                case "ID":
-                    categories = db.Categories.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
-                    if (categories == null)
-                    {
-                        TempData["Status"] = "No Result!";
-                    }
-
-                    break;
-                case "Name":
-                    categories = db.Categories.Where(a => a.Name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
-                    if (categories == null)
-                    {
-                        TempData["Status"] = "No Result!";
-                    }
-
-                    break;
-                default:
-                    categories = db.Categories.ToList().ToPagedList(page ?? 1, 10);
-
-                    break;
-
+                var categories = (from c in db.Categories.Where(a => a.Name.Contains(searchString) ||                         
+                                  a.Short_desc.Contains(searchString))
+                                  select c).OrderBy(a => a.Id);
+                return View(categories.ToPagedList(page ?? 1, 10));
             }
-            return View(categories);
+            else
+            {
+                var categories = (from c in db.Categories
+                                  select c).OrderBy(a => a.Id);
+                return View(categories.ToPagedList(page ?? 1, 10));
+            }
         }
+    
         public ActionResult Create()
         {
             return View();

@@ -1,11 +1,55 @@
-﻿@model IEnumerable<Online_Shop.Models.DTO.ProductWithCheckSpec>
-
+﻿@model PagedList.IPagedList<Online_Shop.Models.DTO.ProductWithCheckSpec>
+@using PagedList.Mvc
 @{
     /**/
 
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    div.pagination {
+        display: flex;
+        justify-content: center;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+        ul.pagination li.active {
+            color: black;
+            font-weight: bold;
+            border: 1px solid;
+            border-color: #80b3ff;
+        }
+
+    ul.pagination li {
+        background-color: white;
+        border-radius: 5px;
+    }
+
+
+        ul.pagination li a:hover:not(.active) {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+</style>
+
 
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
@@ -18,16 +62,11 @@
                 <br />
 
                 <h2 class="card-title">Products:</h2>
-                @using (Html.BeginForm("Index", "Product", FormMethod.Post))
+                @using (Html.BeginForm())
                 {
-                    //the following are search options
-                    <b>Search Option:</b>
-                    @Html.RadioButton("option", "Id")<text>ID</text>
-                    @Html.RadioButton("option", "Name")<text>Name</text>
-
-
-                    @Html.TextBox("search");
-                    <input type="submit" name="submit" value="Search" class=" btn btn-inverse-secondary" / >
+                    <p>
+                        Title: @Html.TextBox("SearchString") <input type="submit" value="Search" />
+                    </p>
                 }
                 @*<div class="form-group">
                         <div class="col-md-offset-2 col-md-10 text-success">
@@ -39,23 +78,23 @@
                     <table class="table table-hover ">
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Id)
+                                ID
                             </th>
 
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Name)
+                                Name
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Images)
+                                Images
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Price)
+                                Price
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Quantity)
+                                Quantity
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Product.Updated_at)
+                                Updated Date
                             </th>
                             <th>
                                 Category
@@ -144,4 +183,13 @@
             </div>
         </div>
     </div>
+</div>
+<div class="pagination">
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                {
+                         MaximumPageNumbersToDisplay = 5
+
+                     })
+
 </div>
