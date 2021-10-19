@@ -1,6 +1,4 @@
-﻿using Online_Shop.Models;
-using Online_Shop.Models.DTO;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Online_Shop.Controllers
 {
@@ -21,26 +19,32 @@ namespace Online_Shop.Controllers
         {
             return View();
         }
+        //public ActionResult Login()
+        //{
+        //    return View("login");
+        //}
 
-        public ActionResult Login(UserLogin userLogin)
-        {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Login(UserLogin userLogin)
+        //{
+        //    var a = BCrypt.Net.BCrypt.Verify(userLogin.password, "asdfasfd");
+        //    if (ModelState.IsValid)
+        //    {
+        //        User u = db.Users.Where(a=> a.User_name == userLogin.user_name && BCrypt.Net.BCrypt.EnhancedVerify(userLogin.password,a.Password)).FirstOrDefault();
+        //        if (u != null)
+        //        {
+        //            Session["user"] = u;
+        //            return View();
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError("Account", "Account does not exist!");
+        //        }
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                User u = db.Users.Find(userLogin);
-                if (u != null)
-                {
-                    Session["user"] = u;
-                    return View();
-                }
-                else
-                {
-                    ModelState.AddModelError("Account", "Account does not exist!");
-                }
-            }
-
-            return View();
-        }
+        //    return View();
+        //}
 
         public ActionResult Logout()
         {

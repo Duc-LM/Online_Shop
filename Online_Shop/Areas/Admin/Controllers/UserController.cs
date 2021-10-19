@@ -175,6 +175,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         [HandleError]
         public ActionResult UpdatePassword(int? id, Password p)
         {
+
             if (id == null)
             {
                 return RedirectToAction("Index", "Dashboard");
@@ -188,14 +189,25 @@ namespace Online_Shop.Areas.Admin.Controllers
                 }
                 User u = db.Users.Find(id);
                 u.Password = BCrypt.Net.BCrypt.HashPassword(p.NewPassword);
-                u.RePassword = db.Users.Find(id).Password;
+                u.RePassword = u.Password;
                 db.SaveChanges();
                 ViewBag.Message = "Password Updated";
                 ModelState.Clear();
-                return PartialView("_Password", p);
+
+                return PartialView("_Password");
 
             }
-            return PartialView("_Password", p);
+            ViewBag.Validation = ModelState.Values.SelectMany(model => model.Errors);
+
+            return PartialView("_Password");
+        }
+        [HttpPost]
+        public ActionResult ResetPasswordForm()
+        {
+            ViewBag.Message = null;
+            ViewBag.Validation = null;
+
+            return PartialView("_Password");
         }
 
         [HttpPost]
