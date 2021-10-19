@@ -97,15 +97,19 @@
                                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
+
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="myModalLabel">Update Password</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
 
+                                                        <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+
+                                                        </button>
                                                     </div>
+
                                                     <div class="modal-body" id="frmEmp" tabindex="-1" role="dialog" aria-hidden="true">
-                                                        @Html.Partial("_Password", new Online_Shop.Models.DTO.Password())
+
+                                                        @Html.Partial("_Password", new Online_Shop.Models.DTO.Password() { NewPassword = null, ReNewPassword = null })
                                                     </div>
                                                     <div class="modal-footer">
                                                         <input type="submit" class="btn btn btn-inverse-primary" value="Save" />

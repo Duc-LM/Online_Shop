@@ -4,7 +4,6 @@ namespace Online_Shop.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Order")]
     public partial class Order
@@ -37,11 +36,12 @@ namespace Online_Shop.Models
         [StringLength(255)]
         public string Payment_method { get; set; }
 
+        [Display(Name = "Total Price")]
         public decimal Total_Price { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Delivery_status { get; set; }
+        public string Status { get; set; }
 
         public int Is_paid { get; set; }
 
