@@ -77,7 +77,9 @@ namespace Online_Shop.Areas.Admin.Controllers
                 if (db.Products.FirstOrDefault(a => a.Name == pc.Product.Name) != null)
                 {
                     ModelState.AddModelError("Name", "This name already existed in the Database");
-                    return View();
+                    pc.Categories = db.Categories.ToList();
+                    return View(pc);
+                    
                 }
                 if (files[0] != null)
                 {

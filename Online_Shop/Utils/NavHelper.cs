@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-=======
 ﻿using Online_Shop.Models;
-using System.Collections.Generic;
-using System.Linq;
->>>>>>> d153f9f992632ed9ae244d953d6b7ff7ed03d8fe
 
 namespace Online_Shop.Utils
 {
@@ -19,7 +13,11 @@ namespace Online_Shop.Utils
         }
         public static List<string> GetManufacturers()
         {
-            return new ShopEntities().Specs.Select(m => m.Manufacturer).ToList();
+            return new ShopEntities().Specs.Select(m => m.Manufacturer).Distinct().ToList();
+        }
+        public static List<Product> GetProducts()
+        {
+            return new ShopEntities().Products.ToList();
         }
     }
 }

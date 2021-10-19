@@ -15,9 +15,33 @@ namespace Online_Shop.Controllers
             return View();
         }
 
-        public ActionResult SpecificItem()
+        public ActionResult Category(int ? id)
         {
-            Product product = new Product();
+            if(id== null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var products = db.Categories.Find(id).Products; 
+
+            return View(products);
+        }
+        public ActionResult Manufacturer(string name)
+        {
+            List<Product> products = new List<Product>();
+            if(name == null || !db.Specs.Any(s => s.Manufacturer == name))
+            {
+                products = db.Specs.Select(s => s.Product).ToList();
+            }
+            else
+            {
+                products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList();
+            }
+            
+            return View(products);
+        }
+        public ActionResult SingleItem(string image)
+        {
+            
             return View();
         }
     }
