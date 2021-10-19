@@ -324,6 +324,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -587,6 +588,10 @@
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UpdatePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_Password.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />
@@ -610,6 +615,10 @@
     <Content Include="Include\Web\Scripts\uisearch.js" />
     <Content Include="Include\Web\Scripts\wow.min.js" />
     <Content Include="Online_Shop_Database.sql" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
     <Content Include="Views\ProductView\Index.cshtml" />
@@ -630,7 +639,9 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Web.Config" />
+    <Content Include="Web.Config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.Config">
       <DependentUpon>Web.Config</DependentUpon>
     </None>
@@ -640,6 +651,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Order\" />
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Login\" />
