@@ -49,9 +49,6 @@
     <Reference Include="BCrypt.Net-Next, Version=4.0.2.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt.Net-Next.4.0.2\lib\net472\BCrypt.Net-Next.dll</HintPath>
     </Reference>
-    <Reference Include="DevExtreme.AspNet.Data, Version=2.8.6.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExtreme.AspNet.Data.2.8.6\lib\net452\DevExtreme.AspNet.Data.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -342,7 +339,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\DTO\OrderCartProducts.cs" />
+    <Compile Include="Models\DTO\OrderProductsPromotions.cs" />
     <Compile Include="Models\DTO\Password.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
@@ -596,6 +593,8 @@
     <Content Include="Areas\Admin\Views\User\UpdatePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\_Password.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />

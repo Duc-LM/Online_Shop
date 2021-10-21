@@ -220,6 +220,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
             db.Users.Find(id).Role_id = Convert.ToInt32(form["Role"]);
+            db.Users.Find(id).RePassword = db.Users.Find(id).Password;
             db.SaveChanges();
             //return Json(new { success = true, message = "Role Updated" }, JsonRequestBehavior.AllowGet);
             return RedirectToAction("Index");
