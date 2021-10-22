@@ -21,10 +21,12 @@
 
     <script src="~/Include/Web/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Include/Web/Scripts/jquery.validate.min.js"></script>
 
-
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
 </head>
 <body>
     <div class="container-scroller">

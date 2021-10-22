@@ -27,7 +27,26 @@
                                 @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        <dd>
+                            @{
+                                var InputFileName = Model.Product.Images.Split(';');
+                                var list = new List<string>
+                                    ();
+                                for (int i = 0; i < InputFileName.Length - 1; i++)
+                                {
+                                    list.Add(Path.Combine("/Include/Images/", InputFileName[i]));
+                                }
+                            }
+                            <div id="banner">
+                                @foreach (string item in list)
+                                {
+                                    <div style="display : inline-block">
+                                        <img src="@item" width="300" height="300">
+                                    </div>
+                                }
 
+                            </div>
+                        </dd>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Product.Images, htmlAttributes: new { @class = "control-label col-md-2" })
 

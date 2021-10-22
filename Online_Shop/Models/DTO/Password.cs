@@ -20,6 +20,7 @@ namespace Online_Shop.Models.DTO
         //public string CurrentPasswordInput { get; set; }
 
 
+
         [Required]
         [StringLength(255)]
         [Display(Name = "New Password")]

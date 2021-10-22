@@ -175,13 +175,13 @@ namespace Online_Shop.Areas.Admin.Controllers
         [HandleError]
         public ActionResult UpdatePassword(int? id, Password p)
         {
+
             if (id == null)
             {
                 return RedirectToAction("Index", "Dashboard");
             }
             if (ModelState.IsValid)
             {
-
                 if (!p.NewPassword.Equals(p.ReNewPassword))
                 {
                     return PartialView("_Password", p);
@@ -192,10 +192,21 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.SaveChanges();
                 ViewBag.Message = "Password Updated";
                 ModelState.Clear();
-                return PartialView("_Password", p);
+
+                return PartialView("_Password");
 
             }
-            return PartialView("_Password", p);
+            ViewData["Validation-" + id] = ModelState.Values.SelectMany(model => model.Errors);
+            ViewBag.userId = id;
+            return PartialView("_Password");
+        }
+        [HttpPost]
+        public ActionResult ResetPasswordForm()
+        {
+            ViewBag.Message = null;
+            ViewBag.Validation = null;
+
+            return PartialView("_Password");
         }
 
         [HttpPost]

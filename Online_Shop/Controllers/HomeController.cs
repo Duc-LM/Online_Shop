@@ -1,4 +1,5 @@
-﻿using Online_Shop.Models;
+
+using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using System.Web.Mvc;
 using System.Linq;
@@ -58,6 +59,7 @@ namespace Online_Shop.Controllers
 
             return View();
         }
+
 
         public ActionResult Register()
         {
