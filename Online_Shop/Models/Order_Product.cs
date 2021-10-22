@@ -25,7 +25,7 @@ namespace Online_Shop.Models
 
         public virtual Order Order { get; set; }
 
-        public virtual Product Product { get; set; }
+        public virtual Productcart Product { get; set; }
 
         public virtual User User { get; set; }
     }

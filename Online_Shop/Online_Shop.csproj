@@ -335,12 +335,14 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DTO\OrderProductsPromotions.cs" />
+    <Compile Include="Models\DTO\OrderPromotions.cs" />
     <Compile Include="Models\DTO\Password.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
@@ -655,6 +657,7 @@
     <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

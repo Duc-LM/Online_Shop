@@ -2,7 +2,7 @@
 {
     public class ProductWithCheckSpec
     {
-        public Product Product { get; set; }
+        public Productcart Product { get; set; }
         public bool CheckSpec { get; set; }
     }
 }

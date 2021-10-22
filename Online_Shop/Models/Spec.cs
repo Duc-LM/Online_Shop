@@ -57,6 +57,6 @@ namespace Online_Shop.Models
 
         public int? Product_id { get; set; }
 
-        public virtual Product Product { get; set; }
+        public virtual Productcart Product { get; set; }
     }
 }

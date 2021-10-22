@@ -12,7 +12,7 @@ namespace Online_Shop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<Productcart>();
         }
 
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace Online_Shop.Models
         public string Short_desc { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Productcart> Products { get; set; }
     }
 }

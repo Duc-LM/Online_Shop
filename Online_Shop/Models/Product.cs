@@ -6,10 +6,10 @@ namespace Online_Shop.Models
     using System.ComponentModel.DataAnnotations.Schema;
 
     [Table("Product")]
-    public partial class Product
+    public partial class Productcart
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public Productcart()
         {
             Order_Product = new HashSet<Order_Product>();
             Specs = new HashSet<Spec>();

@@ -16,9 +16,9 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int? page)
         {
-            List<Product> productList = db.Products.ToList();
+            List<Productcart> productList = db.Products.ToList();
             List<ProductWithCheckSpec> productsWithCheckSpec = new List<ProductWithCheckSpec>();
-            foreach (Product item in productList)
+            foreach (Productcart item in productList)
             {
                 productsWithCheckSpec.Add(new ProductWithCheckSpec()
                 {
@@ -36,9 +36,9 @@ namespace Online_Shop.Areas.Admin.Controllers
 
         public ActionResult Index(int? page, string searchString)
         {
-            List<Product> productList = db.Products.ToList();
+            List<Productcart> productList = db.Products.ToList();
             List<ProductWithCheckSpec> productsWithCheckSpec = new List<ProductWithCheckSpec>();
-            foreach (Product item in productList)
+            foreach (Productcart item in productList)
             {
                 productsWithCheckSpec.Add(new ProductWithCheckSpec()
                 {
@@ -66,7 +66,7 @@ namespace Online_Shop.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            return View(new ProductCategory() { Product = new Product(), Categories = db.Categories.ToList() });
+            return View(new ProductCategory() { Product = new Productcart(), Categories = db.Categories.ToList() });
         }
 
         [HttpPost]
@@ -124,7 +124,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-            Product product = db.Products.Find(id);
+            Productcart product = db.Products.Find(id);
             return View(new ProductCategory() { Product = product, Categories = db.Categories.ToList() });
         }
         //as
@@ -134,10 +134,10 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product checkProduct = db.Products.FirstOrDefault(p => p.Name == pc.Product.Name);
+                Productcart checkProduct = db.Products.FirstOrDefault(p => p.Name == pc.Product.Name);
                 if (checkProduct == null || checkProduct.Id == pc.Product.Id)
                 {
-                    Product updatedProduct = db.Products.Find(pc.Product.Id);
+                    Productcart updatedProduct = db.Products.Find(pc.Product.Id);
                     if (files[0] != null)
                     {
                         // delete current images to add new images
@@ -166,7 +166,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     {
                         pc.Product.Images = updatedProduct.Images;
                     }
-                    Product a = pc.Product;
+                    Productcart a = pc.Product;
                     pc.Product.Updated_at = DateTime.Now;
 
                     db.Entry(updatedProduct)
@@ -193,7 +193,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            Product product = db.Products.Find(id);
+            Productcart product = db.Products.Find(id);
             // delete images
             string[] imageList = product.Images.Split(';');
             for (int i = 0; i < imageList.Length - 1; i++)
