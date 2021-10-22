@@ -1,4 +1,10 @@
 ﻿ <!-- header -->
+﻿@using Online_Shop.Utils
+@{
+    var catergories = NavHelper.GetCategories();
+    var manufacturers = NavHelper.GetManufacturers();
+}
+<!-- header -->
 <div class="header">
     <div class="container">
         <div class="header-grid">
@@ -6,8 +12,8 @@
                 <ul>
                     <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="">example.com</a></li>
                     <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 <span>567</span> 892</li>
-                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">Login</a></li>
-                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">Register</a></li>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="/Home/Login">Login</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="/Home/Register">Register</a></li>
                 </ul>
             </div>
             <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
@@ -46,6 +52,7 @@
                                         <div class="col-sm-4">
                                             <ul class="multi-column-dropdown">
                                                 <h6>Men's Wear</h6>
+
                                                 <li><a href="products.html">Clothing</a></li>
                                                 <li><a href="products.html">Wallets</a></li>
                                                 <li><a href="products.html">Shoes</a></li>

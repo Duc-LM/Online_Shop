@@ -16,6 +16,7 @@ namespace Online_Shop.Models
 
         public int Id { get; set; }
 
+
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
@@ -41,6 +42,7 @@ namespace Online_Shop.Models
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be greater than or equal to 0")]
         [Display(Name = "Quantity")]
         public int Quantity_left { get; set; }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

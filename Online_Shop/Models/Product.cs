@@ -41,6 +41,7 @@ namespace Online_Shop.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Updated_at { get; set; }
 
+        [Display(Name = "Role")]
         public int? Category_id { get; set; }
 
         public virtual Category Category { get; set; }

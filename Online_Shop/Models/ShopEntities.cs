@@ -3,6 +3,7 @@ namespace Online_Shop.Models
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Validation;
     using System.Linq;
 
     public partial class ShopEntities : DbContext
@@ -12,6 +13,18 @@ namespace Online_Shop.Models
         {
         }
 
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errorMessages = string.Join("; ", ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.PropertyName + ": " + x.ErrorMessage));
+                throw new DbEntityValidationException(errorMessages);
+            }
+        }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Order_Product> Order_Product { get; set; }

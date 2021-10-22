@@ -23,6 +23,7 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Short Description")]
         public string Short_desc { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

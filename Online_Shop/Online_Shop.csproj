@@ -197,6 +197,7 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
@@ -324,6 +325,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\MD5Helper.cs" />
+    <Compile Include="Utils\NavHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Include\Web\Content\bootstrap-theme.css" />
@@ -582,9 +585,12 @@
     <Content Include="Areas\Admin\Views\Promotion\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UpdatePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_Password.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />
@@ -607,8 +613,15 @@
     <Content Include="Include\Web\Scripts\simpleCart.min.js" />
     <Content Include="Include\Web\Scripts\uisearch.js" />
     <Content Include="Include\Web\Scripts\wow.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
+    <Content Include="Views\Shared\_Filter.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -622,7 +635,9 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Web.Config" />
+    <Content Include="Web.Config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.Config">
       <DependentUpon>Web.Config</DependentUpon>
     </None>
@@ -632,6 +647,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Order\" />
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Login\" />

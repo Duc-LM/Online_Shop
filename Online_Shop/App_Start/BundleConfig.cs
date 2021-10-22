@@ -10,6 +10,8 @@ namespace Online_Shop
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Include/Web/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusive").Include(
+            "~/Scripts/jquery.unobtrusive*"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Include/Web/Scripts/jquery.validate*"));
 

@@ -19,9 +19,11 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         [Display(Name = "User name")]
+        [Index(IsUnique = true)]
         public string User_name { get; set; }
 
         [Required]
+
         [StringLength(255)]
         [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
            ErrorMessage = "Password: at least one lower case letter,at least one upper case letter,at least special character,at least one number, at least 8 characters length")]
@@ -29,6 +31,8 @@ namespace Online_Shop.Models
 
         [NotMapped]
         [StringLength(255)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "Password and ReEnter Password do not match")]
         public string RePassword { get; set; }
 
         [Required]
@@ -37,13 +41,14 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(255)]
         public string Address { get; set; }
 
-        [Required]
+
         public string Avatar { get; set; }
 
         [Required]
@@ -52,8 +57,12 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Phone Number")]
+        [RegularExpression(@"^[0-9]*$",
+            ErrorMessage = "This number is invalid")]
         public string Phone_number { get; set; }
 
+        [Display(Name = "Role Id")]
         public int? Role_id { get; set; }
 
         [Required]
