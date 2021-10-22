@@ -71,8 +71,8 @@
                                 @using (Html.BeginForm("ChangeRole", "User", new { id = item.Id }, FormMethod.Post))
                                 {
 
-                                    @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---"+ item.Role.Name+"---",
-         new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)" , style = "border:1px solid black" })
+                                    @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---" + item.Role.Name + "---",
+new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
                                 }
 
 
@@ -82,24 +82,24 @@
                                     <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
                                 </td>*@
                             <td>
-                                <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#myModal">
+                                <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#changePassword-@item.Id">
                                     Update
                                 </button>
                                 @using (Ajax.BeginForm("UpdatePassword", "User", new { id = item.Id }, new AjaxOptions()
                                 {
                                     HttpMethod = "POST",
-                                    UpdateTargetId = "frmEmp",
+                                    UpdateTargetId = "frmEmp-" + item.Id,
                                     InsertionMode = InsertionMode.Replace
                                 }))
                                 {
 
                                     <div>
-                                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal fade" id="changePassword-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
 
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" id="myModalLabel">Update Password</h4>
+                                                        <h4 class="modal-title" id="myModalLabel">Update Password for @item.Name</h4>
 
                                                         <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
@@ -107,7 +107,7 @@
                                                         </button>
                                                     </div>
 
-                                                    <div class="modal-body" id="frmEmp" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-body" id="frmEmp-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
 
                                                         @Html.Partial("_Password", new Online_Shop.Models.DTO.Password() { NewPassword = null, ReNewPassword = null })
                                                     </div>
@@ -142,6 +142,14 @@
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryunobtrusive")
+
+
+    <script>
+        $(function () {
+            setTimeout(function () { $("#mydiv").fadeOut(1500); }, 2000)
+
+        })
+    </script>
 
 
 

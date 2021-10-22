@@ -10,8 +10,16 @@ namespace Online_Shop.Areas.Admin.Controllers
     public class OrderController : BaseController
     {
         // GET: Admin/Order
+        public ActionResult Index()
+        {
+            List<Order> orders = new List<Order>();
+
+            orders = db.Orders.OrderByDescending(o => o.Status).ToList();
 
 
+            return View(orders);
+        }
+        [HttpPost]
         public ActionResult Index(string status)
         {
             List<Order> orders = new List<Order>();
@@ -99,13 +107,13 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeStatus(int? id, FormCollection form)
+        public ActionResult ChangeStatus(int? id, string Status)
         {
-            if (id == null || db.Orders.Any(o => o.Id == id))
+            if (id == null || !db.Orders.Any(o => o.Id == id))
             {
                 return RedirectToAction("Index");
             }
-            db.Orders.Find(id).Status = form["Status"];
+            db.Orders.Find(id).Status = Status;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
