@@ -14,30 +14,34 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Role
         public ActionResult Index(int? page)
         {
-            IPagedList<Role> roles = db.Roles.ToList().ToPagedList(page ?? 1, 10);
-            return View(roles);
+            if (page == null)
+            {
+                page = 1;
+            }
+            var roles = (from r in db.Roles
+                         select r).OrderBy(a => a.Id);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(roles.ToPagedList(pageNumber, pageSize));
         }
         [HttpPost]
-        public ActionResult Index(string option, string search, int? page)
-        {
-            IPagedList<Role> roles = null;
-            switch (option)
+        public ActionResult Index(string searchString, int? page)
+        {                
+
+            if (!String.IsNullOrEmpty(searchString)) 
             {
-                case "ID":
-                    roles = db.Roles.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
-                    if (roles == null)
-                    {
-                        ViewBag.Message = "No Result";
-                    }
-
-                    break;
-                default:
-                    roles = db.Roles.ToList().ToPagedList(page ?? 1, 10);
-
-                    break;
+                var roles = (from r in db.Roles.Where(a => a.Name.Contains(searchString))
+                             select r).OrderBy(a => a.Id);
+                return View(roles.ToPagedList(page ?? 1, 10));
             }
-            return View(roles);
+           else
+            {
+                var roles = (from r in db.Roles
+                             select r).OrderBy(a => a.Id);
+                return View(roles.ToPagedList(page ?? 1, 10));
+            }          
         }
+        
 
         public ActionResult Create()
         {
@@ -110,5 +114,6 @@ namespace Online_Shop.Areas.Admin.Controllers
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

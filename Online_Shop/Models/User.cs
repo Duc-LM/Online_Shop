@@ -22,10 +22,11 @@ namespace Online_Shop.Models
         [Index(IsUnique = true)]
         public string User_name { get; set; }
 
+        [Required]
 
         [StringLength(255)]
         [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$",
-           ErrorMessage = "Password: at least one lower case letter, one upper case letter, special character, one number and at least 8 characters length")]
+           ErrorMessage = "Password: at least one lower case letter,at least one upper case letter,at least special character,at least one number, at least 8 characters length")]
         public string Password { get; set; }
 
         [NotMapped]
