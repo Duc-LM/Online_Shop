@@ -18,9 +18,8 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
             var promotions = (from p in db.Promotions
                          select p).OrderBy(a => a.Id);
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(promotions.ToPagedList(pageNumber, pageSize));
+           
+            return View(promotions.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
         public ActionResult Index(string searchString, int? page)

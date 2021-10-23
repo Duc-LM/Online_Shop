@@ -14,9 +14,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         {
             var categories = (from c in db.Categories
                               select c).OrderBy(a => a.Id);
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(categories.ToPagedList(pageNumber, pageSize));
+            return View(categories.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
         public ActionResult Index(string searchString, int? page)

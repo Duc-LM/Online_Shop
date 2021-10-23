@@ -20,9 +20,8 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
             var roles = (from r in db.Roles
                          select r).OrderBy(a => a.Id);
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(roles.ToPagedList(pageNumber, pageSize));
+           
+            return View(roles.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
         public ActionResult Index(string searchString, int? page)

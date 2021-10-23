@@ -28,9 +28,8 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
             IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec
                                                                  select p).OrderBy(a => a.Product.Id);
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(products.ToPagedList(pageNumber, pageSize));
+           
+            return View(products.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
 
