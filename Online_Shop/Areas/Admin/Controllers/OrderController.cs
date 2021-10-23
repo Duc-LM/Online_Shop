@@ -4,23 +4,22 @@ using Online_Shop.Models.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-
+using PagedList;
 namespace Online_Shop.Areas.Admin.Controllers
 {
     public class OrderController : BaseController
     {
         // GET: Admin/Order
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             List<Order> orders = new List<Order>();
 
             orders = db.Orders.OrderByDescending(o => o.Status).ToList();
 
-
-            return View(orders);
+            return View(orders.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
-        public ActionResult Index(string status)
+        public ActionResult Index(string status, int? page)
         {
             List<Order> orders = new List<Order>();
             if (string.IsNullOrEmpty(status))
@@ -32,7 +31,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 orders = db.Orders.Where(o => o.Status == status).ToList();
             }
 
-            return View(orders);
+            return View(orders.ToPagedList(page ?? 1, 10));
         }
         public ActionResult Edit(int? id)
         {

@@ -48,7 +48,7 @@ namespace Online_Shop.Controllers
 
                 op.Order.Created_date = DateTime.Now;
                 op.Order.Status = "Pending";
-                op.Order.Total_Price = (decimal)((total_price * op.Order.Promotion.Percent_discount / 100) + (double)op.Order.Ship_price);
+                op.Order.Total_Price = (decimal)((total_price-(total_price * op.Order.Promotion.Percent_discount / 100)) + (double)op.Order.Ship_price);
                 db.Orders.Add(op.Order);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");

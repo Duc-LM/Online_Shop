@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
@@ -14,11 +15,12 @@ namespace Online_Shop.Areas.Admin.Controllers
     {
 
         // GET: Admin/User
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             List<User> users = db.Users.ToList();
             List<Role> roles = db.Roles.ToList();
             UsersRoles usersRoles = new UsersRoles() { Users = users, Roles = roles };
+            
             return View(usersRoles);
         }
 

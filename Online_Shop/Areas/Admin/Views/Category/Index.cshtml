@@ -7,49 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-<style>
-    .ul.pagination {
-        display: inline-block;
-        padding: 0;
-        margin: 0;
-    }
-
-    div.pagination {
-        display: flex;
-        justify-content: center;
-    }
-
-    ul.pagination li {
-        display: inline;
-    }
-
-        ul.pagination li a {
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            transition: background-color .3s;
-        }
-
-        ul.pagination li.active {
-            color: black;
-            font-weight: bold;
-            border: 1px solid;
-            border-color: #80b3ff;
-        }
-
-    ul.pagination li {
-        background-color: white;
-        border-radius: 5px;
-    }
-
-
-        ul.pagination li a:hover:not(.active) {
-            background-color: #ddd;
-            border-radius: 5px;
-        }
-</style>
+<head>
+    <link rel="stylesheet" href="~/Scripts/PaginationStyle.css"/>
+</head>
 
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
