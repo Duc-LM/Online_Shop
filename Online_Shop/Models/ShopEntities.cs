@@ -1,8 +1,6 @@
 namespace Online_Shop.Models
 {
-    using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Validation;
     using System.Linq;
 

@@ -26,8 +26,8 @@ namespace Online_Shop.Areas.Admin.Controllers
                     CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
                 });
             }
-            var products = (from p in productsWithCheckSpec
-                            select p).OrderBy(a => a.Product.Id);
+            IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec
+                                                                 select p).OrderBy(a => a.Product.Id);
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(products.ToPagedList(pageNumber, pageSize));
@@ -46,20 +46,20 @@ namespace Online_Shop.Areas.Admin.Controllers
                     CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
                 });
             }
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                var products = (from p in productsWithCheckSpec.Where(a => a.Product.Name.Contains(searchString) ||
+                IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec.Where(a => a.Product.Name.Contains(searchString) ||
                                   a.Product.Price.ToString().Contains(searchString) ||
                                   a.Product.Short_desc.Contains(searchString) ||
                                   a.Product.Category.Name.Contains(searchString)
                                   )
-                                  select p).OrderBy(a => a.Product.Id);
+                                                                     select p).OrderBy(a => a.Product.Id);
                 return View(products.ToPagedList(page ?? 1, 10));
             }
             else
             {
-                var products = (from p in productsWithCheckSpec
-                                select p).OrderBy(a => a.Product.Id);
+                IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec
+                                                                     select p).OrderBy(a => a.Product.Id);
                 return View(products.ToPagedList(page ?? 1, 10));
             }
         }
