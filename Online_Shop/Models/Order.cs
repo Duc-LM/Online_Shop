@@ -28,29 +28,29 @@ namespace Online_Shop.Models
         [StringLength(255)]
         public string Place_of_receipt { get; set; }
 
-        [Required]
+
         [StringLength(255)]
         public string Note { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Payment Method")]
         public string Payment_method { get; set; }
 
         [Display(Name = "Total Price")]
         public decimal Total_Price { get; set; }
 
-        [Required]
+
         [StringLength(255)]
         public string Status { get; set; }
 
-        public int Is_paid { get; set; }
 
         public decimal Ship_price { get; set; }
 
         [Column(TypeName = "date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Created_date { get; set; }
 
-        public int Is_customer { get; set; }
 
         public int? Promotion_id { get; set; }
 

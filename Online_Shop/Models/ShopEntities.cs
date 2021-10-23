@@ -10,6 +10,7 @@ namespace Online_Shop.Models
             : base("name=ShopEntities")
         {
         }
+
         public override int SaveChanges()
         {
             try

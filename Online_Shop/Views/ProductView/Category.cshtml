@@ -2,7 +2,7 @@
 @using Online_Shop.Utils
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var catergories = NavHelper.GetCategories();
+    var categories = NavHelper.GetCategories();
     var manufacturers = NavHelper.GetManufacturers();
     var products = NavHelper.GetProducts();
 
@@ -63,13 +63,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
               
                 <div class="categories animated wow slideInUp" data-wow-delay=".5s">
                     <h3>Categories</h3>
-                    @foreach (var item in catergories)
-                    {
-                        <ul class="cate">
-                            <li><a href="/ProductView/@item.Id">@item.Name</a> </li>
-                        </ul>
-                    }
+                    <ul class="cate">
+                        @foreach (var item in categories)
+                        {
 
+                            <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+
+                        }
+                    </ul>
                 </div>
                 <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
                     <a href="single.html"><img src="images/29.jpg" alt=" " class="img-responsive" /></a>

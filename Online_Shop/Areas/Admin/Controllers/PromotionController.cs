@@ -12,35 +12,34 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Promotion
         public ActionResult Index(int? page)
         {
-            IPagedList<Promotion> promotions = db.Promotions.ToList().ToPagedList(page ?? 1, 10);
-            return View(promotions);
-        }
-
-        [HttpPost]
-        public ActionResult Index(string option, string search, int? page)
-        {
-            IPagedList<Promotion> promotions = null;
-            switch (option)
+            if (page == null)
             {
-                case "ID":
-                    promotions = db.Promotions.Where(a => a.Id.ToString() == search).ToList().ToPagedList(page ?? 1, 10);
-                    if (promotions == null)
-                    {
-                        ViewBag.Message = "No Result";
-                    }
-                    break;
-                case "Name":
-                    promotions = db.Promotions.Where(a => a.Name.Contains(search)).ToList().ToPagedList(page ?? 1, 10);
-                    if (promotions == null)
-                    {
-                        ViewBag.Message = "No Result";
-                    }
-                    break;
-                default:
-                    promotions = db.Promotions.ToList().ToPagedList(page ?? 1, 10);
-                    break;
+                page = 1;
             }
-            return View(promotions);
+            var promotions = (from p in db.Promotions
+                         select p).OrderBy(a => a.Id);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(promotions.ToPagedList(pageNumber, pageSize));
+        }
+        [HttpPost]
+        public ActionResult Index(string searchString, int? page)
+        {
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var promotions = (from p in db.Promotions.Where(a => a.Name.Contains(searchString) || 
+                                  a.Percent_discount.ToString().Contains(searchString) ||
+                                  a.Short_desc.Contains(searchString))
+                             select p).OrderBy(a => a.Id);
+                return View(promotions.ToPagedList(page ?? 1, 10));
+            }
+            else
+            {
+                var promotions = (from p in db.Promotions
+                             select p).OrderBy(a => a.Id);
+                return View(promotions.ToPagedList(page ?? 1, 10));
+            }
         }
         public ActionResult Create()
         {

@@ -5,6 +5,10 @@ namespace Online_Shop.Models.DTO
     public class Password
     {
 
+        public int UserId { get; set; }
+        public string CurrentPassword { get; set; }
+        [Required]
+        public string CurrentPasswordInput { get; set; }
         //public int UserId { get; set; }
         //public string UserName { get; set; }
         //public string CurrentPassword { get; set; }

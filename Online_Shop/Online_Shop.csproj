@@ -49,9 +49,6 @@
     <Reference Include="BCrypt.Net-Next, Version=4.0.2.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt.Net-Next.4.0.2\lib\net472\BCrypt.Net-Next.dll</HintPath>
     </Reference>
-    <Reference Include="DevExtreme.AspNet.Data, Version=2.8.6.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExtreme.AspNet.Data.2.8.6\lib\net452\DevExtreme.AspNet.Data.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -200,6 +197,7 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
@@ -337,15 +335,18 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\DTO\OrderCartProducts.cs" />
+    <Compile Include="Models\DTO\OrderProductsPromotions.cs" />
+    <Compile Include="Models\DTO\OrderPromotions.cs" />
     <Compile Include="Models\DTO\Password.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
+    <Compile Include="Models\DTO\ProductCartItem.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
     <Compile Include="Models\DTO\ProductSpec.cs" />
     <Compile Include="Models\DTO\ProductWithCheckSpec.cs" />
@@ -598,6 +599,8 @@
     <Content Include="Areas\Admin\Views\User\UpdatePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\_Password.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />
@@ -620,7 +623,6 @@
     <Content Include="Include\Web\Scripts\simpleCart.min.js" />
     <Content Include="Include\Web\Scripts\uisearch.js" />
     <Content Include="Include\Web\Scripts\wow.min.js" />
-    <Content Include="Online_Shop_Database.sql" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -628,11 +630,17 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
     <Content Include="Views\Shared\_Filter.cshtml" />
+
     <Content Include="Views\ProductView\Category.cshtml" />
     <Content Include="Views\ProductView\Manufacturer.cshtml" />
     <Content Include="Views\ProductView\SingleItem.cshtml" />
     <Content Include="libman.json" />
     <Content Include="Views\Shared\_Category.cshtml" />
+
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -660,7 +668,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
-    <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

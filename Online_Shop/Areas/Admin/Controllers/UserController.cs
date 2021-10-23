@@ -182,7 +182,6 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-
                 if (!p.NewPassword.Equals(p.ReNewPassword))
                 {
                     return PartialView("_Password", p);
@@ -197,8 +196,8 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return PartialView("_Password");
 
             }
-            ViewBag.Validation = ModelState.Values.SelectMany(model => model.Errors);
-
+            ViewData["Validation-" + id] = ModelState.Values.SelectMany(model => model.Errors);
+            ViewBag.userId = id;
             return PartialView("_Password");
         }
         [HttpPost]
@@ -220,6 +219,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
             db.Users.Find(id).Role_id = Convert.ToInt32(form["Role"]);
+            db.Users.Find(id).RePassword = db.Users.Find(id).Password;
             db.SaveChanges();
             //return Json(new { success = true, message = "Role Updated" }, JsonRequestBehavior.AllowGet);
             return RedirectToAction("Index");

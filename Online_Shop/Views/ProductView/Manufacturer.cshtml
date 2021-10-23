@@ -63,12 +63,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                
                 <div class="categories animated wow slideInUp" data-wow-delay=".5s">
                     <h3>Categories</h3>
-                    @foreach (var item in catergories)
-                    {
-                        <ul class="cate">
+                    <ul class="cate">
+                        @foreach (var item in categories)
+                        {
+
                             <li><a href="/ProductView/@item.Id">@item.Name</a></li>
-                        </ul>
-                    }
+
+                        }
+                    </ul>
 
                 </div>
                 <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
