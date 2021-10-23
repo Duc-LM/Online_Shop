@@ -1,0 +1,61 @@
+﻿
+@{
+    
+}
+
+<div class="products">
+    <div class="container">
+        <div class="col-md-4 products-left">
+            <div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
+                <h3>Filter By Price</h3>
+                <ul class="dropdown-menu1">
+                    <li>
+                        <a href="">
+                            <div id="slider-range"></div>
+                            <input type="text" id="amount" style="border: 0" />
+                        </a>
+                    </li>
+                </ul>
+                <script type='text/javascript'>
+                        //<![CDATA[
+                        $(window).load(function () {
+                            $("#slider-range").slider({
+                                range: true,
+                                min: 0,
+                                max: 100000,
+                                values: [20000, 80000],
+                                slide: function (event, ui) {
+                                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                                }
+                            });
+                            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+
+
+                        });//]]>
+                </script>
+                <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+                <!---->
+            </div>
+            <div class="categories animated wow slideInUp" data-wow-delay=".5s">
+                <h3>Categories</h3>
+                <ul class="cate">
+                    <li><a href="/ProductView/Index">Best Selling</a> <span>(15)</span></li>
+                    <li><a href="/ProductView/Index">Laptop</a> <span>(16)</span></li>
+                    <ul>
+                        <li><a href="/ProductView/Index">Dell</a> <span>(2)</span></li>
+                        <li><a href="/ProductView/Index">Asus</a> <span>(5)</span></li>
+                        <li><a href="/ProductView/Index">HP</a> <span>(1)</span></li>
+                        <li><a href="/ProductView/Index">Acer</a> <span>(0)</span></li>
+                        <li><a href="/ProductView/Index">MSI</a> <span>(1)</span></li>
+                        <li><a href="/ProductView/Index">Other</a> <span>(0)</span></li>
+                    </ul>
+                    <li><a href="/ProductView/Index">Big Sale Sales</a> <span>(15)</span></li>
+                    <li><a href="/ProductView/Index">Screen</a> <span>(15)</span></li>
+                    <li><a href="/ProductView/Index">PC & More</a> <span>(15)</span></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

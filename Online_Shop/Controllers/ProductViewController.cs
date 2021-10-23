@@ -1,4 +1,5 @@
 ﻿using Online_Shop.Models;
+using Online_Shop.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,14 @@ namespace Online_Shop.Controllers
     public class ProductViewController : BaseController
     {
         // GET: ProductView
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //public ActionResult Index(string name)
+        //{
+        //    List<Product> products = new List<Product>();
+        //    products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList();
+
+
+        //    return View(products);
+        //}
 
         public ActionResult Category(int ? id)
         {
@@ -39,10 +44,15 @@ namespace Online_Shop.Controllers
             
             return View(products);
         }
-        public ActionResult SingleItem(string image)
+        public ActionResult SingleItem(int? id)
         {
-            
-            return View();
+            if(id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var product = db.Products.Find(id);
+            var spec = db.Specs.FirstOrDefault(s => s.Product_id == id);
+            return View(new ProductSpec() { Product = product, Spec = spec });
         }
     }
 }

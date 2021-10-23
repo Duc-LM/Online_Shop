@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<Online_Shop.Models.Product>
 @using Online_Shop.Utils
 @{
-            Layout = "~/Views/Shared/_Layout.cshtml";
-            var catergories = NavHelper.GetCategories();
-            var manufacturers = NavHelper.GetManufacturers();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var catergories = NavHelper.GetCategories();
+    var manufacturers = NavHelper.GetManufacturers();
+    var products = NavHelper.GetProducts();
 
-            var counts = new int[] { 0, 3, 6 };
-        }
+    var counts = new int[] { 0, 3, 6 };
+}
 
 <!DOCTYPE html>
 <html>
@@ -59,152 +60,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="products">
         <div class="container">
             <div class="col-md-4 products-left">
-                <div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-                    <h3>Filter By Price</h3>
-                    <ul class="dropdown-menu1">
-                        <li>
-                            <a href="">
-                                <div id="slider-range"></div>
-                                <input type="text" id="amount" style="border: 0" />
-                            </a>
-                        </li>
-                    </ul>
-                    <script type='text/javascript'>
-                        //<![CDATA[
-                        $(window).load(function () {
-                            $("#slider-range").slider({
-                                range: true,
-                                min: 0,
-                                max: 100000,
-                                values: [20000, 80000],
-                                slide: function (event, ui) {
-                                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                                }
-                            });
-                            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-
-                        });//]]>
-                    </script>
-                    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-                    <!---->
-                </div>
+              
                 <div class="categories animated wow slideInUp" data-wow-delay=".5s">
                     <h3>Categories</h3>
-                    <ul class="cate">
-                        <li><a href="/ProductView/Index">Best Selling</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">Laptop</a> <span>(16)</span></li>
-                        <ul>
-                            <li><a href="/ProductView/Index">Dell</a> <span>(2)</span></li>
-                            <li><a href="/ProductView/Index">Asus</a> <span>(5)</span></li>
-                            <li><a href="/ProductView/Index">HP</a> <span>(1)</span></li>
-                            <li><a href="/ProductView/Index">Acer</a> <span>(0)</span></li>
-                            <li><a href="/ProductView/Index">MSI</a> <span>(1)</span></li>
-                            <li><a href="/ProductView/Index">Other</a> <span>(0)</span></li>
+                    @foreach (var item in catergories)
+                    {
+                        <ul class="cate">
+                            <li><a href="/ProductView/@item.Id">@item.Name</a> </li>
                         </ul>
-                        <li><a href="/ProductView/Index">Big Sale Sales</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">Screen</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">PC & More</a> <span>(15)</span></li>
+                    }
 
-                    </ul>
-                </div>
-                <div class="new-products animated wow slideInUp" data-wow-delay=".5s">
-                    <h3>New Products</h3>
-                    <div class="new-products-grids">
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/6.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">@*@Html.DisplayNameFor(model => model*@</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$180</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/26.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">eum fugiat quo</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/11.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">officia deserunt</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$259</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
-                    <a href="single.html"><img src="images/27.jpg" alt=" " class="img-responsive" /></a>
+                    <a href="single.html"><img src="images/29.jpg" alt=" " class="img-responsive" /></a>
                     <div class="men-position-pos">
                         <h4>Summer collection</h4>
                         <h5><span>55%</span> Flat Discount</h5>
@@ -232,17 +100,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                         <div class="clearfix"> </div>
                     </div>
-                    <div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
-                        <img src="images/18.jpg" alt=" " class="img-responsive" />
-                        <div class="products-right-grids-position1">
-                            <h4>2016 New Collection</h4>
-                            <p>
-                                Temporibus autem quibusdam et aut officiis debitis aut rerum
-                                necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae
-                                non recusandae.
-                            </p>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -250,10 +107,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                   
                     @for (int i = 0; i < counts.Length; i++)
                     {
-                        var products = Model.Skip( counts[i]).Take(3).ToList();
+                        var product = Model.Skip( counts[i]).Take(3).ToList();
                         
                         <div class="col-md-4 products-right-grids-bottom-grid">
-                            @foreach (var item in products)
+                            @foreach (var item in product)
                             {
                                  
                                    var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
@@ -261,12 +118,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <div class="new-collections-grid1-image">
                                         <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
                                         <div class="new-collections-grid1-image-pos">
-                                            <a href="/ProductView/SingleItem">Quick View</a>
+                                            <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
                                         </div>
                                         <div class="new-collections-grid1-right">
                                         </div>
                                     </div>
-                                    <h4><a href="single.html">@item.Name</a></h4>
+                                    <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
                                     <p>@item.Short_desc</p>
                                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                                         <p>@item.Price  <a class="item_add" href="#">Add to cart </a></p>
@@ -305,101 +162,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
         </div>
     </div>
-    <!-- //breadcrumbs -->
-    <!-- footer -->
-    <div class="footer">
-        <div class="container">
-            <div class="footer-grids">
-                <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-                    <h3>About Us</h3>
-                    <p>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse.<span>
-                            Excepteur sint occaecat cupidatat
-                            non proident, sunt in culpa qui officia deserunt mollit.
-                        </span>
-                    </p>
-                </div>
-                <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-                    <h3>Contact Info</h3>
-                    <ul>
-                        <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>1234k Avenue, 4th block, <span>New York City.</span></li>
-                        <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">info@example.com</a></li>
-                        <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 567</li>
-                    </ul>
-                </div>
-                <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
-                    <h3>Flickr Posts</h3>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="footer-grid-left">
-                        <a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
-                    <h3>Blog Posts</h3>
-                    <div class="footer-grid-sub-grids">
-                        <div class="footer-grid-sub-grid-left">
-                            <a href="single.html"><img src="images/9.jpg" alt=" " class="img-responsive" /></a>
-                        </div>
-                        <div class="footer-grid-sub-grid-right">
-                            <h4><a href="single.html">culpa qui officia deserunt</a></h4>
-                            <p>Posted On 25/3/2016</p>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                    <div class="footer-grid-sub-grids">
-                        <div class="footer-grid-sub-grid-left">
-                            <a href="single.html"><img src="images/10.jpg" alt=" " class="img-responsive" /></a>
-                        </div>
-                        <div class="footer-grid-sub-grid-right">
-                            <h4><a href="single.html">Quis autem vel eum iure</a></h4>
-                            <p>Posted On 25/3/2016</p>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-                <h2><a href="/">Best Store <span>shop anywhere</span></a></h2>
-            </div>
-            <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-                <p>&copy 2016 Best Store. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
-            </div>
-        </div>
-    </div>
-    <!-- //footer -->
+  
 </body>
 </html>

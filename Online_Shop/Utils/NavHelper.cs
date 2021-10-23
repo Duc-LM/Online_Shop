@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Online_Shop.Utils
 {
+    
     public class NavHelper
     {
         public static List<Category> GetCategories()

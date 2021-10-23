@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var catergories = NavHelper.GetCategories();
     var manufacturers = NavHelper.GetManufacturers();
+    var products = NavHelper.GetProducts();
 
     var counts = new int[] { 0, 3, 6 };
 }
@@ -59,152 +60,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="products">
         <div class="container">
             <div class="col-md-4 products-left">
-                <div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-                    <h3>Filter By Price</h3>
-                    <ul class="dropdown-menu1">
-                        <li>
-                            <a href="">
-                                <div id="slider-range"></div>
-                                <input type="text" id="amount" style="border: 0" />
-                            </a>
-                        </li>
-                    </ul>
-                    <script type='text/javascript'>
-                        //<![CDATA[
-                        $(window).load(function () {
-                            $("#slider-range").slider({
-                                range: true,
-                                min: 0,
-                                max: 100000,
-                                values: [20000, 80000],
-                                slide: function (event, ui) {
-                                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                                }
-                            });
-                            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-
-                        });//]]>
-                    </script>
-                    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-                    <!---->
-                </div>
+               
                 <div class="categories animated wow slideInUp" data-wow-delay=".5s">
                     <h3>Categories</h3>
-                    <ul class="cate">
-                        <li><a href="/ProductView/Index">Best Selling</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">Laptop</a> <span>(16)</span></li>
-                        <ul>
-                            <li><a href="/ProductView/Index">Dell</a> <span>(2)</span></li>
-                            <li><a href="/ProductView/Index">Asus</a> <span>(5)</span></li>
-                            <li><a href="/ProductView/Index">HP</a> <span>(1)</span></li>
-                            <li><a href="/ProductView/Index">Acer</a> <span>(0)</span></li>
-                            <li><a href="/ProductView/Index">MSI</a> <span>(1)</span></li>
-                            <li><a href="/ProductView/Index">Other</a> <span>(0)</span></li>
+                    @foreach (var item in catergories)
+                    {
+                        <ul class="cate">
+                            <li><a href="/ProductView/@item.Id">@item.Name</a></li>
                         </ul>
-                        <li><a href="/ProductView/Index">Big Sale Sales</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">Screen</a> <span>(15)</span></li>
-                        <li><a href="/ProductView/Index">PC & More</a> <span>(15)</span></li>
+                    }
 
-                    </ul>
-                </div>
-                <div class="new-products animated wow slideInUp" data-wow-delay=".5s">
-                    <h3>New Products</h3>
-                    <div class="new-products-grids">
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/6.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">@*@Html.DisplayNameFor(model => model*@</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$180</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/26.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">eum fugiat quo</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$250</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <div class="new-products-grid">
-                            <div class="new-products-grid-left">
-                                <a href="single.html"><img src="images/11.jpg" alt=" " class="img-responsive" /></a>
-                            </div>
-                            <div class="new-products-grid-right">
-                                <h4><a href="single.html">officia deserunt</a></h4>
-                                <div class="rating">
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/2.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="rating-left">
-                                        <img src="images/1.png" alt=" " class="img-responsive">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                    <p> <span class="item_price">$259</span><a class="item_add" href="#">add to cart </a></p>
-                                </div>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
-                    <a href="single.html"><img src="images/27.jpg" alt=" " class="img-responsive" /></a>
+                    <a href="single.html"><img src="images/29.jpg" alt=" " class="img-responsive" /></a>
                     <div class="men-position-pos">
                         <h4>Summer collection</h4>
                         <h5><span>55%</span> Flat Discount</h5>

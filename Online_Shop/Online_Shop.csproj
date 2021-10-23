@@ -627,15 +627,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
-    <Content Include="Views\ProductView\Index.cshtml" />
     <Content Include="Views\Shared\_Filter.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ProductView\Category.cshtml" />
     <Content Include="Views\ProductView\Manufacturer.cshtml" />
     <Content Include="Views\ProductView\SingleItem.cshtml" />
-=======
     <Content Include="libman.json" />
->>>>>>> origin/master
+    <Content Include="Views\Shared\_Category.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -661,7 +658,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Order\" />
     <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
     <Folder Include="Views\Cart\" />
