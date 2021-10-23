@@ -1,10 +1,8 @@
 ﻿namespace Online_Shop.Models.DTO
 {
-    public class ProductCart
+    public class ProductCartItem
     {
-        public int Id { get; set; }
-
+        public Product Product { get; set; }
         public int Quantity { get; set; }
-
     }
 }

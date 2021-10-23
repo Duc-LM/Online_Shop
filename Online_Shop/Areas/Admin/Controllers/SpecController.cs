@@ -16,14 +16,14 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
             Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == productId);
-            Productcart product = db.Products.FirstOrDefault(p => p.Id == productId);
+            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
 
             return View(new ProductSpec() { Product = product, Spec = spec });
         }
 
         public ActionResult Create(int? productId)
         {
-            Productcart product = db.Products.FirstOrDefault(p => p.Id == productId);
+            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
             if (productId == null || product == null)
             {
                 return RedirectToAction("Index", "Dashboard");
@@ -49,7 +49,7 @@ namespace Online_Shop.Areas.Admin.Controllers
 
         public ActionResult Edit(int? productId)
         {
-            Productcart product = db.Products.FirstOrDefault(p => p.Id == productId);
+            Product product = db.Products.FirstOrDefault(p => p.Id == productId);
             if (productId == null || product == null)
             {
                 return RedirectToAction("Index", "Dashboard");

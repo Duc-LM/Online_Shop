@@ -1,8 +1,6 @@
 namespace Online_Shop.Models
 {
-    using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Validation;
     using System.Linq;
 
@@ -28,7 +26,7 @@ namespace Online_Shop.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Order_Product> Order_Product { get; set; }
-        public virtual DbSet<Productcart> Products { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Spec> Specs { get; set; }
@@ -58,16 +56,16 @@ namespace Online_Shop.Models
                 .Property(e => e.Price)
                 .HasPrecision(18, 0);
 
-            modelBuilder.Entity<Productcart>()
+            modelBuilder.Entity<Product>()
                 .Property(e => e.Price)
                 .HasPrecision(18, 0);
 
-            modelBuilder.Entity<Productcart>()
+            modelBuilder.Entity<Product>()
                 .HasMany(e => e.Order_Product)
                 .WithOptional(e => e.Product)
                 .HasForeignKey(e => e.Product_id);
 
-            modelBuilder.Entity<Productcart>()
+            modelBuilder.Entity<Product>()
                 .HasMany(e => e.Specs)
                 .WithOptional(e => e.Product)
                 .HasForeignKey(e => e.Product_id);

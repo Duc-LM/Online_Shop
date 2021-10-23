@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Online_Shop.Models.DTO.ProductCartItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{var id = 0;
+    decimal total = 0;}
+
+
+<div class="checkout">
+    <div class="container">
+        <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
+            <table class="timetable_sub">
+                <thead>
+                    <tr>
+
+                        <th>Product</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr class="rem-@id">
+                        @{
+                            var InputFileName = item.Product.Images.Split(';')[0];
+                            var image = Path.Combine("/Include/Images/", InputFileName);
+
+                            id++;
+                            total += item.Product.Price * item.Quantity;
+                        }
+                        <td class="invert-image"><a href="single.html"><img src="@image" alt=" " class="img-responsive" /></a></td>
+                        <td class="invert">
+                            <div class="quantity">
+                                <div class="quantity-select">
+                                    <div class="entry value-minus"
+                                         onclick="SubStract(@item.Product.Id, @item.Product.Price)">&nbsp;</div>
+                                    <div class="entry value"><span>@item.Quantity</span></div>
+                                    <div class="entry value-plus active" onclick="PlusQuantity(@item.Product.Id,@item.Product.Price)">&nbsp;</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="invert">@item.Product.Name</td>
+                        <td class="invert">$@item.Product.Price</td>
+                        <td class="invert">$@total</td>
+                        <td class="invert">
+                            <div class="rem">
+                                <div class="close-@id" id="@item.Product.Id"> </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                }
+                <thread>
+
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                        <th id="th">Total Price:</th>
+                        <th id="total"> @total</th>
+
+                </thread>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- //checkout -->
+@section Scripts{
+    <script>
+        $(document).ready(function (c) {
+            $('.close-@id').on('click', function (c) {
+                $('.rem-@id').fadeOut('slow', function (c) {
+                    $('.rem-@id').remove();
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/DeleteItem",
+                    data: { id: id },
+                    cache: false
+                });
+            });
+        });
+        function SubStract(producId, price) {
+            $.ajax({
+                type: "POST",
+                url: "/Cart/SubtractQuantity",
+                data: { id: producId },
+                cache: false
+            });
+            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) - price;
+        }
+        function PlusQuantity(productId, price) {
+            $.ajax({
+                type: "POST",
+                url: "/Cart/PlusQuantity",
+                data: { id: producId },
+                cache: false
+            });
+            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) + price;
+        }
+    </script>
+}

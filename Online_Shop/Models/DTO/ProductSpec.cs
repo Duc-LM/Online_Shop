@@ -2,7 +2,7 @@
 {
     public class ProductSpec
     {
-        public Productcart Product { get; set; }
+        public Product Product { get; set; }
         public Spec Spec { get; set; }
     }
 }

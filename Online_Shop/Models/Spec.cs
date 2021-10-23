@@ -1,10 +1,7 @@
 namespace Online_Shop.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Spec")]
     public partial class Spec
@@ -57,6 +54,6 @@ namespace Online_Shop.Models
 
         public int? Product_id { get; set; }
 
-        public virtual Productcart Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

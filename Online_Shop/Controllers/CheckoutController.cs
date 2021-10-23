@@ -30,9 +30,9 @@ namespace Online_Shop.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Productcart> list = (List<Productcart>)Session["Cart"];
+                List<ProductCart> list = (List<ProductCart>)Session["Cart"];
                 double total_price = 0;
-                foreach (Productcart item in list)
+                foreach (ProductCart item in list)
                 {
                     total_price += (double)db.Products.FirstOrDefault(p => p.Id == item.Id).Price * item.Quantity;
                 }

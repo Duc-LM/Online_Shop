@@ -345,6 +345,7 @@
     <Compile Include="Models\DTO\OrderPromotions.cs" />
     <Compile Include="Models\DTO\Password.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
+    <Compile Include="Models\DTO\ProductCartItem.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
     <Compile Include="Models\DTO\ProductSpec.cs" />
     <Compile Include="Models\DTO\ProductWithCheckSpec.cs" />
@@ -629,6 +630,7 @@
     <Content Include="Views\Shared\_Filter.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -656,7 +658,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
-    <Folder Include="Views\Cart\" />
     <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>

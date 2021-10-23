@@ -13,8 +13,19 @@ namespace Online_Shop.Controllers
         // GET: Cart
         public ActionResult Index(int? page)
         {
-            List<Productcart> list = (List<Productcart>)Session["Cart"];
-            return View(list);
+            List<ProductCart> list = (List<ProductCart>)Session["Cart"];
+            List<ProductCartItem> items = new List<ProductCartItem>();
+            foreach (ProductCart i in list)
+            {
+                Product product = db.Products.Find(i.Id);
+                items.Add(new ProductCartItem()
+                {
+                    Product = product,
+                    Quantity = i.Quantity
+
+                });
+            }
+            return View(items);
         }
 
 
@@ -27,13 +38,13 @@ namespace Online_Shop.Controllers
             else
             {
                 List<ProductCart> list = (List<ProductCart>)Session["Cart"];
-                if (list.Find(p => p.id == pid) != null)
+                if (list.Find(p => p.Id == pid) != null)
                 {
-                    list.Where(p => p.id == pid).Select(p => p.quantity++);
+                    list.Where(p => p.Id == pid).Select(p => p.Quantity++);
                 }
                 else
                 {
-                    list.Add(new ProductCart() { id = pid, quantity = 1 });
+                    list.Add(new ProductCart() { Id = pid, Quantity = 1 });
                 }
 
                 Session["Cart"] = list;
@@ -49,13 +60,13 @@ namespace Online_Shop.Controllers
             else
             {
                 List<ProductCart> list = (List<ProductCart>)Session["Cart"];
-                if (list.Find(p => p.id == pid) != null)
+                if (list.Find(p => p.Id == pid) != null)
                 {
-                    list.Where(p => p.id == pid).Select(p => p.quantity += (quantity ?? 1));
+                    list.Where(p => p.Id == pid).Select(p => p.Quantity += (quantity ?? 1));
                 }
                 else
                 {
-                    list.Add(new ProductCart() { id = pid, quantity = quantity ?? 1 });
+                    list.Add(new ProductCart() { Id = pid, Quantity = quantity ?? 1 });
                 }
 
                 Session["Cart"] = list;
@@ -65,7 +76,7 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public JsonResult UpdateQuantity(int newQuantity, int id)
         {
-            List<Productcart> list = (List<Productcart>)Session["Cart"];
+            List<ProductCart> list = (List<ProductCart>)Session["Cart"];
             list.Where(p => p.Id == id).Select(p => p.Quantity == newQuantity);
             Session["Cart"] = list;
             return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
@@ -74,7 +85,7 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public ActionResult PlusQuantity(int id)
         {
-            List<Productcart> list = (List<Productcart>)Session["Cart"];
+            List<ProductCart> list = (List<ProductCart>)Session["Cart"];
             list.Where(p => p.Id == id).Select(p => p.Quantity += 1);
             Session["Cart"] = list;
             return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
@@ -83,7 +94,7 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public ActionResult SubtractQuantity(int id)
         {
-            List<Productcart> list = (List<Productcart>)Session["Cart"];
+            List<ProductCart> list = (List<ProductCart>)Session["Cart"];
             list.Where(p => p.Id == id).Select(p => p.Quantity -= 1);
             Session["Cart"] = list;
             return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
@@ -92,8 +103,8 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public JsonResult DeleteItem(int id)
         {
-            List<Productcart> list = (List<Productcart>)Session["Cart"];
-            Productcart p = list.Where(a => a.Id == id).FirstOrDefault();
+            List<ProductCart> list = (List<ProductCart>)Session["Cart"];
+            ProductCart p = list.Where(a => a.Id == id).FirstOrDefault();
             if (p != null)
             {
                 list.Remove(p);
