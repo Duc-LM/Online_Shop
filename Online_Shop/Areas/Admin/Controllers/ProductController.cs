@@ -80,6 +80,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Name", "This name already existed in the Database");
                     pc.Categories = db.Categories.ToList();
                     return View(pc);
+                    
                 }
                 if (files[0] != null)
                 {

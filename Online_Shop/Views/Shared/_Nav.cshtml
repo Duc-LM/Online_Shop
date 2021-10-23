@@ -1,10 +1,9 @@
-﻿ <!-- header -->
-﻿@using Online_Shop.Utils
+@using Online_Shop.Utils
 @{
     var catergories = NavHelper.GetCategories();
     var manufacturers = NavHelper.GetManufacturers();
+    
 }
-<!-- header -->
 <div class="header">
     <div class="container">
         <div class="header-grid">
@@ -50,43 +49,29 @@
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>Men's Wear</h6>
-
-                                                <li><a href="products.html">Clothing</a></li>
-                                                <li><a href="products.html">Wallets</a></li>
-                                                <li><a href="products.html">Shoes</a></li>
-                                                <li><a href="products.html">Watches</a></li>
-                                                <li><a href="products.html">Accessories</a></li>
+                                            <ul class="multi-column-dropdown" >
+                                                <h6>Category</h6>
+                                                @foreach (var item in catergories)
+                                                    {
+                                                    <li><a href="/ProductView/Category/@item.Id">@item.Name</a></li>
+                                                    }
                                             </ul>
                                         </div>
                                         <div class="col-sm-4">
                                             <ul class="multi-column-dropdown">
-                                                <h6>Women's Wear</h6>
-                                                <li><a href="products.html">Clothing</a></li>
-                                                <li><a href="products.html">Wallets,Bags</a></li>
-                                                <li><a href="products.html">Footwear</a></li>
-                                                <li><a href="products.html">Watches</a></li>
-                                                <li><a href="products.html">Accessories</a></li>
-                                                <li><a href="products.html">Jewellery</a></li>
-                                                <li><a href="products.html">Beauty & Grooming</a></li>
+                                                <h6>Manufacturer</h6>
+                                                @foreach(var item in manufacturers)
+                                                {
+                                                    <li><a href="/ProductView/Manufacturer/@item">@item</a></li>
+                                                }
                                             </ul>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>Kid's Wear</h6>
-                                                <li><a href="products.html">Kids Home Fashion</a></li>
-                                                <li><a href="products.html">Boy's Clothing</a></li>
-                                                <li><a href="products.html">Girl's Clothing</a></li>
-                                                <li><a href="products.html">Shoes</a></li>
-                                                <li><a href="products.html">Brand Stores</a></li>
-                                            </ul>
-                                        </div>
+                                        
                                         <div class="clearfix"></div>
                                     </div>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            @*<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Furniture <b class="caret"></b></a>
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <div class="row">
@@ -125,7 +110,7 @@
                                 </ul>
                             </li>
                             <li><a href="short-codes.html">Short Codes</a></li>
-                            <li class="active"><a href="/Home/MailUs" class="act">Mail Us</a></li>
+                            <li class="active"><a href="/Home/MailUs" class="act">Mail Us</a></li>*@
                         </ul>
                     </div>
                 </nav>

@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Online_Shop.Models.Product>
+@using Online_Shop.Utils
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = NavHelper.GetCategories();
+    var manufacturers = NavHelper.GetManufacturers();
+    var products = NavHelper.GetProducts();
+
+    var counts = new int[] { 0, 3, 6 };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Best Store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Products :: w3layouts</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Best Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="js/jquery.min.js"></script>
+    <!-- //js -->
+    <!-- cart -->
+    <script src="js/simpleCart.min.js"></script>
+    <!-- cart -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <!-- for bootstrap working -->
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+    <!-- //for bootstrap working -->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- animation-effect -->
+    <link href="css/animate.min.css" rel="stylesheet">
+    <script src="js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <!-- //animation-effect -->
+</head>
+
+<body>
+
+    <!-- //header -->
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+                <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+                <li class="active">Products</li>
+            </ol>
+        </div>
+    </div>
+    <div class="products">
+        <div class="container">
+            <div class="col-md-4 products-left">
+              
+                <div class="categories animated wow slideInUp" data-wow-delay=".5s">
+                    <h3>Categories</h3>
+                    <ul class="cate">
+                        @foreach (var item in categories)
+                        {
+
+                            <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+
+                        }
+                    </ul>
+                </div>
+                <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
+                    <a href="single.html"><img src="images/29.jpg" alt=" " class="img-responsive" /></a>
+                    <div class="men-position-pos">
+                        <h4>Summer collection</h4>
+                        <h5><span>55%</span> Flat Discount</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 products-right">
+                <div class="products-right-grid">
+                    <div class="products-right-grids animated wow slideInRight" data-wow-delay=".5s">
+                        <div class="sorting">
+                            <select id="country" onchange="change_country(this.value)" class="frm-field required sect">
+                                <option value="null">Default sorting</option>
+                                <option value="null">Sort by popularity</option>
+                                <option value="null">Sort by average rating</option>
+                                <option value="null">Sort by price</option>
+                            </select>
+                        </div>
+                        <div class="sorting-left">
+                            <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
+                                <option value="null">Item on page 9</option>
+                                <option value="null">Item on page 18</option>
+                                <option value="null">Item on page 32</option>
+                                <option value="null">All</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+
+                <div class="products-right-grids-bottom">
+                  
+                    @for (int i = 0; i < counts.Length; i++)
+                    {
+                        var product = Model.Skip( counts[i]).Take(3).ToList();
+                        
+                        <div class="col-md-4 products-right-grids-bottom-grid">
+                            @foreach (var item in product)
+                            {
+                                 
+                                   var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
+                                <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
+                                    <div class="new-collections-grid1-image">
+                                        <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
+                                        <div class="new-collections-grid1-image-pos">
+                                            <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
+                                        </div>
+                                        <div class="new-collections-grid1-right">
+                                        </div>
+                                    </div>
+                                    <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
+                                    <p>@item.Short_desc</p>
+                                    <div class="new-collections-grid1-left simpleCart_shelfItem">
+                                        <p>@item.Price  <a class="item_add" href="#">Add to cart </a></p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                </div>
+
+
+
+
+
+                @*<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
+                        <ul class="pagination paging">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>*@
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+  
+</body>
+</html>

@@ -337,6 +337,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -590,6 +591,7 @@
     <Content Include="Areas\Admin\Views\Promotion\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Create.cshtml" />
@@ -629,6 +631,13 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
     <Content Include="Views\Shared\_Filter.cshtml" />
+
+    <Content Include="Views\ProductView\Category.cshtml" />
+    <Content Include="Views\ProductView\Manufacturer.cshtml" />
+    <Content Include="Views\ProductView\SingleItem.cshtml" />
+    <Content Include="libman.json" />
+    <Content Include="Views\Shared\_Category.cshtml" />
+
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />

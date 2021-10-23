@@ -1,0 +1,235 @@
+﻿@model Online_Shop.Models.DTO.ProductSpec
+@using Online_Shop.Utils;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = NavHelper.GetCategories();
+}
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Best Store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Single :: w3layouts</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Best Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="js/jquery.min.js"></script>
+    <!-- //js -->
+    <!-- cart -->
+    <script src="js/simpleCart.min.js"></script>
+    <!-- cart -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <!-- for bootstrap working -->
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+    <!-- //for bootstrap working -->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- animation-effect -->
+    <link href="css/animate.min.css" rel="stylesheet">
+    <script src="js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <!-- //animation-effect -->
+</head>
+
+<body>
+    <!-- breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+                <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+                <li class="active">Single Page</li>
+            </ol>
+        </div>
+    </div>
+    <!-- //breadcrumbs -->
+    <!-- single -->
+    <div class="single">
+        <div class="container">
+            <div class="col-md-4 products-left">
+                <div class="categories animated wow slideInUp" data-wow-delay=".5s">
+                    <h3>Categories</h3>
+                    
+                    <ul class="cate">
+                        @foreach (var item in categories)
+                        {
+
+                            <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+
+                        }
+                    </ul>
+
+                </div>
+                <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
+                    <a href="single.html"><img src="images/29.jpg" alt=" " class="img-responsive" /></a>
+                    <div class="men-position-pos">
+                        <h4>Summer collection</h4>
+                        <h5><span>55%</span> Flat Discount</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 single-right">
+                <div class="col-md-5 single-right-left animated wow slideInUp" data-wow-delay=".5s">
+                    <div class="flexslider">
+
+                        @{
+                            var InputFileName = Model.Product.Images.Split(';');
+                        }
+                        <ul class="slides">
+                            @foreach (var item in InputFileName)
+                            {
+                                <li data-thumb="images/si.jpg">
+                                    <div class="thumb-image"> <img src="@Path.Combine("/Include/Images/", item);" data-imagezoom="true" class="img-responsive"> </div>
+                                </li>
+                            }
+                        </ul>
+
+
+
+                        
+
+
+                    </div>
+                    <!-- flixslider -->
+                    <script defer src="js/jquery.flexslider.js"></script>
+                    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+                    <script>
+                        // Can also be used with $(document).ready()
+                        $(window).load(function () {
+                            $('.flexslider').flexslider({
+                                animation: "slide",
+                                controlNav: "thumbnails"
+                            });
+                        });
+                    </script>
+                    <!-- flixslider -->
+                </div>
+                <div class="col-md-7 single-right-left simpleCart_shelfItem animated wow slideInRight" data-wow-delay=".5s">
+
+                    <h3>@Model.Product.Name</h3>
+                    <h4><span class="item_price">$@Model.Product.Price</span></h4>
+                    <div class="description">
+                        <h5><i>Description</i></h5>
+                        <p>
+                            @Model.Product.Short_desc
+                        </p>
+                    </div>
+                    
+                    <div class="occasion-cart">
+                        <a class="item_add" href="#">add to cart </a>
+                    </div>
+                    <div class="social">
+                        <div class="social-left">
+                            <p>Share On :</p>
+                        </div>
+                        <div class="social-right">
+                            <ul class="social-icons">
+                                <li><a href="#" class="facebook"></a></li>
+                                <li><a href="#" class="twitter"></a></li>
+                                <li><a href="#" class="g"></a></li>
+                                <li><a href="#" class="instagram"></a></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+                <div class="bootstrap-tab animated wow slideInUp" data-wow-delay=".5s">
+                    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Description</a></li>
+                            <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Reviews(2)</a></li>
+                            <li role="presentation" class="dropdown">
+                                <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Information <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                                    <li><a href="#dropdown1" tabindex="-1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">cleanse</a></li>
+                                    <li><a href="#dropdown2" tabindex="-1" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">fanny</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active bootstrap-tab-text" id="home" aria-labelledby="home-tab">
+                                <p>@Model.Product.Short_desc</p>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade bootstrap-tab-text" id="profile" aria-labelledby="profile-tab">
+                                <div class="bootstrap-tab-text-grids">
+                                    <div class="bootstrap-tab-text-grid">
+                                        <div class="bootstrap-tab-text-grid-left">
+                                            <img src="images/4.png" alt=" " class="img-responsive" />
+                                        </div>
+                                        <div class="bootstrap-tab-text-grid-right">
+                                            <ul>
+                                                <li><a href="#">Admin</a></li>
+                                                <li><a href="#"><span class="glyphicon glyphicon-share" aria-hidden="true"></span>Reply</a></li>
+                                            </ul>
+                                            <p>
+                                                Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                                                suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
+                                                vel eum iure reprehenderit.
+                                            </p>
+                                        </div>
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                    <div class="bootstrap-tab-text-grid">
+                                        <div class="bootstrap-tab-text-grid-left">
+                                            <img src="images/5.png" alt=" " class="img-responsive" />
+                                        </div>
+                                        <div class="bootstrap-tab-text-grid-right">
+                                            <ul>
+                                                <li><a href="#">Admin</a></li>
+                                                <li><a href="#"><span class="glyphicon glyphicon-share" aria-hidden="true"></span>Reply</a></li>
+                                            </ul>
+                                            <p>
+                                                Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                                                suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
+                                                vel eum iure reprehenderit.
+                                            </p>
+                                        </div>
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                    <div class="add-review">
+                                        <h4>add a review</h4>
+                                        <form>
+                                            <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+                                            <input type="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+                                            <input type="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}" required="">
+                                            <textarea type="text" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+                                            <input type="submit" value="Send">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade bootstrap-tab-text" id="dropdown1" aria-labelledby="dropdown1-tab">
+                                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade bootstrap-tab-text" id="dropdown2" aria-labelledby="dropdown2-tab">
+                                <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!-- //single -->
+    <!-- zooming-effect -->
+    <script src="js/imagezoom.js"></script>
+    <!-- //zooming-effect -->
+</body>
+</html>
