@@ -337,7 +337,6 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -633,6 +632,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Checkout\Create.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -660,7 +660,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
-    <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Order\" />
   </ItemGroup>
