@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using PagedList;
+using System;
+
 namespace Online_Shop.Areas.Admin.Controllers
 {
     public class OrderController : BaseController
@@ -32,6 +34,23 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
 
             return View(orders.ToPagedList(page ?? 1, 10));
+        }
+        [HttpPost]
+        public ActionResult SearchString(string searchString, int? page)
+        {
+            List<Order> orders = new List<Order>();
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                orders = db.Orders.Where(o => o.Customer_name.Contains(searchString) ||
+                o.Created_date.ToString().Contains(searchString) ||
+                o.Phone_number.Contains(searchString) ||
+                o.Place_of_receipt.Contains(searchString) ||
+                o.Note.Contains(searchString)).ToList();
+            } else
+            {
+                orders = db.Orders.OrderByDescending(o => o.Status).ToList();
+            }
+            return View("Index", orders.ToPagedList(page ?? 1, 10));
         }
         public ActionResult Edit(int? id)
         {

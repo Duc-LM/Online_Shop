@@ -1,10 +1,12 @@
 ﻿@model Online_Shop.Models.DTO.UsersRoles
-
+@using PagedList.Mvc
 @{
     ViewBag.Title = "View";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
+<head>
+    <link rel="stylesheet" href="~/Scripts/PaginationStyle.css" />
+</head>
 <div class=" row">
     <div class=" col-lg-12 grid-margin stretch-card">
         <div class=" card">
@@ -16,6 +18,8 @@
                 <br />
 
                 <h2 class=" card-title">Users:</h2>
+                @Html.Partial("SearchBox")
+                <br />
                 <table class="table">
                     <tr>
 
@@ -79,8 +83,8 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
 
                             </td>
                             @*<td>
-                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
-                                </td>*@
+                        <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
+                    </td>*@
                             <td>
                                 <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#changePassword-@item.Id">
                                     Update
@@ -133,6 +137,16 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
                     }
 
                 </table>
+                <div class="pagination">
+
+                    @Html.PagedListPager(Model.Users, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                                {
+                                         MaximumPageNumbersToDisplay = 5
+
+                                     })
+
+                </div>
+
             </div>
         </div>
     </div>

@@ -17,17 +17,43 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/User
         public ActionResult Index(int? page)
         {
-            List<User> users = db.Users.ToList();
+            var users = db.Users.ToList().ToPagedList(page ?? 1, 10);
             List<Role> roles = db.Roles.ToList();
             UsersRoles usersRoles = new UsersRoles() { Users = users, Roles = roles };
             
             return View(usersRoles);
         }
+        [HttpPost]
+        public ActionResult Index(int? page, string searchString)
+        {
+            IPagedList<User> users = null;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                 users = db.Users.Where(a => a.Name.Contains(searchString) ||
+                a.User_name.Contains(searchString) ||
+                a.Email.Contains(searchString) ||
+                a.Phone_number.Contains(searchString)).ToList().ToPagedList(page ?? 1, 10);
+
+            }
+            else
+            {
+                 users = db.Users.ToList().ToPagedList(page ?? 1, 10);
+
+            }
+
+            List<Role> roles = db.Roles.ToList();
+            UsersRoles usersRoles = new UsersRoles() { Users = users, Roles = roles };
+
+            return View(usersRoles);
+        }
+    
 
         public ActionResult Create()
         {
             return View(new UserRoles() { Roles = db.Roles.ToList() });
         }
+
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -24,18 +24,14 @@
                 <h2 class="card-title">Categories:</h2>
 
                 <h2 class=" card-title">Promotions:</h2>
-                @using (Html.BeginForm())
-                {
-                    <p>
-                        Title: @Html.TextBox("SearchString") <input type="submit" value="Search" />
-                    </p>
-                }
+                @Html.Partial("SearchBox")
+
                 <br />
                 @*<div class="form-group">
-                        <div class="col-md-offset-2 col-md-10 text-success">
-                            @TempData["Status"]
-                        </div>
-                    </div>*@
+            <div class="col-md-offset-2 col-md-10 text-success">
+                @TempData["Status"]
+            </div>
+        </div>*@
 
 
                 <div class="table-responsive">
