@@ -15,15 +15,16 @@
                     <tr>
 
                         <th>Product</th>
-                        <th>Product Name</th>
+
                         <th>Quantity</th>
+                        <th>Product Name</th>
                         <th>Price</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
                 @foreach (var item in Model)
                 {
-                    <tr class="rem-@id">
+                    <tr class="rem-@item.Product.Id">
                         @{
                             var InputFileName = item.Product.Images.Split(';')[0];
                             var image = Path.Combine("/Include/Images/", InputFileName);
@@ -36,19 +37,26 @@
                             <div class="quantity">
                                 <div class="quantity-select">
                                     <div class="entry value-minus"
-                                         onclick="SubStract(@item.Product.Id, @item.Product.Price)">&nbsp;</div>
-                                    <div class="entry value"><span>@item.Quantity</span></div>
-                                    <div class="entry value-plus active" onclick="PlusQuantity(@item.Product.Id,@item.Product.Price)">&nbsp;</div>
+                                         onclick="SubStract(@item.Product.Id, @item.Product.Price)">-</div>
+                                    <div class="entry value @item.Product.Id">
+                                        <span>
+                                            @item.Quantity
+                                        </span>
+                                    </div>
+                                    <div class="entry value-plus active"
+                                         onclick="PlusQuantity(@item.Product.Id,@item.Product.Price)">+</div>
                                 </div>
                             </div>
                         </td>
+
                         <td class="invert">@item.Product.Name</td>
                         <td class="invert">$@item.Product.Price</td>
-                        <td class="invert">$@total</td>
+
                         <td class="invert">
                             <div class="rem">
-                                <div class="close-@id" id="@item.Product.Id"> </div>
+                                <input type="button" value="X" onclick="Delete(@item.Product.Id)" />
                             </div>
+
                         </td>
                     </tr>
 
@@ -62,50 +70,76 @@
                         <th></th>
 
                         <th id="th">Total Price:</th>
-                        <th id="total"> @total</th>
+                        <th ><span id="total-price"> @total</span></th>
 
                 </thread>
+                <!--quantity-->
+                <script>
+                    $('.value-plus').on('click', function () {
+                        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+                        divUpd.text(newVal);
+                    });
+
+                    $('.value-minus').on('click', function () {
+                        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+                        if (newVal >= 1) divUpd.text(newVal);
+                    });
+                </script>
+                <!--quantity-->
             </table>
+            </div>
         </div>
     </div>
-</div>
-<!-- //checkout -->
-@section Scripts{
-    <script>
-        $(document).ready(function (c) {
-            $('.close-@id').on('click', function (c) {
-                $('.rem-@id').fadeOut('slow', function (c) {
-                    $('.rem-@id').remove();
+    <!-- //checkout -->
+    @section Scripts{
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryunobtrusive")
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        @*<div class="entry value " id="entry-value-@item.Product.Id">@item.Quantity</div>*@
+        <script>
+          
+            function Delete(productId) {
+                $('.rem-' + productId).fadeOut('slow', function (c) {
+                    $('.rem-' + productId).remove();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Cart/DeleteItem",
+                        data: { id: parseInt(productId) },
+                        cache: false,
+                    });
                 });
+            }
+            function SubStract(productId, price) {
+                if ($("#entry-value-" + productId).val() > 1) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Cart/SubtractQuantity",
+                        data: { id: parseInt(productId) },
+                        cache: false,
+                        success: function (data) {
+                            $('#total').text(parseInt($('#total').val()) - price);
+                        }
+
+
+                    });
+
+                }
+            }
+            function PlusQuantity(productId, price) {
+
                 $.ajax({
                     type: "POST",
-                    url: "/Cart/DeleteItem",
-                    data: { id: id },
-                    cache: false
+                    url: "/Cart/PlusQuantity/",
+                    data: { id: parseInt(productId) },
+                    cache: false,
+                    success: function () {
+                        console.log($('#total').val());
+                        $('#total').text(parseInt($('#total').val()) + price);
+                        console.log($('#total').val());
+                    }
                 });
-            });
-        });
-        function SubStract(producId, price) {
-            $.ajax({
-                type: "POST",
-                url: "/Cart/SubtractQuantity",
-                data: { id: producId },
-                cache: false
-            });
-            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-            if (newVal >= 1) divUpd.text(newVal);
-            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) - price;
-        }
-        function PlusQuantity(productId, price) {
-            $.ajax({
-                type: "POST",
-                url: "/Cart/PlusQuantity",
-                data: { id: producId },
-                cache: false
-            });
-            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
-            divUpd.text(newVal);
-            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) + price;
-        }
-    </script>
-}
+
+            }
+        </script>
+    }

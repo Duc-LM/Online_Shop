@@ -30,7 +30,7 @@ namespace Online_Shop.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<ProductCart> list = (List<ProductCart>)Session["Cart"];
+                List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
                 double total_price = 0;
                 foreach (ProductCart item in list)
                 {
@@ -50,6 +50,23 @@ namespace Online_Shop.Controllers
                 op.Order.Status = "Pending";
                 op.Order.Total_Price = (decimal)((total_price-(total_price * op.Order.Promotion.Percent_discount / 100)) + (double)op.Order.Ship_price);
                 db.Orders.Add(op.Order);
+                db.SaveChanges();
+
+                int order_id = db.Orders.First(o => o.Customer_name == op.Order.Customer_name && o.Created_date == op.Order.Created_date).Id;
+                foreach (ProductCart item in list)
+                {
+                    var product = db.Products.FirstOrDefault(p => p.Id == item.Id);
+                    db.Order_Product.Add(new Order_Product()
+                    {
+                        Order_id = order_id,
+                        Product_id = product.Id,
+                        Quantity = item.Quantity,
+                        Price = product.Price * item.Quantity,
+                        Created_at = DateTime.Now,
+                        User_id = ((User)Session["User"]).Id
+                    });
+
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }

@@ -91,10 +91,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             var InputFileName = Model.Product.Images.Split(';');
                         }
                         <ul class="slides">
-                            @foreach (var item in InputFileName)
+                            @for(int i = 0; i< InputFileName.Length - 1; i++)
                             {
-                                <li data-thumb="images/si.jpg">
-                                    <div class="thumb-image"> <img src="@Path.Combine("/Include/Images/", item);" data-imagezoom="true" class="img-responsive"> </div>
+                                <li data-thumb="@Path.Combine("/Include/Images/"+ InputFileName[i])">
+                                    <div class="thumb-image"> <img src="@Path.Combine("/Include/Images/"+ InputFileName[i])" data-imagezoom="true" class="img-responsive"> </div>
                                 </li>
                             }
                         </ul>
@@ -134,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <p class="frm-fie">@Model.Product.Quantity</p>
                     </div>
                     <div class="occasion-cart">
-                        <a class="item_add" href="#">add to cart </a>
+                        <a class="item_add" href="/Cart/AddToCart/@Model.Product.Id">add to cart </a>
                     </div>
                     <div class="social">
                         <div class="social-left">
@@ -157,6 +157,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active bootstrap-tab-text" id="home" aria-labelledby="home-tab">
+                                @if (Model.Spec != null)
+                                {
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
@@ -208,7 +210,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <td>@Model.Spec.Manufacturer</td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table>}
                             </div>                                                                               
                         </div>
                     </div>
