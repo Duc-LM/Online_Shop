@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using PagedList;
 using System;
@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class PromotionController : BaseController
     {
         // GET: Admin/Promotion

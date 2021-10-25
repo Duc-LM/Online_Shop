@@ -32,8 +32,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script>
         new WOW().init();
     </script>
-    <!-- //animation-effect -->
-    @RenderSection("Scripts", false)
 
     <script src="~/Include/Web/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
@@ -48,6 +46,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @RenderBody()
     @*@Html.Partial("~/Views/Shared/_Category.cshtml")*@
     @Html.Partial("~/Views/Shared/_Footer.cshtml")
+
+    <!-- //animation-effect -->
+    @RenderSection("Scripts", false)
 
 </body>
 </html>

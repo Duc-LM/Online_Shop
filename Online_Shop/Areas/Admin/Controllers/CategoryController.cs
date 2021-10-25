@@ -1,16 +1,18 @@
-﻿using Online_Shop.Controllers;
-using Online_Shop.Models;
+﻿using Online_Shop.Models;
 using PagedList;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class CategoryController : BaseController
     {
-        // GET: Admin/Category
-        public ActionResult Index(int? page)
+       
+            // GET: Admin/Category
+            public ActionResult Index(int? page)
         {
             var categories = (from c in db.Categories
                               select c).OrderBy(a => a.Id);

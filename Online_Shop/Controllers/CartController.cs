@@ -18,6 +18,7 @@ namespace Online_Shop.Controllers
                 return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             List<ProductCartItem> items = new List<ProductCartItem>();
+            decimal total = 0;
             if (list != null)
             {
                 foreach (ProductCart i in list)
@@ -29,9 +30,11 @@ namespace Online_Shop.Controllers
                         Quantity = i.Quantity
 
                     });
+                    total += product.Price * i.Quantity;
                 }
                 
             }
+            Session["Total"] = total;
             return View(items);
 
         }
@@ -57,13 +60,14 @@ namespace Online_Shop.Controllers
             else
             {
 
-                list.Where(p => p.Id == id).Select(p => p.Quantity++);
+                foreach (var i in list.Where(p => p.Id == id))
+                    i.Quantity += 1;
             }
-
+            Session["Total"] = (decimal)Session["Total"] + db.Products.Find(id).Price;
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
 
 
-            return RedirectToAction("SingleItem", "ProductView",  id );
+            return RedirectToAction("SingleItem", "ProductView", new { id = id } );
         }
         //[HttpPost]
         //public ActionResult AddToCart(int id, int? quantity)
@@ -104,16 +108,18 @@ namespace Online_Shop.Controllers
             foreach (var i in list.Where(p => p.Id == id))
                 i.Quantity += 1;
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
+            Session["Total"] = (decimal)Session["Total"] + db.Products.Find(id).Price;
             return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult SubtractQuantity(int id)
+        public ActionResult SubstractQuantity(int id)
         {
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-            foreach (var i in list.Where(p => p.Id == id))
+            foreach (var i in list.Where(p => p.Id == id && p.Quantity > 1))
                 i.Quantity -= 1;
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
+            Session["Total"] = (decimal)Session["Total"] - db.Products.Find(id).Price;
             return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
         }
 

@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using Online_Shop.Models;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class RoleController : BaseController
     {
         // GET: Admin/Role

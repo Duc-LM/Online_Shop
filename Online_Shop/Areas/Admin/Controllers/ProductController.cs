@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using PagedList;
@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class ProductController : BaseController
     {
         // GET: Admin/Product

@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class SpecController : BaseController
     {
         // GET: Admin/Spec

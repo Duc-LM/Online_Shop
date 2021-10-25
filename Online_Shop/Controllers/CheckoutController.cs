@@ -45,14 +45,14 @@ namespace Online_Shop.Controllers
                 {
                     op.Order.Ship_price = 80;
                 }
-
+                op.Order.Note = "";
                 op.Order.Created_date = DateTime.Now;
                 op.Order.Status = "Pending";
-                op.Order.Total_Price = (decimal)((total_price-(total_price * op.Order.Promotion.Percent_discount / 100)) + (double)op.Order.Ship_price);
+                op.Order.Total_Price = (decimal)((total_price-(total_price * db.Promotions.FirstOrDefault(o => o.Id==op.Order.Promotion_id).Percent_discount / 100)) + (double)op.Order.Ship_price);
                 db.Orders.Add(op.Order);
                 db.SaveChanges();
-
-                int order_id = db.Orders.First(o => o.Customer_name == op.Order.Customer_name && o.Created_date == op.Order.Created_date).Id;
+                var order_id = op.Order.Id;
+                
                 foreach (ProductCart item in list)
                 {
                     var product = db.Products.FirstOrDefault(p => p.Id == item.Id);
@@ -68,6 +68,7 @@ namespace Online_Shop.Controllers
 
                 }
                 db.SaveChanges();
+                Session[Convert.ToString(((User)Session["User"]).Id)] = new List<ProductCart>();
                 return RedirectToAction("Index", "Home");
             }
             op.Promotions = db.Promotions.Where(p => DateTime.Compare(DateTime.Now, p.End_date) < 0).ToList();

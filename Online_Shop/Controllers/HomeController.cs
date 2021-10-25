@@ -41,6 +41,7 @@ namespace Online_Shop.Controllers
                     if (flag == true)
                     {
                         Session["user"] = u;
+                        Session["Total"] =(decimal) 0;
                         return RedirectToAction("Index");
                     }
                     else
@@ -124,8 +125,8 @@ namespace Online_Shop.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear();
-            Session.Abandon();
+            Session.Remove("User");
+            Session.Remove("Total");
             return RedirectToAction("Index");
         }
     }

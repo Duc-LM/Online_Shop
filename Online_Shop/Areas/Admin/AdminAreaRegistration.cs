@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Online_Shop.Models;
+using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin
 {
@@ -14,6 +15,7 @@ namespace Online_Shop.Areas.Admin
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
+           
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
