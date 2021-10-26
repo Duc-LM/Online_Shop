@@ -6,11 +6,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Registration</li>
+        </ol>
+    </div>
+</div>
             <!-- register -->
             <div class="register">
                 <div class="container">
-                    <div class="login-form-grids">
+                    
                         @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
@@ -20,7 +27,7 @@
                                 <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    <label>User Name</label>
+                                    <label class=" col-md-2">User Name</label>
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.User_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Name" } })
                                         @Html.ValidationMessageFor(model => model.User.User_name, "", new { @class = "text-danger" })
@@ -28,14 +35,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.User.Password, htmlAttributes: new { @class = " col-md-2" })
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.Password, new { htmlAttributes = new { @class = "form-control", type = "Password", placeholder = "Enter Password" } })
                                         @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Reenter Password</label>
+                                    <label class=" col-md-2">Confirm Password</label>
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.RePassword, new { htmlAttributes = new { @class = "form-control", type = "Password", placeholder = "Enter Confirm Name" } })
                                         @Html.ValidationMessageFor(model => model.User.RePassword, "", new { @class = "text-danger" })
@@ -43,7 +50,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.User.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.User.Name, htmlAttributes: new { @class = " col-md-2" })
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter User Name" } })
                                         @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
@@ -51,7 +58,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.User.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.User.Email, htmlAttributes: new { @class = " col-md-2" })
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Email" } })
                                         @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
@@ -59,7 +66,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.User.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.User.Address, htmlAttributes: new { @class = " col-md-2" })
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Address" } })
                                         @Html.ValidationMessageFor(model => model.User.Address, "", new { @class = "text-danger" })
@@ -67,7 +74,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Avatar</label>
+                                    <label class=" col-md-2">Avatar</label>
                                     <div class="col-md-12">
 
                                         <div class="form-group">
@@ -75,18 +82,17 @@
                                             <div class="col-md-12">
                                                 <input type="file" name="file" id="Files" />
                                             </div>
-                                        </div>
-                                        <div class="form-group">
                                             <div class="col-md-offset-2 col-md-10 text-danger">
                                                 @ViewBag.UploadStatus
                                             </div>
                                         </div>
+                                       
 
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Gender</label>
+                                    <label class=" col-md-2">Gender</label>
                                     <div class="col-md-12">
                                         @Html.DropDownListFor(model => model.User.Gender, new List<SelectListItem>
                                    {
@@ -98,7 +104,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Phone Number</label>
+                                    <label class="col-md-2">Phone Number</label>
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.User.Phone_number, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Phone Number" } })
                                         @Html.ValidationMessageFor(model => model.User.Phone_number, "", new { @class = "text-danger" })
@@ -108,7 +114,7 @@
 
 
                                 <div class="form-group">
-                                    <label>Date of Birth</label>
+                                    <label class=" col-md-2" >Date of Birth</label>
                                     <div class="col-md-12">
                                         @Html.TextBoxFor(model => model.User.Dob, "{0:yyyy-MM-dd}", htmlAttributes: new { @type = "date", @class = "form-control", placeholder = "Enter Date Of Birth" })
                                         @Html.ValidationMessageFor(model => model.User.Dob, "", new { @class = "text-danger" })
@@ -118,7 +124,7 @@
                                 <input type="submit" value="Register">
                             </div>
                         }
-                        </div>
+                       
                     </div>
                 </div>
             

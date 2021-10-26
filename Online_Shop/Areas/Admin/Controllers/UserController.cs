@@ -263,6 +263,54 @@ namespace Online_Shop.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult ChangePassword()
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            User user = (User)Session["User"];
+            var password_User = new Password_User()
+            {
+                User_Id = user.Id,
+                CurrentPassword = user.Password
+
+            };
+            return View(password_User);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(Password_User pu)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!BCrypt.Net.BCrypt.Verify(pu.CurrentPasswordInput, pu.CurrentPassword))
+                {
+                    ModelState.AddModelError("CurrentPassword", "Wrong current password!");
+                    return View(pu);
+                }
+                else if (pu.CurrentPasswordInput.Equals(pu.NewPassword))
+                {
+                    ModelState.AddModelError("NewPassword", "The new password must be different from the old password!");
+                    return View(pu);
+                }
+                User user = db.Users.Find(pu.User_Id);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(pu.NewPassword);
+                user.RePassword = user.Password;
+                db.Entry(db.Users.Find(pu.User_Id))
+                    .CurrentValues.SetValues(user);
+                db.SaveChanges();
+                Session["Message"] = "Updated password successfully";
+                return RedirectToAction("Index");
+            }
+            return View(pu);
+        }
+
+      
+    
     }
+
+
 
 }

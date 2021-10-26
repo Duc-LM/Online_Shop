@@ -66,8 +66,8 @@ namespace Online_Shop.Controllers
             Session["Total"] = (decimal)Session["Total"] + db.Products.Find(id).Price;
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
 
-
-            return RedirectToAction("SingleItem", "ProductView", new { id = id } );
+            return RedirectToAction("Index");
+            //return RedirectToAction("SingleItem", "ProductView", new { id = id } );
         }
         //[HttpPost]
         //public ActionResult AddToCart(int id, int? quantity)

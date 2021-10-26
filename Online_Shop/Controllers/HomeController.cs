@@ -42,6 +42,7 @@ namespace Online_Shop.Controllers
                     {
                         Session["user"] = u;
                         Session["Total"] =(decimal) 0;
+                        Session["Message"] = "Logged in successfully";
                         return RedirectToAction("Index");
                     }
                     else
@@ -116,11 +117,52 @@ namespace Online_Shop.Controllers
                 userRoles.User.Role_id = db.Roles.FirstOrDefault(r => r.Name.ToUpper().Equals("USER")).Id;
                 db.Users.Add(userRoles.User);                
                 db.SaveChanges();
-                TempData["Status"] = "User Created Successfully";
+                Session["Message"] =  "User Created Successfully";
                 return RedirectToAction("Index");
             }
             userRoles.Roles = db.Roles.ToList();
             return View();
+        }
+
+        public ActionResult UpdatePassword()
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            User user = (User)Session["User"];
+            var password_User = new Password_User()
+            {
+                User_Id = user.Id,
+                CurrentPassword = user.Password
+
+            };
+            return View(password_User);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePassword(Password_User pu)
+        {
+            if(ModelState.IsValid)
+            {
+                if (!BCrypt.Net.BCrypt.Verify(pu.CurrentPasswordInput, pu.CurrentPassword))
+                {
+                    ModelState.AddModelError("CurrentPassword", "Wrong current password!");
+                    return View(pu);
+                }else if(pu.CurrentPasswordInput.Equals(pu.NewPassword))
+                {
+                    ModelState.AddModelError("NewPassword", "The new password must be different from the old password!");
+                    return View(pu);
+                }
+                User user = db.Users.Find(pu.User_Id);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(pu.NewPassword);
+                user.RePassword = user.Password;
+                db.Entry(db.Users.Find(pu.User_Id))
+                    .CurrentValues.SetValues(user);
+                db.SaveChanges();
+                Session["Message"] = "Updated password successfully";
+                return RedirectToAction("Index");
+            }
+            return View(pu);
         }
 
         public ActionResult Logout()

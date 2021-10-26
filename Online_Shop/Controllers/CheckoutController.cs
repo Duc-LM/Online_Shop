@@ -30,13 +30,26 @@ namespace Online_Shop.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
+               
+
                 double total_price = 0;
                 foreach (ProductCart item in list)
                 {
-                    total_price += (double)db.Products.FirstOrDefault(p => p.Id == item.Id).Price * item.Quantity;
+                    Product product = db.Products.FirstOrDefault(p => p.Id == item.Id);
+                    if (item.Quantity >product.Quantity)
+                    {
+                        Session["Message"] = "The order quantity of"+product.Name+" exceeds its quantity in stock";
+                        return RedirectToAction("Index", "Cart");
+                    }
+                    total_price += (double)product.Price * item.Quantity;
                 }
-
+                foreach (ProductCart item in list)
+                {
+                    Product product = db.Products.FirstOrDefault(p => p.Id == item.Id);
+                    product.Quantity -= item.Quantity;
+                }
                 if (op.Order.Place_of_receipt.Contains("Ha Noi"))
                 {
                     op.Order.Ship_price = 30;

@@ -61,7 +61,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
 
             Order order = db.Orders.Find(id);
-            List<Promotion> promotions = db.Promotions.ToList();
+            List<Promotion> promotions = db.Promotions.Where(p=>DateTime.Compare(p.End_date,DateTime.Now) < 0).ToList();
             // List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == id).ToList();
             OrderProductsPromotions orderProductsPromotions = new OrderProductsPromotions()
             {
@@ -88,8 +88,8 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            List<Promotion> promotions = db.Promotions.ToList();
-            List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == opp.Order.Id).ToList();
+            List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(p.End_date, DateTime.Now) < 0).ToList();
+            List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == opp.Order.Id ).ToList();
             opp.Order_Products = products;
             opp.Promotions = promotions;
             return View(opp);
