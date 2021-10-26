@@ -123,6 +123,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
             User user = db.Users.Find(id);
+            user.RePassword = user.Password;
             List<Role> roles = db.Roles.ToList();
             UserRoles userRoles = new UserRoles() { User = user, Roles = roles };
             return View(userRoles);
@@ -163,10 +164,10 @@ namespace Online_Shop.Areas.Admin.Controllers
                     {
                         userRoles.User.Avatar = user.Avatar;
                     }
-                    User u = db.Users.Find(userRoles.User.Id);
-                    userRoles.User.Password = u.Password;
+                    user.RePassword = user.Password;
+                    userRoles.User.Password = user.Password;
                     userRoles.User.RePassword = userRoles.User.Password;
-                    db.Entry(db.Users.Find(userRoles.User.Id))
+                    db.Entry(user)
                         .CurrentValues.SetValues(userRoles.User);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -255,7 +256,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -287,7 +288,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 if (!BCrypt.Net.BCrypt.Verify(pu.CurrentPasswordInput, pu.CurrentPassword))
                 {
-                    ModelState.AddModelError("CurrentPassword", "Wrong current password!");
+                    ModelState.AddModelError("CurrentPasswordInput", "Wrong current password!");
                     return View(pu);
                 }
                 else if (pu.CurrentPasswordInput.Equals(pu.NewPassword))
@@ -301,7 +302,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Entry(db.Users.Find(pu.User_Id))
                     .CurrentValues.SetValues(user);
                 db.SaveChanges();
-                Session["Message"] = "Updated password successfully";
+                
                 return RedirectToAction("Index");
             }
             return View(pu);

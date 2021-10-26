@@ -12,6 +12,8 @@ namespace Online_Shop.Controllers
         // GET: Checkout
         public ActionResult Create()
         {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
             User user = (User)Session["User"];
             Order order = new Order()
             {
@@ -28,6 +30,8 @@ namespace Online_Shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(OrderPromotions op)
         {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
             if (ModelState.IsValid)
             {
                 
@@ -82,6 +86,7 @@ namespace Online_Shop.Controllers
                 }
                 db.SaveChanges();
                 Session[Convert.ToString(((User)Session["User"]).Id)] = new List<ProductCart>();
+                Session["Message"] = "Your order created successfully";
                 return RedirectToAction("Index", "Home");
             }
             op.Promotions = db.Promotions.Where(p => DateTime.Compare(DateTime.Now, p.End_date) < 0).ToList();

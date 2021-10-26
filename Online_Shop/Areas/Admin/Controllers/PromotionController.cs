@@ -128,7 +128,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(promotion);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Promotion promotion = db.Promotions.Find(id);

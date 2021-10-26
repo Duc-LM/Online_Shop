@@ -116,13 +116,14 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Order o = db.Orders.Find(id);
             db.Orders.Remove(o);
+            db.Order_Product.ToList().RemoveAll(op => op.Order_id == id);
             db.SaveChanges();
-            return null;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

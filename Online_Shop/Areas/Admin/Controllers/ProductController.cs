@@ -191,7 +191,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Product product = db.Products.Find(id);

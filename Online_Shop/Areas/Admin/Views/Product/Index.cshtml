@@ -68,7 +68,7 @@
                         @foreach (var item in Model)
                         {
 
-                            <tr>
+                            <tr class="rem-@item.Product.Id">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Product.Id)
                                 </td>
@@ -125,11 +125,7 @@
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Product.Id }, new { @Style = "display: inline" })
                                     </button>
 
-                                    @using (Html.BeginForm("Delete", "Product", new { id = item.Product.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this product?');" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                    }
+                                    <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Product.Id)" value="Delete">
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-inverse-primary ">
@@ -154,3 +150,34 @@
                      })
 
 </div>
+@section Scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function Delete(Id) {
+            if (confirm('Are you sure you wish to delete this role?')) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "Product/Delete",
+                    data: { id: parseInt(Id) },
+                    cache: false,
+                    success: function () {
+                        console.log(2);
+                        $('.rem-' + Id).fadeOut('slow', function (c) {
+                            $('.rem-' + Id).remove();
+                        });
+                    }
+                });
+
+            }
+        }
+    </script>
+
+
+
+}

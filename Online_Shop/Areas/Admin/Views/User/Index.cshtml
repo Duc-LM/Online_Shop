@@ -37,7 +37,7 @@
 
                     @foreach (var item in Model.Users)
                     {
-                        <tr>
+                        <tr class="rem-@item.Id">
 
                             <td>
                                 @if (item.Avatar != "")
@@ -127,11 +127,9 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
                             <td>
                                 <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
 
-                                @using (Html.BeginForm("Delete", "User", new { id = item.Id }, FormMethod.Post, new { @Style = "display : inline", onclick = "return confirm('Are you sure you wish to delete this user?');" }))
-                                {
-                                    @Html.AntiForgeryToken();
-                                    <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                }
+                              
+                                <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
+                               
                             </td>
                         </tr>
                     }
@@ -156,13 +154,27 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryunobtrusive")
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-    <script>
-        $(function () {
-            setTimeout(function () { $("#mydiv").fadeOut(1500); }, 2000)
-
-        })
+    <script >
+        function Delete(UserId) {
+            if (confirm('Are you sure you wish to delete this user?')) {
+               
+                $.ajax({
+                    type: "POST",
+                    url: "User/Delete",
+                    data: { id: parseInt(UserId) },
+                    cache: false,
+                    success: function () {
+                        console.log(2);
+                        $('.rem-' + UserId).fadeOut('slow', function (c) {
+                            $('.rem-' + UserId).remove();
+                        });
+                    }
+                });
+            
+            }
+        }
     </script>
 
 

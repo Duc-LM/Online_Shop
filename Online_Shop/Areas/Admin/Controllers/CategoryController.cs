@@ -102,7 +102,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);

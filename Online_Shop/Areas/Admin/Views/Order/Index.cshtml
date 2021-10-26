@@ -56,7 +56,7 @@
 
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr class="rem-@item.Id">
 
 
                                 <td>
@@ -65,7 +65,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Phone_number)
                                 </td>
-                                <td  width="300px">
+                                <td width="300px">
                                     @Html.DisplayFor(modelItem => item.Place_of_receipt)
                                 </td>
                                 <td>
@@ -101,11 +101,7 @@
                                 <td>
                                     <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
                                     <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Detail", "Detail", new { id = item.Id }, new { @Style = "display : inline" })</button>
-                                    @using (Html.BeginForm("Delete", "User", new { id = item.Id }, FormMethod.Post, new { @Style = "display : inline", onclick = "return confirm('Are you sure you wish to delete this user?');" }))
-                                    {
-                                        @Html.AntiForgeryToken();
-                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                    }
+                                    <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
                                 </td>
                             </tr>
                         }
@@ -119,17 +115,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
 
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryunobtrusive")
-
-
-
-
-
-}
 <div class="pagination">
 
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
@@ -140,3 +126,35 @@
 
 </div>
 
+
+@section Scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function Delete(Id) {
+            if (confirm('Are you sure you wish to delete this role?')) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "Order/Delete",
+                    data: { id: parseInt(Id) },
+                    cache: false,
+                    success: function () {
+                        console.log(2);
+                        $('.rem-' + Id).fadeOut('slow', function (c) {
+                            $('.rem-' + Id).remove();
+                        });
+                    }
+                });
+
+            }
+        }
+    </script>
+
+
+
+}

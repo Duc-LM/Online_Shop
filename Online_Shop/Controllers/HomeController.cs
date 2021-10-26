@@ -30,7 +30,7 @@ namespace Online_Shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserLogin userLogin)
         {
-
+            
             if (ModelState.IsValid)
             {
                 User u = db.Users.FirstOrDefault(a => a.User_name == userLogin.user_name);
@@ -71,6 +71,7 @@ namespace Online_Shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserRoles userRoles, HttpPostedFileBase file)
         {
+          
             if (ModelState.IsValid)
             {
                 if (userRoles.User.User_name.Contains(' '))
@@ -142,11 +143,13 @@ namespace Online_Shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePassword(Password_User pu)
         {
-            if(ModelState.IsValid)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            if (ModelState.IsValid)
             {
                 if (!BCrypt.Net.BCrypt.Verify(pu.CurrentPasswordInput, pu.CurrentPassword))
                 {
-                    ModelState.AddModelError("CurrentPassword", "Wrong current password!");
+                    ModelState.AddModelError("CurrentPasswordInput", "Wrong current password!");
                     return View(pu);
                 }else if(pu.CurrentPasswordInput.Equals(pu.NewPassword))
                 {
@@ -165,10 +168,79 @@ namespace Online_Shop.Controllers
             return View(pu);
         }
 
+        public ActionResult UpdateProfile()
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            User user = (User)Session["User"];
+            user.RePassword = user.Password;
+            return View((User)Session["User"]);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProfile(User user, HttpPostedFileBase file)
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            if (ModelState.IsValid)
+            {
+                if (DateTime.Compare(user.Dob, DateTime.Now) > 0)
+                {
+                    ModelState.AddModelError("Dob", "The date of birth is invalid");
+                   
+                    return View(user);
+                }
+                User checkUser = db.Users.FirstOrDefault(u => u.User_name == user.User_name);
+                if (checkUser == null || checkUser.Id == user.Id)
+                {
+                    User user1 = db.Users.Find(user.Id);
+                    user1.RePassword = user.Password;
+                    if (file != null)
+                    {
+                        if (user.Avatar != "")
+                        {
+                            System.IO.File.Delete(Path.Combine(Server.MapPath("~/Include/Images"), user.Avatar));
+                        }
+
+
+                        string InputFileName = Path.GetFileName(file.FileName);
+                        string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
+                        file.SaveAs(ServerSavePath);
+
+                        user.Avatar = InputFileName;
+
+                    }
+                    else
+                    {
+                        user.Avatar = user1.Avatar;
+                    }
+
+                    user.Password = user1.Password;
+                    user.RePassword = user.Password;
+                    db.Entry(user1)
+                        .CurrentValues.SetValues(user);
+                    db.SaveChanges();
+                    Session["Message"] = "Updated profile successfully";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("User_name", "This user name already existed in the Database");
+                   
+                    return View(user);
+                }
+            }
+            return View(user);
+        }
         public ActionResult Logout()
         {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Login", "Home");
+            Session.Remove(Convert.ToString(((User)Session["User"]).Id));
             Session.Remove("User");
             Session.Remove("Total");
+            Session["Message"] = "Logged out successfully";
             return RedirectToAction("Index");
         }
     }

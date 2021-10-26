@@ -1,4 +1,6 @@
-﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
+﻿@using Online_Shop.Models
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link" href="/Admin/Dashboard">
@@ -9,6 +11,8 @@
 
             </a>
         </li>
+        @if (((User)Session["User"]).Role.Name.ToUpper().Equals("ADMIN"))
+        {
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#user" aria-expanded="false" aria-controls="user">
                 <i class="mdi mdi-account-circle menu-icon">    </i>
@@ -36,6 +40,7 @@
                 </ul>
             </div>
         </li>
+        }
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#product" aria-expanded="false" aria-controls="product">
                 <i class="mdi mdi-laptop-chromebook menu-icon"></i>
