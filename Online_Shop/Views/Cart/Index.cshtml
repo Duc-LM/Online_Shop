@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{var id = 0;
-    decimal total = 0;}
+    decimal total = 0;
+    }
 
 <div class="breadcrumbs">
     <div class="container">
@@ -27,7 +28,7 @@
                 <table class="timetable_sub">
                     <thead>
                         <tr>
-
+                            <th>Name</th>
                             <th>Product</th>
 
                             <th>Quantity</th>
@@ -48,13 +49,14 @@
                                 total += item.Product.Price * item.Quantity;
                                 var subtotal = item.Product.Price * item.Quantity;
                             }
+                            <td> <a href="/ProductView/SingleItem/@item.Product.Id" style="display:inline">@item.Product.Name</a></td>
                             <td class="invert-image">
                                 <div style="display:inline">
-                                    
-                                    <a href="/ProductView/SingleItem/@item.Product.Id"  style="display:inline">@item.Product.Name</a>
-                                        <img src="@image" alt=" " href="/ProductView/SingleItem/@item.Product.Id" class="img-responsive"   style="display:inline"/>
+
+
+                                    <img src="@image" alt=" " href="/ProductView/SingleItem/@item.Product.Id" class="img-responsive" style="display:inline" />
                                 </div>
-                                
+
                             </td>
                             <td class="invert">
                                 <div class="quantity">
@@ -84,6 +86,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                         <th id="th">Total Price:</th>
                         <th id="total">$@total</th>
                         <th></th>
@@ -109,7 +112,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     @*<div class="entry value " id="entry-value-@item.Product.Id">@item.Quantity</div>*@
     <script>
-
+        var count = @Model.Count() - 1;
+        
         function Delete(productId) {
             $('.rem-' + productId).fadeOut('slow', function (c) {
                 $('.rem-' + productId).remove();
@@ -124,7 +128,13 @@
                             sum += Number($(this).text().substr(1));
                         });
                         $('#total').text("$" + sum);
-                        $('#total-cart-item').text("$" + sum + "( " +@Model.Count()+" items)");
+                      
+                        
+                       
+                        $('#total-cart-item').text("$" + sum + "( " + (count--) + " items)");
+                        if (count == 0) {
+                            $('.checkout-right animated wow slideInUp').text('<em><b>No Items In Cart</b></em>');
+                        }
                     }
                 });
             });

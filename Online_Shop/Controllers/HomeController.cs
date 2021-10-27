@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Online_Shop.Controllers
 {
@@ -14,6 +15,29 @@ namespace Online_Shop.Controllers
 
         public ActionResult Index()
         {
+            decimal total = 0;
+            if ((User)Session["User"] != null)
+            {
+                List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
+                List<ProductCartItem> items = new List<ProductCartItem>();
+                if (list != null)
+                {
+                    foreach (ProductCart i in list)
+                    {
+                        Product product = db.Products.Find(i.Id);
+                        items.Add(new ProductCartItem()
+                        {
+                            Product = product,
+                            Quantity = i.Quantity
+
+                        });
+                        total += product.Price * i.Quantity;
+                    }
+
+                }
+            }
+
+            Session["Total"] = total;
             return View();
         }
         public ActionResult MailUs()
@@ -47,13 +71,13 @@ namespace Online_Shop.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("User_Name", "Account does not exist!");
+                        ModelState.AddModelError("User_Name", "Incorrect account or password");
                         return View();
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("User_Name", "Account does not exist!");
+                    ModelState.AddModelError("User_Name", "Incorrect account or password");
                     return View();
                 }
             }
@@ -237,7 +261,7 @@ namespace Online_Shop.Controllers
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Login", "Home");
-            Session.Remove(Convert.ToString(((User)Session["User"]).Id));
+           
             Session.Remove("User");
             Session.Remove("Total");
             Session["Message"] = "Logged out successfully";

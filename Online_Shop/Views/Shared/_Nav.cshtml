@@ -124,8 +124,13 @@
                                     {
                                         count = list.Count;
                                     }
+                                    else
+                                    {
+                                        Session["Total"] = 0;
+                                    }
                                 }
                                 <div id="total-cart-item">
+
                                     <span>$@Session["Total"]</span> (@count items)
                                 </div>
 

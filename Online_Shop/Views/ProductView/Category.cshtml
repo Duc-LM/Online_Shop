@@ -1,64 +1,73 @@
 ﻿@model IEnumerable<Online_Shop.Models.Product>
 @using Online_Shop.Utils
+@using Online_Shop.Models
+@using Online_Shop.Models.DTO
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = NavHelper.GetCategories();
     var manufacturers = NavHelper.GetManufacturers();
     var products = NavHelper.GetProducts();
 
-    var counts = new int[] { 0, 3, 6 };
+    List<ProductCart> list =null;
+    if (System.Web.HttpContext.Current.Session["User"] != null) {
+        list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
+        if(list==null)
+        {
+            list = new List<ProductCart>();
+        }
+    }
 }
 
 
 
-    <!-- //header -->
-    <!-- breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-                <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-                <li class="active">Products</li>
-            </ol>
-        </div>
+<!-- //header -->
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Products</li>
+        </ol>
     </div>
-    <div class="products">
-        <div class="container">
-            <div class="col-md-4 products-left">
+</div>
+<div class="products">
+    <div class="container">
+        <div class="col-md-4 products-left">
 
-                <div class="categories animated wow slideInUp" data-wow-delay=".5s">
-                    <h3>Categories</h3>
-                    <ul class="cate">
-                        @foreach (var item in categories)
-                        {
+            <div class="categories animated wow slideInUp" data-wow-delay=".5s">
+                <h3>Categories</h3>
+                <ul class="cate">
+                    @foreach (var item in categories)
+                    {
 
-                            <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+                        <li><a href="/ProductView/@item.Id">@item.Name</a></li>
 
-                        }
-                    </ul>
-                </div>
-                
+                    }
+                </ul>
             </div>
-            <div class="col-md-8 products-right">
-                <div class="products-right-grid">
-                    <div class="products-right-grids animated wow slideInRight" data-wow-delay=".5s">
-                        <div class="sorting">
-                            @using (Html.BeginForm("Category", "ProductView",new { id = TempData["Category_Id"] }, FormMethod.Post))
-                            {
-                                <select id="filter" name="filter"onchange="this.form.submit()" class="frm-field required sect">
-                                    <option value="null">Default sorting</option>
-                                    <option value="decrease">Sort by price: decrease</option>
-                                    <option value="increase">Sort by price: increase</option>
-                                </select>
-                            }
 
-                        </div>
-                       
-                        <div class="clearfix"> </div>
+        </div>
+        <div class="col-md-8 products-right">
+            <div class="products-right-grid">
+                <div class="products-right-grids animated wow slideInRight" data-wow-delay=".5s">
+                    <div class="sorting">
+                        @using (Html.BeginForm("Category", "ProductView", new { id = TempData["Category_Id"] }, FormMethod.Post))
+                        {
+                            <select id="filter" name="filter" onchange="this.form.submit()" class="frm-field required sect">
+                                <option value="null">Default sorting</option>
+                                <option value="decrease">Sort by price: decrease</option>
+                                <option value="increase">Sort by price: increase</option>
+                            </select>
+                        }
+
                     </div>
+
+                    <div class="clearfix"> </div>
                 </div>
+            </div>
 
 
-                @*<div class="products-right-grids-bottom">
+            @*<div class="products-right-grids-bottom">
 
                     @for (int i = 0; i < counts.Length; i++)
                     {
@@ -89,14 +98,14 @@
                     }
 
                 </div>*@
-                <div class="product-box-container">
-                    @foreach (var item in Model)
-                    {
-                        var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
+            <div class="product-box-container">
+                @foreach (var item in Model)
+                {
+                    var image = Path.Combine("/Include/Images/"+ item.Images.Split(';')[0]);
                     <div class="col-md-4 product">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
+                                <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
                                 <div class="new-collections-grid1-image-pos">
                                     <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
                                 </div>
@@ -106,20 +115,68 @@
                             <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
                             <p>@item.Short_desc</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
-                               
-                                <p>$@item.Price  <a class="item_add" href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
+                              
+                                <p>$@item.Price  <input type="button" class="item_add" onclick="AddToCart(@item.Id,@item.Price)" value="Add to cart"></p>
                             </div>
                         </div>
                     </div>
-                        }
-                </div>
-
-
-
-
-
+                }
             </div>
-            <div class="clearfix"> </div>
+
+
+
+
+
         </div>
+        <div class="clearfix"> </div>
     </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var listCart = [];
+        if (JSON.parse('@Html.Raw(Json.Encode(list))') != null) {
+            
+             listCart = JSON.parse('@Html.Raw(Json.Encode(list))');
+        }
+
+        var countItem = listCart.length;
+        function AddToCart(id,price) {
+            if (JSON.parse('@Html.Raw(Json.Encode(list))') == null) {
+                window.location.href = "/Home/Login";
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Cart/AddToCart",
+                data: { id: parseInt(id) },
+                cache: false,
+                success: function () {
+                    alert("Added to cart successfully");
+                    var countCheck = 0;
+                    for (i = 0; i < listCart.length; i++) {
+                        if (listCart[i].Id == id) {
+                            countCheck = 1;
+                            break;
+                        }
+                    };
+                    console.log("count truoc: " + countItem);
+                    if (countCheck == 0) {
+                        countItem = countItem + 1;
+                        listCart.push({Id:id,Quantity:1})
+                    }
+                    console.log("count sau: " + countItem);
+                    console.log(listCart);
+                    var total = Number($('#total-cart-item').text().split('(')[0].trim().substr(1));
+                   
+                    $('#total-cart-item').text("$" + (total + price) + "( " + countItem + " items)");
+                    
+                }
+            });
+        }
+    </script>
+
+
+}
 

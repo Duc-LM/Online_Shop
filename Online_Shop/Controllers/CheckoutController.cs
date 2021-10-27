@@ -14,6 +14,10 @@ namespace Online_Shop.Controllers
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Login", "Home");
+           if (Session[Convert.ToString(((User)Session["User"]).Id)] == null)
+                return RedirectToAction("Index", "Cart");
+            if (((List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)]).Count == 0)
+                return RedirectToAction("Index", "Cart");
             User user = (User)Session["User"];
             Order order = new Order()
             {
