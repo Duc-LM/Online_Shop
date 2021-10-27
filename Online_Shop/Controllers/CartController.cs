@@ -64,7 +64,9 @@ namespace Online_Shop.Controllers
                 foreach (var i in list.Where(p => p.Id == id))
                     i.Quantity += 1;
             }
-            Session["Total"] = (decimal)Session["Total"] + db.Products.Find(id).Price;
+            decimal total = (decimal) Session["Total"];
+            decimal price = db.Products.Find(id).Price;
+            Session["Total"] = (decimal) (total + price);
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
             Session["Message"] = "Added to Cart successfully";
             return RedirectToAction("Index");
