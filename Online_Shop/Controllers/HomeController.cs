@@ -36,9 +36,11 @@ namespace Online_Shop.Controllers
 
                 }
             }
-
             Session["Total"] = total;
-            return View();
+
+            //get new collection
+            var products = db.Products.Where(p => p.Created_at.Year == DateTime.Now.Year).ToList().Take(10);
+            return View(products);
         }
         public ActionResult MailUs()
         {

@@ -4,6 +4,7 @@ namespace Online_Shop.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     [Table("Order")]
     public partial class Order
@@ -55,8 +56,10 @@ namespace Online_Shop.Models
         public int? Promotion_id { get; set; }
 
         public virtual Promotion Promotion { get; set; }
-
+        public int? User_id { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

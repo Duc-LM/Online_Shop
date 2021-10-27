@@ -24,6 +24,7 @@ namespace Online_Shop.Controllers
                 Customer_name = user.Name,
                 Phone_number = user.Phone_number,
                 Place_of_receipt = user.Address,
+                User_id = ((User)Session["User"]).Id
 
             };
             List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(DateTime.Now, p.End_date) < 0).ToList();

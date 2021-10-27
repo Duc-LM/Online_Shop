@@ -1,7 +1,8 @@
 namespace Online_Shop.Models
 {
+    using System;
     using System.Data.Entity;
-    using System.Data.Entity.Validation;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
     public partial class ShopEntities : DbContext
@@ -11,18 +12,6 @@ namespace Online_Shop.Models
         {
         }
 
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                string errorMessages = string.Join("; ", ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.PropertyName + ": " + x.ErrorMessage));
-                throw new DbEntityValidationException(errorMessages);
-            }
-        }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Order_Product> Order_Product { get; set; }
@@ -87,6 +76,11 @@ namespace Online_Shop.Models
             modelBuilder.Entity<User>()
                 .Property(e => e.Phone_number)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Orders)
+                .WithOptional(e => e.User)
+                .HasForeignKey(e => e.User_id);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Order_Product)
