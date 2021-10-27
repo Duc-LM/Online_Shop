@@ -13,12 +13,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
                     </li>
-                   
+
                 </ul>
                 <div class="tab-content py-0 px-0">
                     <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
                         <div class="d-flex flex-wrap justify-content-xl-between">
-                          
+
                             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                 <i class="mdi mdi-currency-usd mr-3 icon-lg text-danger"></i>
                                 <div class="d-flex flex-column justify-content-around">
@@ -40,7 +40,7 @@
                                     <h5 class="mr-2 mb-0">@ViewBag.PendingOrdersCount</h5>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -49,15 +49,12 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-
-                <h1 class="card-title">Highest revenue products</h1>
-                
-            
+                <p class="card-title">Highest revenue products</p>
                 <div class="table-responsive">
-                    <table class="table table-hover ">
+                    <table id="recent-purchases-listing" class="table">
                         <tr>
                             <th>
                                 ID
@@ -134,3 +131,6 @@
         </div>
     </div>
 </div>
+@section Scripts{
+   
+    }

@@ -83,8 +83,8 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
 
                             </td>
                             @*<td>
-                        <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
-                    </td>*@
+                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
+                                </td>*@
                             <td>
                                 <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#changePassword-@item.Id">
                                     Update
@@ -127,39 +127,40 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
                             <td>
                                 <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
 
-                              
+
                                 <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
-                               
+
                             </td>
                         </tr>
                     }
 
                 </table>
-                <div class="pagination">
 
-                    @Html.PagedListPager(Model.Users, page => Url.Action("Index", new { page }), new PagedListRenderOptions
-                                {
-                                         MaximumPageNumbersToDisplay = 5
-
-                                     })
-
-                </div>
 
             </div>
         </div>
     </div>
+</div>  
+ <div class="pagination">
+
+    @Html.PagedListPager(Model.Users, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                {
+                         MaximumPageNumbersToDisplay = 5
+
+                     })
+
 </div>
 @section Scripts{
 
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryunobtrusive")
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script >
+    <script>
         function Delete(UserId) {
             if (confirm('Are you sure you wish to delete this user?')) {
-               
+
                 $.ajax({
                     type: "POST",
                     url: "User/Delete",
@@ -172,7 +173,7 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
                         });
                     }
                 });
-            
+
             }
         }
     </script>
