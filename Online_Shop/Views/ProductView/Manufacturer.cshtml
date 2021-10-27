@@ -1,7 +1,8 @@
-﻿@model IEnumerable<Online_Shop.Models.Product>
+﻿@model PagedList.IPagedList<Online_Shop.Models.Product>
 @using Online_Shop.Utils
 @using Online_Shop.Models
 @using Online_Shop.Models.DTO
+@using PagedList.Mvc
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = NavHelper.GetCategories();
@@ -72,35 +73,35 @@
 
             @*<div class="products-right-grids-bottom">
 
-                    @for (int i = 0; i < counts.Length; i++)
+            @for (int i = 0; i < counts.Length; i++)
+            {
+                var products = Model.Skip(counts[i]).Take(3).ToList();
+
+                <div class="col-md-4 products-right-grids-bottom-grid">
+                    @foreach (var item in products)
                     {
-                        var products = Model.Skip(counts[i]).Take(3).ToList();
 
-                        <div class="col-md-4 products-right-grids-bottom-grid">
-                            @foreach (var item in products)
-                            {
-
-                                var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
-                                <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-                                    <div class="new-collections-grid1-image">
-                                        <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
-                                        <div class="new-collections-grid1-image-pos">
-                                            <a href="/ProductView/SingleItem">Quick View</a>
-                                        </div>
-                                        <div class="new-collections-grid1-right">
-                                        </div>
-                                    </div>
-                                    <h4><a href="single.html">@item.Name</a></h4>
-                                    <p>@item.Short_desc</p>
-                                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                        <p>$@item.Price  <a class="item_add"  href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
-                                    </div>
+                        var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
+                        <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
+                            <div class="new-collections-grid1-image">
+                                <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
+                                <div class="new-collections-grid1-image-pos">
+                                    <a href="/ProductView/SingleItem">Quick View</a>
                                 </div>
-                            }
+                                <div class="new-collections-grid1-right">
+                                </div>
+                            </div>
+                            <h4><a href="single.html">@item.Name</a></h4>
+                            <p>@item.Short_desc</p>
+                            <div class="new-collections-grid1-left simpleCart_shelfItem">
+                                <p>$@item.Price  <a class="item_add"  href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
+                            </div>
                         </div>
                     }
+                </div>
+            }
 
-                </div>*@
+        </div>*@
             <div class="product-box-container">
                 @foreach (var item in Model)
                 {
@@ -118,13 +119,19 @@
                             <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
                             <p>@item.Short_desc</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                <p>$@item.Price  <input type="button" class="item_add" onclick="AddToCart(@item.Id,@item.Price)" value="Add to cart"></p>
+                                $@item.Price <p> <a class="item_add" onclick="AddToCart(@item.Id,@item.Price)" >Add To Cart </a></p>
                             </div>
                         </div>
                     </div>
-                }
+                } <div class="clearfix"> </div>
             </div>
+            <nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
+                @Html.PagedListPager(Model, page => Url.Action("Category", new { page }), new PagedListRenderOptions
+                             {
+                                      MaximumPageNumbersToDisplay = 5
 
+                                  })
+            </nav>
 
 
 

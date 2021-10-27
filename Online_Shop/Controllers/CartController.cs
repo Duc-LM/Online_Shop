@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Online_Shop.Controllers
 {
@@ -35,7 +36,7 @@ namespace Online_Shop.Controllers
                 
             }
             Session["Total"] = total;
-            return View(items);
+            return View(items.ToPagedList(page ?? 1, 10));
 
         }
 

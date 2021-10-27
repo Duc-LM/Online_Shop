@@ -1,5 +1,6 @@
 ﻿@model Online_Shop.Models.DTO.UsersRoles
 @using PagedList.Mvc
+@using Online_Shop.Models
 @{
     ViewBag.Title = "View";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -71,12 +72,14 @@
                             <td width="300px">
                                 @Html.DisplayFor(modelItem => item.Address)
                             </td>
+                            @if (item.Id != ((User)Session["User"]).Id)
+                            {
                             <td>
                                 @using (Html.BeginForm("ChangeRole", "User", new { id = item.Id }, FormMethod.Post))
                                 {
 
                                     @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---" + item.Role.Name + "---",
-new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
+              new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
                                 }
 
 
@@ -130,7 +133,7 @@ new { @class = "form-control", @onchange = "this.form.submit()&&document.locatio
 
                                 <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
 
-                            </td>
+                            </td>}
                         </tr>
                     }
 

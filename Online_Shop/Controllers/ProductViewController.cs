@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Online_Shop.Controllers
 {
@@ -12,7 +13,7 @@ namespace Online_Shop.Controllers
     {
       
 
-        public ActionResult Category(int ? id)
+        public ActionResult Category(int ? id, int? page)
         {
             if(id== null)
             {
@@ -20,11 +21,11 @@ namespace Online_Shop.Controllers
             }
             var products = db.Categories.Find(id).Products;
             TempData["Category_Id"] = id;
-            return View(products);
+            return View(products.ToPagedList(page ?? 1, 9));
         }
 
         [HttpPost]
-        public ActionResult Category(int? id,FormCollection form)
+        public ActionResult Category(int? id,FormCollection form, int? page)
         {
             if (id == null)
             {
@@ -44,9 +45,9 @@ namespace Online_Shop.Controllers
                     break;
               
             }
-            return View(products);
+            return View(products.ToPagedList(page ?? 1, 9));
         }
-        public ActionResult Manufacturer(string name)
+        public ActionResult Manufacturer(string name,int? page)
         {
             List<Product> products = new List<Product>();
             if(string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
@@ -58,10 +59,10 @@ namespace Online_Shop.Controllers
                 products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList();
             }
             TempData["Manufacturer_Name"] = name;
-            return View(products);
+            return View(products.ToPagedList(page ?? 1, 9));
         }
         [HttpPost]
-        public ActionResult Manufacturer(string name, FormCollection form)
+        public ActionResult Manufacturer(string name, FormCollection form, int? page)
         {
             List<Product> products = new List<Product>();
             if (string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
@@ -82,7 +83,7 @@ namespace Online_Shop.Controllers
                 }
             }
             TempData["Manufacturer_Name"] = name;
-            return View(products);
+            return View(products.ToPagedList(page ?? 1, 9));
         }
         public ActionResult SingleItem(int? id)
         {

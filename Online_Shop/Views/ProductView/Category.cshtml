@@ -1,17 +1,19 @@
-﻿@model IEnumerable<Online_Shop.Models.Product>
+﻿@model  PagedList.IPagedList<Online_Shop.Models.Product>
 @using Online_Shop.Utils
 @using Online_Shop.Models
 @using Online_Shop.Models.DTO
+@using PagedList.Mvc
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = NavHelper.GetCategories();
     var manufacturers = NavHelper.GetManufacturers();
     var products = NavHelper.GetProducts();
 
-    List<ProductCart> list =null;
-    if (System.Web.HttpContext.Current.Session["User"] != null) {
+    List<ProductCart> list = null;
+    if (System.Web.HttpContext.Current.Session["User"] != null)
+    {
         list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-        if(list==null)
+        if (list == null)
         {
             list = new List<ProductCart>();
         }
@@ -69,39 +71,40 @@
 
             @*<div class="products-right-grids-bottom">
 
-                    @for (int i = 0; i < counts.Length; i++)
+            @for (int i = 0; i < counts.Length; i++)
+            {
+                var product = Model.Skip(counts[i]).Take(3).ToList();
+
+                <div class="col-md-4 products-right-grids-bottom-grid">
+                    @foreach (var item in product)
                     {
-                        var product = Model.Skip(counts[i]).Take(3).ToList();
 
-                        <div class="col-md-4 products-right-grids-bottom-grid">
-                            @foreach (var item in product)
-                            {
-
-                                var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
-                                <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-                                    <div class="new-collections-grid1-image">
-                                        <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
-                                        <div class="new-collections-grid1-image-pos">
-                                            <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
-                                        </div>
-                                        <div class="new-collections-grid1-right">
-                                        </div>
-                                    </div>
-                                    <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
-                                    <p>@item.Short_desc</p>
-                                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                        <p>$@item.Price  <a class="item_add" href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
-                                    </div>
+                        var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
+                        <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
+                            <div class="new-collections-grid1-image">
+                                <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
+                                <div class="new-collections-grid1-image-pos">
+                                    <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
                                 </div>
-                            }
+                                <div class="new-collections-grid1-right">
+                                </div>
+                            </div>
+                            <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
+                            <p>@item.Short_desc</p>
+                            <div class="new-collections-grid1-left simpleCart_shelfItem">
+                                <p>$@item.Price  <a class="item_add" href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
+                            </div>
                         </div>
                     }
+                </div>
+            }
 
-                </div>*@
+        </div>*@
+
             <div class="product-box-container">
                 @foreach (var item in Model)
                 {
-                    var image = Path.Combine("/Include/Images/"+ item.Images.Split(';')[0]);
+                    var image = Path.Combine("/Include/Images/" + item.Images.Split(';')[0]);
                     <div class="col-md-4 product">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
@@ -115,22 +118,44 @@
                             <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
                             <p>@item.Short_desc</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
-                              
-                                <p>$@item.Price  <input type="button" class="item_add" onclick="AddToCart(@item.Id,@item.Price)" value="Add to cart"></p>
+                                $@item.Price
+                                <p>  <input type="button" class="item_add" onclick="AddToCart(@item.Id,@item.Price)" value="Add to cart"></p>
                             </div>
                         </div>
                     </div>
                 }
+                <div class="clearfix"> </div>
             </div>
+            <nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
+                @Html.PagedListPager(Model, page => Url.Action("Category", new { page }), new PagedListRenderOptions
+                             {
+                                      MaximumPageNumbersToDisplay = 5
 
+                                  })
+            </nav>
+            @*<div class=" pagination  pagination-lg" style="justify-content: center;">
 
+                @Html.PagedListPager(Model, page => Url.Action("Category", new { page }), new PagedListRenderOptions
+                            {
+                                     MaximumPageNumbersToDisplay = 5
 
+                                 })
 
+            </div>*@
 
         </div>
-        <div class="clearfix"> </div>
+
+
+        
     </div>
+
+        <div class="clearfix"> </div>
+
+    </div>
+    
 </div>
+
+
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryunobtrusive")
@@ -138,7 +163,7 @@
     <script>
         var listCart = [];
         if (JSON.parse('@Html.Raw(Json.Encode(list))') != null) {
-            
+
              listCart = JSON.parse('@Html.Raw(Json.Encode(list))');
         }
 
@@ -169,9 +194,9 @@
                     console.log("count sau: " + countItem);
                     console.log(listCart);
                     var total = Number($('#total-cart-item').text().split('(')[0].trim().substr(1));
-                   
+
                     $('#total-cart-item').text("$" + (total + price) + "( " + countItem + " items)");
-                    
+
                 }
             });
         }
