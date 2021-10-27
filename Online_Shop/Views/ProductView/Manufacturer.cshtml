@@ -125,12 +125,16 @@
                     </div>
                 } <div class="clearfix"> </div>
             </div>
-            <nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
-                @Html.PagedListPager(Model, page => Url.Action("Category", new { page }), new PagedListRenderOptions
-                             {
-                                      MaximumPageNumbersToDisplay = 5
+            <nav class="numbering animated wow slideInRight" data-wow-delay=".5s" style="text-align:center">
+                <div class="pagination">
 
-                                  })
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                                {
+                                         MaximumPageNumbersToDisplay = 5
+
+                                     })
+
+                </div>
             </nav>
 
 
