@@ -57,7 +57,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 // add to Db
                 db.Categories.Add(category);
                 db.SaveChanges();
-                TempData["Status"] = "Created Category Successfully";
+                Session["Message"] = " Category Created Successfully";
 
                 return RedirectToAction("Index");
             }
@@ -88,7 +88,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                   .CurrentValues
                   .SetValues(category);
                     db.SaveChanges();
-                    TempData["Status"] = "Updated Category Successfully";
+                    Session["Message"] = "Category Updated Successfully";
                     return RedirectToAction("Index");
                 }
                 else
@@ -108,7 +108,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
-            TempData["Status"] = "Deleted Category Successfully";
+            Session["Message"] = "Category Deleted Successfully";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

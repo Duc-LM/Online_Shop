@@ -109,7 +109,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 userRoles.User.RePassword = userRoles.User.Password;
                 db.Users.Add(userRoles.User);
                 db.SaveChanges();
-                TempData["Status"] = "User Created Successfully";
+                Session["Message"] = "User Created Successfully";
                 return RedirectToAction("Index");
             }
             userRoles.Roles = db.Roles.ToList();
@@ -170,6 +170,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     db.Entry(user)
                         .CurrentValues.SetValues(userRoles.User);
                     db.SaveChanges();
+                    Session["Message"] = "User Update Successfully";
                     return RedirectToAction("Index");
                 }
                 else
@@ -302,7 +303,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Entry(db.Users.Find(pu.User_Id))
                     .CurrentValues.SetValues(user);
                 db.SaveChanges();
-                
+                Session["Message"] = "Password Updated Successfully";
                 return RedirectToAction("Index");
             }
             return View(pu);

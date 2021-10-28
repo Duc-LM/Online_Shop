@@ -74,6 +74,7 @@ namespace Online_Shop.Areas.Admin.Controllers
 
                 db.Promotions.Add(promotion);
                 db.SaveChanges();
+                Session["Message"] = "Promotion Created Successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -116,6 +117,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     .CurrentValues
                     .SetValues(promotion);
                     db.SaveChanges();
+                    Session["Message"] = "Promotion Updated Successfully";
                     return RedirectToAction("Index");
                 }
                 else

@@ -112,7 +112,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Products.Add(pc.Product);
                 db.SaveChanges();
 
-                TempData["Status"] = "Created New Product Successfully!";
+                Session["Message"] = "Product Created Successfully!";
                 return RedirectToAction("Index");
             }
             pc.Categories = db.Categories.ToList();
@@ -174,7 +174,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                       .CurrentValues
                       .SetValues(pc.Product);
                     db.SaveChanges();
-                    TempData["Status"] = "Updated Product Successfully!";
+                    Session["Message"] = "Product Updated Successfully!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -204,7 +204,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             // delete product
             db.Products.Remove(product);
             db.SaveChanges();
-            TempData["Status"] = "Deleted Product Successfully!";
+            Session["Message"] = "Product Deleted Successfully!";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

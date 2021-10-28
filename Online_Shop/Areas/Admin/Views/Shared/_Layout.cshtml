@@ -54,7 +54,18 @@
             @Html.Partial("~/Areas/Admin/Views/Shared/_SideBar.cshtml")
             <!-- partial -->
             <div class="main-panel">
+               
+                    
+               
                 <div class="content-wrapper">
+                    @if (Session["Message"] != null && !Session["Message"].Equals(""))
+                    {
+                        <div class="alert alert-success alert-dismissible ">
+                            <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>@Session["Message"]</strong>
+                        </div>
+                        Session["Message"] = "";
+                    }
 
                     @RenderBody()
                 </div>

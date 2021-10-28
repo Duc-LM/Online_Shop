@@ -86,6 +86,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Entry(order)
                     .CurrentValues.SetValues(opp.Order);
                 db.SaveChanges();
+                Session["Message"] = "Order Updated Successfully";
                 return RedirectToAction("Index");
             }
             List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(p.End_date, DateTime.Now) < 0).ToList();
@@ -138,9 +139,6 @@ namespace Online_Shop.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
+       
     }
 }
