@@ -40,6 +40,9 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 products.Add(db.Products.Find(i.Product));
             }
+            ViewBag.CountUsers = db.Users.ToList().Count;
+            ViewBag.CountProducts = db.Products.ToList().Count;
+            ViewBag.CountOrders = db.Orders.ToList().Count;
             return View(products);
         }
     }
