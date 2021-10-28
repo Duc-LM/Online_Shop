@@ -13,7 +13,7 @@
     <div class="container">
         @if (Session["Message"] != null && !Session["Message"].Equals(""))
         {
-            <div class="alert alert-success alert-dismissible ">
+            <div class="alert alert-success alert-dismissible " id="SessionMessage">
                 <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>@Session["Message"]</strong>
             </div>
@@ -126,7 +126,7 @@
                                     }
                                     else
                                     {
-                                        Session["Total"] = (decimal) 0;
+                                        Session["Total"] = (decimal)0;
                                     }
                                 }
                                 <div id="total-cart-item">
@@ -159,4 +159,7 @@
         </div>
     </div>
 </div>
+<script>
+        $('#SessionMessage').delay(3000).fadeOut('slow');
+</script>
 <!-- //header -->

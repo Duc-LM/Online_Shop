@@ -57,10 +57,10 @@
                
                     
                
-                <div class="content-wrapper">
+                <div class="content-wrapper" >
                     @if (Session["Message"] != null && !Session["Message"].Equals(""))
                     {
-                        <div class="alert alert-success alert-dismissible ">
+                        <div class="alert alert-success alert-dismissible " id="SessionMessage">
                             <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <strong>@Session["Message"]</strong>
                         </div>
@@ -69,6 +69,7 @@
 
                     @RenderBody()
                 </div>
+                
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
                 @Html.Partial("~/Areas/Admin/Views/Shared/_Footer.cshtml")
@@ -99,7 +100,9 @@
     <script src="~/Include/Admin/js/dataTables.bootstrap4.js"></script>
     <!-- End custom js for this page-->
 
-
+    <script>
+        $('#SessionMessage').delay(3000).fadeOut('slow');
+    </script>
 </body>
 
 </html>
