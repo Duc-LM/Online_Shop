@@ -697,6 +697,17 @@ p.est{
     padding: .5em 1em;
     border: 1px solid;
 }
+
+.item_add {
+    font-size: 14px;
+    color: #D8703F;
+    margin: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: .5em 1em;
+    border: 1px solid;
+}
+
 .new-collections-grid1-left p i{
 	color: #999;
 	position:relative;

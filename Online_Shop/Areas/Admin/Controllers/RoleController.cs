@@ -9,7 +9,7 @@ using Online_Shop.Models;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    [SessionAuthorize]
+  
     public class RoleController : BaseController
     {
         // GET: Admin/Role
@@ -104,7 +104,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(role);
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Role role = db.Roles.Find(id);

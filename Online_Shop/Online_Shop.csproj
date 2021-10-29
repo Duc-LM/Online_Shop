@@ -352,6 +352,7 @@
     <Compile Include="Models\DTO\ProductCategory.cs" />
     <Compile Include="Models\DTO\ProductSpec.cs" />
     <Compile Include="Models\DTO\ProductWithCheckSpec.cs" />
+    <Compile Include="Models\DTO\PromotionDesc.cs" />
     <Compile Include="Models\DTO\UserLogin.cs" />
     <Compile Include="Models\DTO\UserRoles.cs" />
     <Compile Include="Models\DTO\UsersRoles.cs" />
@@ -594,6 +595,7 @@
     <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Spec\Details.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Create.cshtml" />
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />

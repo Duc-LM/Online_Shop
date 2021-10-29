@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    [SessionAuthorize]
+    
     public class CategoryController : BaseController
     {
        

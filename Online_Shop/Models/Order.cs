@@ -19,14 +19,17 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [Display(Name ="Customer Name")]
         public string Customer_name { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Phone Number")]
         public string Phone_number { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Place of Receipt")]
         public string Place_of_receipt { get; set; }
 
 
@@ -36,6 +39,7 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         [Display(Name = "Payment Method")]
+
         public string Payment_method { get; set; }
 
         [Display(Name = "Total Price")]
@@ -45,14 +49,14 @@ namespace Online_Shop.Models
         [StringLength(255)]
         public string Status { get; set; }
 
-
+        [Display(Name = "Ship Price")]
         public decimal Ship_price { get; set; }
 
         [Column(TypeName = "date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Created_date { get; set; }
 
-
+        [Display(Name = "Promotion")]
         public int? Promotion_id { get; set; }
 
         public virtual Promotion Promotion { get; set; }

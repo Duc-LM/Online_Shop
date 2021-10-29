@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    [SessionAuthorize]
+   
     public class SpecController : BaseController
     {
         // GET: Admin/Spec

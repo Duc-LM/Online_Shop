@@ -102,28 +102,33 @@ namespace Online_Shop.Controllers
             {
                 if (userRoles.User.User_name.Contains(' '))
                 {
-                    ModelState.AddModelError("User_name", "This name must have no space ");
+                    ModelState.AddModelError("User.User_name", "This name must have no space ");
                     return View();
                 }
                 if (db.Users.Any(m => m.User_name == userRoles.User.User_name))
                 {
-                    ModelState.AddModelError("User_name", "This name already existed in the Database ");
+                    ModelState.AddModelError("User.User_name", "This name already existed in the Database ");
                     return View();
                 }
                 if (userRoles.User.Password == null)
                 {
-                    ModelState.AddModelError("Password", "The password is required");
+                    ModelState.AddModelError("User.Password", "The password is required");
                     return View();
                 }
-               
-                if (db.Users.Any(a => a.Name == userRoles.User.Name))
+
+                if (db.Users.Any(m => m.Email == userRoles.User.Email))
                 {
-                    ModelState.AddModelError("Name", "This name already existed in the Database");
+                    ModelState.AddModelError("User.Email", "This email already existed in the Database ");
+                    return View();
+                }
+                if (db.Users.Any(m => m.Phone_number == userRoles.User.Phone_number))
+                {
+                    ModelState.AddModelError("User.Phone_number", "This phone number already existed in the Database ");
                     return View();
                 }
                 if (DateTime.Compare(userRoles.User.Dob, DateTime.Now) > 0)
                 {
-                    ModelState.AddModelError("Dob", "The date of birth is invalid");
+                    ModelState.AddModelError("User.Dob", "The date of birth is invalid");
                     return View();
                 }
                 if (file != null)
@@ -217,10 +222,25 @@ namespace Online_Shop.Controllers
                    
                     return View(user);
                 }
-                User checkUser = db.Users.FirstOrDefault(u => u.User_name == user.User_name);
-                if (checkUser == null || checkUser.Id == user.Id)
+                if (db.Users.Any(m => m.Email == user.Email && m.Id != user.Id))
                 {
-                    User user1 = db.Users.Find(user.Id);
+                    ModelState.AddModelError("Email", "This email already existed in the Database ");
+                   
+                    return View(user);
+                }
+                if (db.Users.Any(m => m.Phone_number == user.Phone_number && m.Id != user.Id))
+                {
+                    ModelState.AddModelError("Phone_number", "This phone number already existed in the Database ");
+                   
+                    return View(user);
+                }
+                if (db.Users.Any(m => m.User_name == user.User_name && m.Id != user.Id))
+                {
+                    ModelState.AddModelError("User_name", "This user name already existed in the Database");
+                    
+                    return View(user);
+                };
+                User user1 = db.Users.Find(user.Id);
                     user1.RePassword = user.Password;
                     if (file != null)
                     {
@@ -248,14 +268,9 @@ namespace Online_Shop.Controllers
                         .CurrentValues.SetValues(user);
                     db.SaveChanges();
                     Session["Message"] = "Updated profile successfully";
+                Session["User"] = db.Users.Find(user.Id);
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("User_name", "This user name already existed in the Database");
-                   
-                    return View(user);
-                }
+                
             }
             return View(user);
         }

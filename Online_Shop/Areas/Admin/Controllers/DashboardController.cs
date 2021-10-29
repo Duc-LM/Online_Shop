@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    [SessionAuthorize]
+    
     public class DashboardController : BaseController
     {
         // GET: Admin/Dashboard

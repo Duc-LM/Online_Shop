@@ -1,6 +1,7 @@
 ﻿@model Online_Shop.Models.DTO.UsersRoles
 @using PagedList.Mvc
 @using Online_Shop.Models
+@using System.Linq
 @{
     ViewBag.Title = "View";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -21,123 +22,130 @@
                 <h2 class=" card-title">Users:</h2>
                 @Html.Partial("SearchBox")
                 <br />
-                <table class="table">
-                    <tr>
+                @if (Model.Users.Count != 0)
+                {
+                    <table class="table">
+                        <tr>
 
-                        <th>Avatar</th>
-                        <th>Name</th>
-                        <th>User Name</th>
-                        <th>Date of birth</th>
-                        <th>Gender</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Role</th>
-                        <th>Password</th>
-                        <th>Actions</th>
-                    </tr>
+                            <th>Avatar</th>
+                            <th>Name</th>
+                            <th>User Name</th>
+                            <th>Date of birth</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Role</th>
+                            <th>Password</th>
+                            <th>Actions</th>
+                        </tr>
 
-                    @foreach (var item in Model.Users)
-                    {
-                        <tr class="rem-@item.Id">
+                        @foreach (var item in Model.Users)
+                        {
+                            <tr class="rem-@item.Id">
 
-                            <td>
-                                @if (item.Avatar != "")
+                                <td>
+                                    @if (item.Avatar != "")
+                                    {
+                                        var image = Path.Combine("/Include/Images/", item.Avatar);
+                                        <img src="@image" width="200" height="200" />
+                                    }
+                                    else
+                                    {
+                                        <em><b>Not Set</b></em>
+                                    }
+
+
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User_name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dob)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td width="300px">
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                @if (item.Id != ((User)Session["User"]).Id)
                                 {
-                                    var image = Path.Combine("/Include/Images/", item.Avatar);
-                                    <img src="@image" width="200" height="200" />
-                                }
-                                else
-                                {
-                                    <em><b>Not Set</b></em>
-                                }
+                                    <td>
+                                        @using (Html.BeginForm("ChangeRole", "User", new { id = item.Id }, FormMethod.Post))
+                                        {
+
+                                            @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---" + item.Role.Name + "---",
+                       new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
+                                        }
 
 
 
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User_name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Dob)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Gender)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td width="300px">
-                                @Html.DisplayFor(modelItem => item.Address)
-                            </td>
-                            @if (item.Id != ((User)Session["User"]).Id)
-                            {
-                            <td>
-                                @using (Html.BeginForm("ChangeRole", "User", new { id = item.Id }, FormMethod.Post))
-                                {
+                                    </td>
+                                    @*<td>
+                                <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
+                            </td>*@
+                                    <td>
+                                        <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#changePassword-@item.Id">
+                                            Update
+                                        </button>
+                                        @using (Ajax.BeginForm("UpdatePassword", "User", new { id = item.Id }, new AjaxOptions()
+                                        {
+                                            HttpMethod = "POST",
+                                            UpdateTargetId = "frmEmp-" + item.Id,
+                                            InsertionMode = InsertionMode.Replace
+                                        }))
+                                        {
 
-                                    @Html.DropDownList("Role", new SelectList(Model.Roles, "Id", "Name"), "---" + item.Role.Name + "---",
-              new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
-                                }
+                                            <div>
+                                                <div class="modal fade" id="changePassword-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
 
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" id="myModalLabel">Update Password for @item.Name</h4>
 
+                                                                <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
 
-                            </td>
-                            @*<td>
-                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Update", "UpdatePassword", "User", new { id = item.Id }, new { @Style = "display : inline" })</button>
-                                </td>*@
-                            <td>
-                                <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#changePassword-@item.Id">
-                                    Update
-                                </button>
-                                @using (Ajax.BeginForm("UpdatePassword", "User", new { id = item.Id }, new AjaxOptions()
-                                {
-                                    HttpMethod = "POST",
-                                    UpdateTargetId = "frmEmp-" + item.Id,
-                                    InsertionMode = InsertionMode.Replace
-                                }))
-                                {
+                                                                </button>
+                                                            </div>
 
-                                    <div>
-                                        <div class="modal fade" id="changePassword-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
+                                                            <div class="modal-body" id="frmEmp-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
 
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="myModalLabel">Update Password for @item.Name</h4>
-
-                                                        <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body" id="frmEmp-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
-
-                                                        @Html.Partial("_Password", new Online_Shop.Models.DTO.Password() { NewPassword = null, ReNewPassword = null })
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn btn-inverse-primary" value="Save" />
+                                                                @Html.Partial("_Password", new Online_Shop.Models.DTO.Password() { NewPassword = null, ReNewPassword = null })
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="submit" class="btn btn btn-inverse-primary" value="Save" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
 
 
-                                <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
+                                        <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
+                                        @Html.AntiForgeryToken()
 
-                            </td>}
-                        </tr>
-                    }
+                                    </td>}
+                            </tr>
+                        }
 
-                </table>
+                    </table>}
+                else
+                {
+                    <em><b>No Result</b></em>
+                }
 
 
             </div>
@@ -167,7 +175,7 @@
                 $.ajax({
                     type: "POST",
                     url: "User/Delete",
-                    data: { id: parseInt(UserId) },
+                    data: { id: parseInt(UserId), __RequestVerificationToken: $('@Html.AntiForgeryToken()').val()},
                     cache: false,
                     success: function () {
                         console.log(2);

@@ -11,7 +11,7 @@ using PagedList;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    [SessionAuthorize]
+   
     public class UserController : BaseController
     {
 
@@ -64,38 +64,50 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 if (userRoles.User.User_name.Contains(' '))
                 {
-                    ModelState.AddModelError("User_name", "This name must have no space ");
-                    return View();
+                    ModelState.AddModelError("User.User_name", "This name must have no space ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
                 }
                 if (db.Users.Any(m => m.User_name == userRoles.User.User_name))
                 {
-                    ModelState.AddModelError("User_name", "This name already existed in the Database ");
-                    return View();
+                    ModelState.AddModelError("User.User_name", "This name already existed in the Database ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
+                }
+                if (db.Users.Any(m => m.Email == userRoles.User.Email))
+                {
+                    ModelState.AddModelError("User.Email", "This email already existed in the Database ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
+                }
+                if (db.Users.Any(m => m.Phone_number == userRoles.User.Phone_number))
+                {
+                    ModelState.AddModelError("User.Phone_number", "This phone number already existed in the Database ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
                 }
                 if (userRoles.User.Password == null)
                 {
-                    ModelState.AddModelError("Password", "The password is required");
-                    return View();
+                    ModelState.AddModelError("User.Password", "The password is required");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
                 }
                 //if (!userRoles.User.Password.Equals(userRoles.User.RePassword))
                 //{
                 //    ModelState.AddModelError("User_name", "This name must have no space ");
                 //    return View();
                 //}
-                if (db.Users.Any(a => a.Name == userRoles.User.Name))
-                {
-                    ModelState.AddModelError("Name", "This name already existed in the Database");
-                    return View();
-                }
+               
                 if (DateTime.Compare(userRoles.User.Dob, DateTime.Now) > 0)
                 {
-                    ModelState.AddModelError("Dob", "The date of birth is invalid");
-                    return View();
+                    ModelState.AddModelError("User.Dob", "The date of birth is invalid");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
                 }
                 if (file != null)
                 {
 
-                    string InputFileName = userRoles.User.Id + Path.GetFileName(file.FileName);
+                    string InputFileName = (db.Products.ToList().Count + 1).ToString() + Path.GetFileName(file.FileName);
                     string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                     file.SaveAs(ServerSavePath);
 
@@ -137,14 +149,29 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 if (DateTime.Compare(userRoles.User.Dob, DateTime.Now) > 0)
                 {
-                    ModelState.AddModelError("Dob", "The date of birth is invalid");
+                    ModelState.AddModelError("User.Dob", "The date of birth is invalid");
                     userRoles.Roles = db.Roles.ToList();
                     return View(userRoles);
                 }
-                User checkUser = db.Users.FirstOrDefault(u => u.User_name == userRoles.User.User_name);
-                if (checkUser == null || checkUser.Id == userRoles.User.Id)
+                if (db.Users.Any(m => m.Email == userRoles.User.Email && m.Id != userRoles.User.Id))
                 {
-                    User user = db.Users.Find(userRoles.User.Id);
+                    ModelState.AddModelError("User.Email", "This email already existed in the Database ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
+                }
+                if (db.Users.Any(m => m.Phone_number == userRoles.User.Phone_number && m.Id != userRoles.User.Id))
+                {
+                    ModelState.AddModelError("User.Phone_number", "This phone number already existed in the Database ");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
+                }
+                if (db.Users.Any(m => m.User_name == userRoles.User.User_name && m.Id != userRoles.User.Id))
+                {
+                    ModelState.AddModelError("User.User_name", "This user name already existed in the Database");
+                    userRoles.Roles = db.Roles.ToList();
+                    return View(userRoles);
+                };
+                User user = db.Users.Find(userRoles.User.Id);
                     if (file != null)
                     {
                         if (user.Avatar != "")
@@ -172,13 +199,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     db.SaveChanges();
                     Session["Message"] = "User Update Successfully";
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("User_name", "This user name already existed in the Database");
-                    userRoles.Roles = db.Roles.ToList();
-                    return View(userRoles);
-                }
+               
             }
             userRoles.Roles = db.Roles.ToList();
             return View(userRoles);

@@ -43,7 +43,7 @@ namespace Online_Shop.Controllers
                 List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
                
 
-                double total_price = 0;
+                decimal total_price = 0;
                 foreach (ProductCart item in list)
                 {
                     Product product = db.Products.FirstOrDefault(p => p.Id == item.Id);
@@ -52,7 +52,7 @@ namespace Online_Shop.Controllers
                         Session["Message"] = "The order quantity of"+product.Name+" exceeds its quantity in stock";
                         return RedirectToAction("Index", "Cart");
                     }
-                    total_price += (double)product.Price * item.Quantity;
+                    total_price += product.Price * item.Quantity;
                 }
                 foreach (ProductCart item in list)
                 {
@@ -70,7 +70,7 @@ namespace Online_Shop.Controllers
                 op.Order.Note = "";
                 op.Order.Created_date = DateTime.Now;
                 op.Order.Status = "Pending";
-                op.Order.Total_Price = (decimal)((total_price-(total_price * db.Promotions.FirstOrDefault(o => o.Id==op.Order.Promotion_id).Percent_discount / 100)) + (double)op.Order.Ship_price);
+                op.Order.Total_Price = (decimal)(total_price-(total_price * db.Promotions.FirstOrDefault(o => o.Id==op.Order.Promotion_id).Percent_discount / 100)) + op.Order.Ship_price;
                 db.Orders.Add(op.Order);
                 db.SaveChanges();
                 var order_id = op.Order.Id;

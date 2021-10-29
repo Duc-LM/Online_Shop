@@ -104,6 +104,7 @@
                                     <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
                                     <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Detail", "Detail", new { id = item.Id }, new { @Style = "display : inline" })</button>
                                     <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
+                                    @Html.AntiForgeryToken()
                                 </td>
                             </tr>
                         }
@@ -143,7 +144,7 @@
                 $.ajax({
                     type: "POST",
                     url: "Order/Delete",
-                    data: { id: parseInt(Id) },
+                    data: { id: parseInt(Id), __RequestVerificationToken: $('@Html.AntiForgeryToken()').val() },
                     cache: false,
                     success: function () {
                         console.log(2);

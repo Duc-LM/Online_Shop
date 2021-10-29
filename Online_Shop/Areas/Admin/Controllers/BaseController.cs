@@ -8,6 +8,7 @@ using System.Web.Routing;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    [SessionAuthorize]
     public class BaseController : Controller
     {
         protected ShopEntities db = new ShopEntities();

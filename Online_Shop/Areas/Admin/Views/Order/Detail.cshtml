@@ -20,8 +20,8 @@
                             <header>
                                 <div class="row">
                                     <div class="col">
-                                        <a target="_blank" href="https://lobianijs.com">
-                                            <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" />
+                                        <a target="_blank" href="/Home">
+                                            <img src="~/Include/Admin/images/logo.png" data-holder-rendered="true" />
                                         </a>
                                     </div>
                                     <div class="col company-details">
@@ -30,9 +30,9 @@
                                                 QTD SHOP
                                             </a>
                                         </h2>
-                                        <div>455 Foggy Heights, AZ 85004, US</div>
-                                        <div>(123) 456-789</div>
-                                        <div>company@example.com</div>
+                                        <div>455 Vu Tong Phan, Thanh Xuan Distric, Ha Noi</div>
+                                        <div>(+84) 0386 751 567</div>
+                                        <div>laiminhduc99@gmail.com</div>
                                     </div>
                                 </div>
                             </header>
@@ -46,8 +46,8 @@
                                     </div>
                                     <div class="col invoice-details">
                                         <h1 class="invoice-id">INVOICE @Model.Order.Id</h1>
-                                        <div class="date">Date of Invoice: @Model.Order.Created_date</div>
-                                        <div class="date">Due Date: 30/10/2018</div>
+                                        <div class="date">Date of Invoice: @Model.Order.Created_date.ToString("MM/dd/yyyy")</div>
+                                       
                                     </div>
                                 </div>
                                 <table border="0" cellspacing="0" cellpadding="0">
@@ -96,15 +96,20 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2"></td>
+                                            <td colspan="2">SHIP PRICE</td>
+                                            <td>@Model.Order.Ship_price</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
-                                            <td>@Model.Order.Total_Price</td>
+                                            <td>$@Model.Order.Total_Price</td>
                                         </tr>
                                     </tfoot>
                                 </table>
                                 <div class="thanks">Thank you!</div>
                                 <div class="notices">
-                                    <div>NOTICE:</div>
-                                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                                    <div>NOTE:</div>
+                                    <div class="notice">@Model.Order.Note</div>
                                 </div>
                             </main>
                             <footer>
