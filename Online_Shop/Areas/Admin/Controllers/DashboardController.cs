@@ -16,12 +16,13 @@ namespace Online_Shop.Areas.Admin.Controllers
             Decimal revenue = 0;
             foreach (var i in db.Orders)
             {
+                if(i.Status== "Completed")
                 revenue += (decimal) (i.Total_Price - i.Ship_price);
             }
             ViewBag.Revenue = revenue;
 
             Decimal revenueMonth = 0;
-            foreach (var i in db.Orders.Where(o => o.Created_date.Month == DateTime.Now.Month))
+            foreach (var i in db.Orders.Where(o => o.Created_date.Month == DateTime.Now.Month && o.Status=="Completed"))
             {
                 revenueMonth += (decimal)(i.Total_Price - i.Ship_price);
             }
