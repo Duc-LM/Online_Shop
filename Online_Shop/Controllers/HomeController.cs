@@ -39,7 +39,7 @@ namespace Online_Shop.Controllers
             Session["Total"] = total;
 
             //get new collection
-            var products = db.Products.Where(p => p.Created_at.Year == DateTime.Now.Year).ToList().Take(6);
+            var products = db.Products.Where(p => p.Created_at.Year == DateTime.Now.Year).ToList().Take(8);
             return View(products);
         }
         public ActionResult MailUs()

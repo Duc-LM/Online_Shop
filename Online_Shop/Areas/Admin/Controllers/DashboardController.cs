@@ -13,17 +13,17 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public ActionResult Index()
         {
-            Double revenue = 0;
+            Decimal revenue = 0;
             foreach (var i in db.Orders)
             {
-                revenue += (double) (i.Total_Price - i.Ship_price);
+                revenue += (decimal) (i.Total_Price - i.Ship_price);
             }
             ViewBag.Revenue = revenue;
 
-            Double revenueMonth = 0;
+            Decimal revenueMonth = 0;
             foreach (var i in db.Orders.Where(o => o.Created_date.Month == DateTime.Now.Month))
             {
-                revenueMonth += (double)(i.Total_Price - i.Ship_price);
+                revenueMonth += (decimal)(i.Total_Price - i.Ship_price);
             }
             ViewBag.RevenueMonth = revenueMonth;
 

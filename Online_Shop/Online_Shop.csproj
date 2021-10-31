@@ -633,7 +633,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\PaginationStyle.css" />
     <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Home\MailUs.cshtml" />
     <Content Include="Views\ProductView\Category.cshtml" />
     <Content Include="Views\ProductView\Manufacturer.cshtml" />
     <Content Include="Views\ProductView\SingleItem.cshtml" />
@@ -649,8 +648,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Web.Config">
       <SubType>Designer</SubType>
