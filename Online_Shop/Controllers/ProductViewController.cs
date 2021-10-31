@@ -46,8 +46,9 @@ namespace Online_Shop.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ICollection<Product> products = db.Categories.Find(id).Products;
+            var products = db.Categories.Find(id).Products.ToList();
             TempData["Category_Id"] = id;
+            TempData["Categories"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
         }
 
@@ -93,6 +94,7 @@ namespace Online_Shop.Controllers
                 products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList();
             }
             TempData["Manufacturer_Name"] = name;
+            TempData["Manufacturers"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
         }
         [HttpPost]
