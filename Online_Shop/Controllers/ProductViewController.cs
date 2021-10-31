@@ -36,6 +36,12 @@ namespace Online_Shop.Controllers
 
         public ActionResult Category(int? id, int? page)
         {
+            var list = (List<Product>)TempData["Categories"];
+            if(list != null)
+            {
+                TempData["Categories"] = list;
+                return View(list.ToPagedList(page ?? 1, 9));
+            }
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -66,10 +72,17 @@ namespace Online_Shop.Controllers
                     break;
 
             }
+            TempData["Categories"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
         }
         public ActionResult Manufacturer(string name, int? page)
         {
+            var list = (List<Product>)TempData["Manufacturers"];
+            if( list != null)
+            {
+                TempData["Manufacturers"] = list;
+                return View(list.ToPagedList(page ?? 1, 9));
+            }
             List<Product> products = new List<Product>();
             if (string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
             {
@@ -104,6 +117,7 @@ namespace Online_Shop.Controllers
                 }
             }
             TempData["Manufacturer_Name"] = name;
+            TempData["Manufacturers"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
         }
         public ActionResult SingleItem(int? id)
