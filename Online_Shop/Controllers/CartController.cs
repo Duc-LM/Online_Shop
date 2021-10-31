@@ -113,7 +113,8 @@ namespace Online_Shop.Controllers
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-            foreach (var i in list.Where(p => p.Id == id))
+            int stock = db.Products.Find(id).Quantity;
+            foreach (var i in list.Where(p => p.Id == id && p.Quantity < stock))
                 i.Quantity += 1;
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
             Session["Total"] = (decimal)Session["Total"] + db.Products.Find(id).Price;

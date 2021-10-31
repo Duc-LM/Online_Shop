@@ -65,7 +65,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             var promotionDescs = new List<PromotionDesc>();
             foreach( var item in promotions)
             {
-                promotionDescs.Add(new PromotionDesc { Id = item.Id, Desc = "(Percent Discount: " + item.Percent_discount + "): " + item.Short_desc });
+                promotionDescs.Add(new PromotionDesc { Id = item.Id, Desc = "(Discount: " + item.Percent_discount + "%): " + item.Short_desc });
             }
             // List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == id).ToList();
             OrderProductsPromotions orderProductsPromotions = new OrderProductsPromotions()
@@ -105,13 +105,16 @@ namespace Online_Shop.Areas.Admin.Controllers
                 {
                     opp.Order.Note = "";
                 }
+                var orderFind = db.Orders.Find(opp.Order.Id);
+                db.Promotions.Find(orderFind.Promotion_id).Quantity_left = db.Promotions.Find(orderFind.Promotion_id).Quantity_left + 1;
                 db.Entry(order)
                     .CurrentValues.SetValues(opp.Order);
+                db.Promotions.Find(opp.Order.Promotion_id).Quantity_left = db.Promotions.Find(opp.Order.Promotion_id) .Quantity_left- 1;
                 db.SaveChanges();
                 Session["Message"] = "Order Updated Successfully";
                 return RedirectToAction("Index");
             }
-            List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(p.End_date, DateTime.Now) < 0).ToList();
+            List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(p.End_date, DateTime.Now) < 0 && p.Quantity_left > 0).ToList();
             List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == opp.Order.Id ).ToList();
             var promotionDescs = new List<PromotionDesc>();
             foreach (var item in promotions)

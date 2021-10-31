@@ -42,7 +42,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Order.Place_of_receipt, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Order.Place_of_receipt, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Order.Place_of_receipt, new { htmlAttributes = new { @class = "form-control" , onchange="ShipPriceCount(this.value)"} })
                             @Html.ValidationMessageFor(model => model.Order.Place_of_receipt, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 
                         @Html.LabelFor(model => model.Order.Promotion_id, "Promotion_id", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Order.Promotion_id, new SelectList(Model.Promotions, "Id", "Name"), htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Order.Promotion_id, new SelectList(Model.Promotions, "Id", "Desc"), htmlAttributes: new { @class = "form-control" , onclick="Discount(this)"})
                             @Html.ValidationMessageFor(model => model.Order.Promotion_id, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -85,13 +85,22 @@
                     </div>
                 </div>
             }
-            <div class="checkout-left">
-
-                <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
-                    <a href="/Cart"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back To Cart</a>
+                <div class="checkout-left">
+                    <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
+                        <h4>About Bill</h4>
+                        <ul>
+                            <li>Sub Total:  <span id="SubTotal">$@Session["Total"] </span></li>
+                            <li >Ship Price:  <span id="Ship_price">$@ViewBag.Ship_Price</span></li>
+                            <li>Discount: <i></i> <span id="Discount">$0 </span></li>
+                            <li> <i></i> <span></span></li>
+                            <li>Total <i>-</i> <span id="Total">$@((decimal)Session["Total"] + ViewBag.Ship_Price)</span></li>
+                        </ul>
+                    </div>
+                    <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+                        <a href="/Cart"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back To Cart</a>
+                    </div>
+                    <div class="clearfix"> </div>
                 </div>
-                <div class="clearfix"> </div>
-            </div>
             @*<div>
                     @Html.ActionLink("Back to Cart", "Index", "Cart")
                 </div>*@
@@ -101,4 +110,36 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    var promotionList = JSON.parse('@Html.Raw(Json.Encode(Model.Promotions))');
+
+    function Discount(e) {
+        var clientId = $(e).find('option:selected').val();
+        console.log(clientId);
+        var desc = "";
+        for (i = 0; i < promotionList.length; i++) {
+            if (promotionList[i].Id == clientId) {
+                console.log(typeof (promotionList[i].Desc));
+                desc = promotionList[i].Desc;
+                desc = desc.split(')')[0].split(' ')[1];
+                desc = desc.substr(0, desc.length - 1);
+                console.log(desc);
+                $('#Discount').text(desc + "%");
+                $('#Total').text('$' + Math.round(Number($('#SubTotal').text().substr(1)) * (100 - Number(desc)) / 100 + Number($('#Ship_price').text().substr(1)
+                )));
+            }
+               
+        }
+    }
+    function ShipPriceCount(val) {
+        console.log(val.toLowerCase());
+        var ship_price = 20
+        if (val.toString().toLowerCase().includes("ha noi") || val.toString().toLowerCase().includes("hà nội")) {
+            console.log(val + "  true");
+            ship_price = 10;
+        }
+        $('#Ship_price').text("$" + ship_price);
+        $('#Total').text('$' + Math.round(Number($('#SubTotal').text().substr(1)) * (100 - Number($('#Discount').text().substr(0, $('#Discount').text().length -1 ))) / 100 + ship_price));
+    }
+    </script>
 }

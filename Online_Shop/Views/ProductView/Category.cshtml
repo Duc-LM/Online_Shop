@@ -115,18 +115,22 @@
                                 <div class="new-collections-grid1-right">
                                 </div>
                             </div>
-                            <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
+                            <h4><a href="/ProductView/SingleItem/@item.Id" style="text-align:center">@item.Name</a></h4>
                             <p>@item.Short_desc</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                $@item.Price
-                                <p>  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
+                                <p style="text-align:center">$@item.Price</p>
+                                @if (item.Quantity > 0)
+                                {
+                                    <p style="text-align:center">  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
+                                }
+                                else
+                                { <p style="text-align:center">  <a  class="item_add">Out Of Stock</a></p>}
                             </div>
                         </div>
                     </div>
                 }
                 <div class="clearfix"> </div>
-            </div>
-            <nav class="numbering animated wow slideInRight" data-wow-delay=".5s" style="text-align:center">
+            </div><nav class="numbering animated wow slideInRight" data-wow-delay=".5s" style="text-align:center">
                 <div class="pagination">
 
                     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions

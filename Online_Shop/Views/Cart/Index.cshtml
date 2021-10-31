@@ -69,7 +69,7 @@
                                 </div>
                             </td>
 
-                            <td class="invert">@item.Product.Quantity</td>
+                            <td class="invert" id="quantity-@item.Product.Id">@item.Product.Quantity</td>
                             <td class="invert item-price-@item.Product.Id">$@item.Product.Price</td>
                             <td class="invert subtotal item-subtotal-@item.Product.Id">$@subtotal</td>
                             <td class="invert">
@@ -152,9 +152,13 @@
 
         $('.value-plus').on('click', function () {
             var divUpd = $(this).parent().find('.value');
-            let newVal = parseInt(divUpd.text(), 10) + 1;
-            divUpd.text(newVal);
             var itemId = $(this).data('itemid');
+            
+            console.log(parseInt($('#quantity-' + itemId).text()));
+            let newVal = (parseInt(divUpd.text(), 10)) < parseInt($('#quantity-' + itemId).text(), 10) ? (parseInt(divUpd.text(), 10) + 1) : parseInt(divUpd.text(), 10);
+            console.log(newVal);
+            divUpd.text(newVal);
+            
             var itemPrice = Number($(".item-price-" + itemId).text().substr(1));
             $(".item-subtotal-" + itemId).text("$" + itemPrice * newVal);
 
