@@ -32,10 +32,9 @@
 <!-- collections -->
 <div class="new-collections">
     <div class="container">
-        <h3 class="animated wow zoomIn" data-wow-delay=".5s">New Collections</h3>
+        <h2 class="animated wow zoomIn" data-wow-delay=".5s">New Collections</h2>
         <p class="est animated wow zoomIn" data-wow-delay=".5s">
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.
+            
         </p>
         <div class="new-collections-grids">
             <div class="product-box-container">
@@ -52,7 +51,7 @@
                                 </div>
                             </div>
                             <h4><a href="/ProductView/SingleItem/@item.Id" style="text-align:center">@item.Name</a></h4>
-                            <p>@item.Short_desc </p>
+                            <p>@(item.Short_desc.Substring(0,20)+"...") </p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
                                 <p style="text-align:center">$@item.Price</p>
                                 @if (item.Quantity > 0)
