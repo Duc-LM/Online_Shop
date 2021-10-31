@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using PagedList;
 using System;
@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    
     public class PromotionController : BaseController
     {
         // GET: Admin/Promotion
@@ -60,11 +61,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Begin_date", "Begin date must not be earlier than now");
                     return View();
                 }
-                if (DateTime.Compare(promotion.End_date, DateTime.Now) < 0)
-                {
-                    ModelState.AddModelError("End_date", "End date must not be earlier than now");
-                    return View();
-                }
+               
                 if (DateTime.Compare(promotion.Begin_date, promotion.End_date) > 0)
                 {
                     ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
@@ -73,6 +70,7 @@ namespace Online_Shop.Areas.Admin.Controllers
 
                 db.Promotions.Add(promotion);
                 db.SaveChanges();
+                Session["Message"] = "Promotion Created Successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -115,6 +113,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     .CurrentValues
                     .SetValues(promotion);
                     db.SaveChanges();
+                    Session["Message"] = "Promotion Updated Successfully";
                     return RedirectToAction("Index");
                 }
                 else
@@ -127,7 +126,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(promotion);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Promotion promotion = db.Promotions.Find(id);

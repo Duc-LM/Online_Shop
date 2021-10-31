@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using PagedList;
@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+  
     public class ProductController : BaseController
     {
         // GET: Admin/Product
@@ -90,7 +91,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                         //Checking file is available to save.  
                         if (file != null)
                         {
-                            string InputFileName = pc.Product.Id.ToString() + Path.GetFileName(file.FileName);
+                            string InputFileName = (db.Products.ToList().Count+1).ToString() + Path.GetFileName(file.FileName);
                             string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                             //Save file to server folder  
                             file.SaveAs(ServerSavePath);
@@ -111,7 +112,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Products.Add(pc.Product);
                 db.SaveChanges();
 
-                TempData["Status"] = "Created New Product Successfully!";
+                Session["Message"] = "Product Created Successfully!";
                 return RedirectToAction("Index");
             }
             pc.Categories = db.Categories.ToList();
@@ -173,7 +174,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                       .CurrentValues
                       .SetValues(pc.Product);
                     db.SaveChanges();
-                    TempData["Status"] = "Updated Product Successfully!";
+                    Session["Message"] = "Product Updated Successfully!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -190,7 +191,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Product product = db.Products.Find(id);
@@ -203,7 +204,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             // delete product
             db.Products.Remove(product);
             db.SaveChanges();
-            TempData["Status"] = "Deleted Product Successfully!";
+            Session["Message"] = "Product Deleted Successfully!";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

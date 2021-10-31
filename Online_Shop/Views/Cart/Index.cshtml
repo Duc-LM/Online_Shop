@@ -1,111 +1,205 @@
-﻿@model IEnumerable<Online_Shop.Models.DTO.ProductCartItem>
+﻿@model PagedList.IPagedList<Online_Shop.Models.DTO.ProductCartItem>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{var id = 0;
-    decimal total = 0;}
+    decimal total = 0;
+}
 
-
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Cart</li>
+        </ol>
+    </div>
+</div>
 <div class="checkout">
     <div class="container">
-        <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
-            <table class="timetable_sub">
-                <thead>
-                    <tr>
+        @if (Model.Count() == 0)
+        {
+            <em><b>No Items In Cart</b></em>
+        }
+        else
+        {
+            <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
 
-                        <th>Product</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model)
-                {
-                    <tr class="rem-@id">
-                        @{
-                            var InputFileName = item.Product.Images.Split(';')[0];
-                            var image = Path.Combine("/Include/Images/", InputFileName);
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Product</th>
 
-                            id++;
-                            total += item.Product.Price * item.Quantity;
-                        }
-                        <td class="invert-image"><a href="single.html"><img src="@image" alt=" " class="img-responsive" /></a></td>
-                        <td class="invert">
-                            <div class="quantity">
-                                <div class="quantity-select">
-                                    <div class="entry value-minus"
-                                         onclick="SubStract(@item.Product.Id, @item.Product.Price)">&nbsp;</div>
-                                    <div class="entry value"><span>@item.Quantity</span></div>
-                                    <div class="entry value-plus active" onclick="PlusQuantity(@item.Product.Id,@item.Product.Price)">&nbsp;</div>
+                            <th>Quantity</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th> Total Price</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="rem-@item.Product.Id">
+                            @{
+                                var InputFileName = item.Product.Images.Split(';')[0];
+                                var image = Path.Combine("/Include/Images/", InputFileName);
+
+                                id++;
+                                total += item.Product.Price * item.Quantity;
+                                var subtotal = item.Product.Price * item.Quantity;
+                            }
+                            <td> <a href="/ProductView/SingleItem/@item.Product.Id" style="display:inline">@item.Product.Name</a></td>
+                            <td class="invert-image">
+                                <div style="display:inline">
+
+
+                                    <img src="@image" alt=" " href="/ProductView/SingleItem/@item.Product.Id" class="img-responsive" style="display:inline" />
                                 </div>
-                            </div>
-                        </td>
-                        <td class="invert">@item.Product.Name</td>
-                        <td class="invert">$@item.Product.Price</td>
-                        <td class="invert">$@total</td>
-                        <td class="invert">
-                            <div class="rem">
-                                <div class="close-@id" id="@item.Product.Id"> </div>
-                            </div>
-                        </td>
-                    </tr>
+
+                            </td>
+                            <td class="invert">
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <div class="entry value-minus" data-itemId="@item.Product.Id">-</div>
+                                        <div class="entry value @item.Product.Id"><span>@item.Quantity</span></div>
+                                        <div class="entry value-plus active" data-itemId="@item.Product.Id">+</div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="invert" id="quantity-@item.Product.Id">@item.Product.Quantity</td>
+                            <td class="invert item-price-@item.Product.Id">$@item.Product.Price</td>
+                            <td class="invert subtotal item-subtotal-@item.Product.Id">$@subtotal</td>
+                            <td class="invert">
+                                <div class="rem">
+                                    <input type="button" value="X" onclick="Delete(@item.Product.Id)" />
+                                </div>
+
+                            </td>
+                        </tr>
 
 
-                }
-                <thread>
+                    }
 
                     <tr>
                         <th></th>
                         <th></th>
                         <th></th>
-
+                        <th></th>
                         <th id="th">Total Price:</th>
-                        <th id="total"> @total</th>
+                        <th id="total">$@total</th>
+                        <th></th>
+                    </tr>
 
-                </thread>
-            </table>
-        </div>
+                </table>
+                <div class="pagination">
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                                {
+                                         MaximumPageNumbersToDisplay = 5
+
+                                     })
+
+                </div>
+                <div class="checkout-left">
+
+                    <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+                        <a href="/Checkout/Create"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Checkout</a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>}
+
+
     </div>
 </div>
 <!-- //checkout -->
 @section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<div class="entry value " id="entry-value-@item.Product.Id">@item.Quantity</div>*@
     <script>
-        $(document).ready(function (c) {
-            $('.close-@id').on('click', function (c) {
-                $('.rem-@id').fadeOut('slow', function (c) {
-                    $('.rem-@id').remove();
-                });
+        var count = @Model.Count() - 1;
+
+        function Delete(productId) {
+            $('.rem-' + productId).fadeOut('slow', function (c) {
+                $('.rem-' + productId).remove();
                 $.ajax({
                     type: "POST",
                     url: "/Cart/DeleteItem",
-                    data: { id: id },
-                    cache: false
+                    data: { id: parseInt(productId) },
+                    cache: false,
+                    success: function () {
+                        let sum = 0;
+                        $(".subtotal").each(function () {
+                            sum += Number($(this).text().substr(1));
+                        });
+                        $('#total').text("$" + sum);
+
+
+
+                        $('#total-cart-item').text("$" + sum + "( " + (count--) + " items)");
+                        if (count == 0) {
+                            $('.checkout-right animated wow slideInUp').text('<em><b>No Items In Cart</b></em>');
+                        }
+                    }
                 });
             });
-        });
-        function SubStract(producId, price) {
-            $.ajax({
-                type: "POST",
-                url: "/Cart/SubtractQuantity",
-                data: { id: producId },
-                cache: false
-            });
-            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-            if (newVal >= 1) divUpd.text(newVal);
-            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) - price;
         }
-        function PlusQuantity(productId, price) {
-            $.ajax({
-                type: "POST",
-                url: "/Cart/PlusQuantity",
-                data: { id: producId },
-                cache: false
-            });
-            var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value');
+            var itemId = $(this).data('itemid');
+            
+            console.log(parseInt($('#quantity-' + itemId).text()));
+            let newVal = (parseInt(divUpd.text(), 10)) < parseInt($('#quantity-' + itemId).text(), 10) ? (parseInt(divUpd.text(), 10) + 1) : parseInt(divUpd.text(), 10);
+            console.log(newVal);
             divUpd.text(newVal);
-            document.getElementById("total").innerHTML = parseFloat(document.getElementById("total")) + price;
-        }
+            
+            var itemPrice = Number($(".item-price-" + itemId).text().substr(1));
+            $(".item-subtotal-" + itemId).text("$" + itemPrice * newVal);
+
+            $.ajax({
+                type: "POST",
+                url: "/Cart/PlusQuantity/",
+                data: { id: parseInt(itemId) },
+                cache: false,
+                success: function () {
+                    let sum = 0;
+                    $(".subtotal").each(function () {
+                        sum += Number($(this).text().substr(1));
+                    });
+                    $('#total').text("$" + sum);
+                     $('#total-cart-item').text("$" + sum + "( " +@Model.Count()+" items)");
+                }
+            });
+        });
+
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value');
+            let newVal = parseInt(divUpd.text(), 10) - 1 <= 0 ? 1 : parseInt(divUpd.text(), 10) - 1;
+            divUpd.text(newVal);
+            var itemId = $(this).data('itemid');
+            var itemPrice = Number($(".item-price-" + itemId).text().substr(1));
+            $(".item-subtotal-" + itemId).text("$" + itemPrice * newVal);
+
+            $.ajax({
+                type: "POST",
+                url: "/Cart/SubstractQuantity/",
+                data: { id: parseInt(itemId) },
+                cache: false,
+                success: function () {
+                    let sum = 0;
+                    $(".subtotal").each(function () {
+                        sum += Number($(this).text().substr(1));
+                    });
+                    $('#total').text("$" + sum);
+                     $('#total-cart-item').text("$" + sum + "( " +@Model.Count()+" items)");
+                }
+            });
+        });
     </script>
 }

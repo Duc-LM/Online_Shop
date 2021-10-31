@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+   
     public class SpecController : BaseController
     {
         // GET: Admin/Spec
@@ -40,7 +41,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 db.Specs.Add(ps.Spec);
                 db.SaveChanges();
-                ViewBag.Status = "Added Specification Successfully!";
+                Session["Message"] = "Specification Added Successfully!";
                 return RedirectToAction("Index", "Product");
             }
             ps.Product = db.Products.Find(ps.Spec.Product_id);
@@ -67,7 +68,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 db.Entry(db.Specs.FirstOrDefault(s => s.Product_id == ps.Spec.Product_id))
                     .CurrentValues.SetValues(ps.Spec);
                 db.SaveChanges();
-                TempData["Status"] = "Updated Spec Successfully";
+                Session["Message"] = "Specification Updated Successfully";
                 return RedirectToAction("Index", "Product");
             }
             ps.Product = db.Products.Find(ps.Spec.Product_id);
@@ -81,7 +82,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == productId);
             db.Specs.Remove(spec);
             db.SaveChanges();
-            TempData["Status"] = "Deleted Spec Successfully";
+            Session["Message"] = "Specification Deleted Successfully";
             return RedirectToAction("Index", "Product");
         }
     }

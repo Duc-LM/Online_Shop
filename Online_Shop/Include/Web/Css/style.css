@@ -315,7 +315,7 @@ a.simpleCart_empty {
 /*-- //header --*/
 /*-- banner --*/
 .banner{
-	background:url(../images/banner.jpg) no-repeat 0px 0px;
+	background:url(../images/banner.png) no-repeat 0px 0px;
 	background-size:cover;
 	-webkit-background-size:cover;
 	-moz-background-size:cover;
@@ -697,6 +697,17 @@ p.est{
     padding: .5em 1em;
     border: 1px solid;
 }
+
+.item_add {
+    font-size: 14px;
+    color: #D8703F;
+    margin: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: .5em 1em;
+    border: 1px solid;
+}
+
 .new-collections-grid1-left p i{
 	color: #999;
 	position:relative;
@@ -2343,7 +2354,6 @@ td.invert-image a img {
 }
 .checkout-right-basket{
 	float: right;
-    margin: 8em 0 0 0em;
 }
 .checkout-left-basket ul li span {
     float: right;

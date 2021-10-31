@@ -12,12 +12,12 @@
 
 
                 @using (Html.BeginForm())
-                @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+         
                 {
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <h4>Category</h4>
+                       
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.Id)

@@ -1,4 +1,4 @@
-﻿using Online_Shop.Controllers;
+﻿
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using Online_Shop.Models;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+  
     public class RoleController : BaseController
     {
         // GET: Admin/Role
@@ -60,7 +61,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 }
                 db.Roles.Add(role);
                 db.SaveChanges();
-                TempData["Status"] = "Role Created Successfully";
+                Session["Message"] = "Role Created Successfully";
 
                 return RedirectToAction("Index");
             }
@@ -90,7 +91,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                   .CurrentValues
                   .SetValues(role);
                     db.SaveChanges();
-                    TempData["Status"] = "Updated Category Successfully";
+                    Session["Message"] = "Category Updated Successfully";
                     return RedirectToAction("Index");
                 }
                 else

@@ -31,113 +31,119 @@
             </div>
         </div>*@
                 <br />
-                <div class="table-responsive">
-                    <table class="table table-hover ">
-                        <tr>
-                            <th>
-                                ID
-                            </th>
+                @if (Model.Count != 0)
+                {
 
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Images
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                Updated Date
-                            </th>
-                            <th>
-                                Category
-                            </th>
-                            <th>Specification</th>
-                            <th>Actions</th>
-                            <th>Information</th>
-                        </tr>
 
-                        @foreach (var item in Model)
-                        {
-
+                    <div class="table-responsive">
+                        <table class="table table-hover ">
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Id)
-                                </td>
+                                <th>
+                                    ID
+                                </th>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Name)
-                                </td>
-                                <td>
-                                    @{
-                                        var InputFileName = item.Product.Images.Split(';')[0];
-                                        var image = Path.Combine("/Include/Images/", InputFileName);
-                                    }
-                                    <img src="@image" width="200" height="200" />
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Price)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Updated_at)
-                                </td>
-                                <td>
-                                    @if (item.Product.Category != null)
-                                    {@Html.DisplayFor(modelItem => item.Product.Category.Name)}
-                                else
-                                {
-                                    <em><b>Not Set</b></em>
-                                }
-                                </td>
-                                <td>
-                                    @if (item.CheckSpec)
-                                    {
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Images
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Updated Date
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>Specification</th>
+                                <th>Actions</th>
+                                <th>Information</th>
+                            </tr>
 
-                                        <button type="button" class="btn btn-inverse-primary ">
-                                            @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
-                                        </button>
-                                        using (Html.BeginForm("Delete", "Spec", new { productId = item.Product.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this Specification?');" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr class="rem-@item.Product.Id">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.Id)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.Name)
+                                    </td>
+                                    <td>
+                                        @{
+                                            var InputFileName = item.Product.Images.Split(';')[0];
+                                            var image = Path.Combine("/Include/Images/", InputFileName);
                                         }
-                                    }
+                                        <img src="@image" width="200" height="200" />
+                                    </td>
+                                    <td>
+                                        $@Html.DisplayFor(modelItem => item.Product.Price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.Updated_at)
+                                    </td>
+                                    <td>
+                                        @if (item.Product.Category != null)
+                                        {@Html.DisplayFor(modelItem => item.Product.Category.Name)}
                                     else
                                     {
-                                        <button type="button" class="btn btn-inverse-success ">
-                                            @Html.ActionLink("Add Specification", "Create", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
+                                        <em><b>Not Set</b></em>
+                                    }
+                                    </td>
+                                    <td>
+                                        @if (item.CheckSpec)
+                                        {
+
+                                            <button type="button" class="btn btn-inverse-primary ">
+                                                @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
+                                            </button>
+                                            using (Html.BeginForm("Delete", "Spec", new { productId = item.Product.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this Specification?');" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class=" btn btn-inverse-danger">Delete</button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-inverse-success ">
+                                                @Html.ActionLink("Add Specification", "Create", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
+                                            </button>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-inverse-primary ">
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Product.Id }, new { @Style = "display: inline" })
                                         </button>
-                                    }
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-inverse-primary ">
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Product.Id }, new { @Style = "display: inline" })
-                                    </button>
 
-                                    @using (Html.BeginForm("Delete", "Product", new { id = item.Product.Id }, FormMethod.Post, new { @Style = "display: inline", onclick = "return confirm('Are you sure you wish to delete this product?');" }))
-                                    {
+                                        <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Product.Id)" value="Delete">
                                         @Html.AntiForgeryToken()
-                                        <button type="submit" class=" btn btn-inverse-danger">Delete</button>
-                                    }
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-inverse-primary ">
-                                        @Html.ActionLink("Details", "Details", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
-                                    </button>
-                                </td>
-                            </tr>
-                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-inverse-primary ">
+                                            @Html.ActionLink("Details", "Details", "Spec", new { productId = item.Product.Id }, new { @Style = "display: inline" })
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
 
-                    </table>
-                </div>
+                        </table>
+                    </div>}
+                else
+                {
+                    <em><b>No Result</b></em>
+                }
             </div>
+
         </div>
     </div>
 </div>
@@ -150,3 +156,34 @@
                      })
 
 </div>
+@section Scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function Delete(Id) {
+            if (confirm('Are you sure you wish to delete this role?')) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "Product/Delete",
+                    data: { id: parseInt(Id),__RequestVerificationToken: $('@Html.AntiForgeryToken()').val() },
+                    cache: false,
+                    success: function () {
+                        console.log(2);
+                        $('.rem-' + Id).fadeOut('slow', function (c) {
+                            $('.rem-' + Id).remove();
+                        });
+                    }
+                });
+
+            }
+        }
+    </script>
+
+
+
+}

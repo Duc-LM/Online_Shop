@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Majestic Admin</title>
+    <title>QTD Admin</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="~/Include/Admin/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="~/Include/Admin/vendors/base/vendor.bundle.base.css">
@@ -23,10 +23,27 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Include/Web/Scripts/jquery.validate.min.js"></script>
-
+    <!-- plugins:js -->
+    <script src="vendors/base/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="~/Include/Admin/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/Include/Admin/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="~/Include/Admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="~/Include/Admin/js/off-canvas.js"></script>
+    <script src="~/Include/Admin/js/hoverable-collapse.js"></script>
+    <script src="~/Include/Admin/js/template.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="~/Include/Admin/js/dashboard.js"></script>
+    <script src="~/Include/Admin/js/data-table.js"></script>
+    <script src="~/Include/Admin/js/jquery.dataTables.js"></script>
+    <script src="~/Include/Admin/js/dataTables.bootstrap4.js"></script>
+    <!-- End custom js for this page-->
     @Scripts.Render("~/bundles/jquery")
-    @Styles.Render("~/Content/DevExtremeBundle")
-    @Scripts.Render("~/Scripts/DevExtremeBundle")
+
 </head>
 <body>
     <div class="container-scroller">
@@ -37,10 +54,22 @@
             @Html.Partial("~/Areas/Admin/Views/Shared/_SideBar.cshtml")
             <!-- partial -->
             <div class="main-panel">
-                <div class="content-wrapper">
+               
+                    
+               
+                <div class="content-wrapper" >
+                    @if (Session["Message"] != null && !Session["Message"].Equals(""))
+                    {
+                        <div class="alert alert-success alert-dismissible " id="SessionMessage">
+                            <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>@Session["Message"]</strong>
+                        </div>
+                        Session["Message"] = "";
+                    }
 
                     @RenderBody()
                 </div>
+                
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
                 @Html.Partial("~/Areas/Admin/Views/Shared/_Footer.cshtml")
@@ -71,7 +100,9 @@
     <script src="~/Include/Admin/js/dataTables.bootstrap4.js"></script>
     <!-- End custom js for this page-->
 
-
+    <script>
+        $('#SessionMessage').delay(3000).fadeOut('slow');
+    </script>
 </body>
 
 </html>

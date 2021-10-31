@@ -1,16 +1,18 @@
-﻿using Online_Shop.Controllers;
-using Online_Shop.Models;
+﻿using Online_Shop.Models;
 using PagedList;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
+    
     public class CategoryController : BaseController
     {
-        // GET: Admin/Category
-        public ActionResult Index(int? page)
+       
+            // GET: Admin/Category
+            public ActionResult Index(int? page)
         {
             var categories = (from c in db.Categories
                               select c).OrderBy(a => a.Id);
@@ -55,7 +57,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 // add to Db
                 db.Categories.Add(category);
                 db.SaveChanges();
-                TempData["Status"] = "Created Category Successfully";
+                Session["Message"] = " Category Created Successfully";
 
                 return RedirectToAction("Index");
             }
@@ -86,7 +88,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                   .CurrentValues
                   .SetValues(category);
                     db.SaveChanges();
-                    TempData["Status"] = "Updated Category Successfully";
+                    Session["Message"] = "Category Updated Successfully";
                     return RedirectToAction("Index");
                 }
                 else
@@ -100,13 +102,13 @@ namespace Online_Shop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
-            TempData["Status"] = "Deleted Category Successfully";
+            Session["Message"] = "Category Deleted Successfully";
             return RedirectToAction("Index");
             //return Json(new { success = true, message = "Deleted" }, JsonRequestBehavior.AllowGet);
         }

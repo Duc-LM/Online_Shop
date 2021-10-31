@@ -1,8 +1,162 @@
-﻿
+﻿@model IEnumerable<Online_Shop.Models.Product>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body dashboard-tabs p-0">
+                <ul class="nav nav-tabs px-4" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content py-0 px-0">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <div class="d-flex flex-wrap justify-content-xl-between">
+
+                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                <i class="mdi mdi-currency-usd mr-3 icon-lg text-danger"></i>
+                                <div class="d-flex flex-column justify-content-around">
+                                    <small class="mb-1 text-muted">Revenue</small>
+                                    <h5 class="mr-2 mb-0">$@ViewBag.Revenue</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                <i class="mdi mdi-eye mr-3 icon-lg text-success"></i>
+                                <div class="d-flex flex-column justify-content-around">
+                                    <small class="mb-1 text-muted">Revenue Month: @DateTime.Now.Month</small>
+                                    <h5 class="mr-2 mb-0">$@ViewBag.RevenueMonth</h5>
+                                </div>
+                            </div>
+                            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                <i class="mdi mdi-download mr-3 icon-lg text-warning"></i>
+                                <div class="d-flex flex-column justify-content-around">
+                                    <small class="mb-1 text-muted">Pending Orders</small>
+                                    <h5 class="mr-2 mb-0">@ViewBag.PendingOrdersCount</h5>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" >
+    <div class="col-md-4 grid-margin stretch-card" >
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Total Users:</p>
+                <h1>@ViewBag.CountUsers</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Total Products:</p>
+                <h1>@ViewBag.CountProducts</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 grid-margin stretch-card" >
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Total Orders:</p>
+                <h1>@ViewBag.CountOrders</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Highest revenue products</p>
+                <div class="table-responsive">
+                    <table id="recent-purchases-listing" class="table">
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Images
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Updated Date
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>Information</th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @{
+                                        var InputFileName = item.Images.Split(';')[0];
+                                        var image = Path.Combine("/Include/Images/", InputFileName);
+                                    }
+                                    <img src="@image" width="200" height="200" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated_at)
+                                </td>
+                                <td>
+                                    @if (item.Category != null)
+                                    {@Html.DisplayFor(modelItem => item.Category.Name)}
+                                else
+                                {
+                                    <em><b>Not Set</b></em>
+                                }
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-inverse-primary ">
+                                        @Html.ActionLink("Details", "Details", "Spec", new { productId = item.Id }, new { @Style = "display: inline" })
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+   
+    }

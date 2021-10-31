@@ -6,7 +6,7 @@ namespace Online_Shop.Models.DTO
     {
         public Order Order { get; set; }
 
-        public List<Promotion> Promotions { get; set; }
+        public List<PromotionDesc> Promotions { get; set; }
 
         public List<Order_Product> Order_Products { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
+﻿@using Online_Shop.Models
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link" href="/Admin/Dashboard">
@@ -9,33 +11,37 @@
 
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#user" aria-expanded="false" aria-controls="user">
-                <i class="mdi mdi-account-circle menu-icon">    </i>
-                <span class="menu-title">User</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapsing" id="user">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/User/Create">New User</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/User">Manage Users</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#role" aria-expanded="false" aria-controls="role">
-                <i class="mdi mdi-account-card-details menu-icon">    </i>
-                <span class="menu-title">Role</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapsing" id="role">
-                <ul class="nav flex-column sub-menu">
+        @if (((User)Session["User"]).Role.Name.ToUpper().Equals("ADMIN"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#user" aria-expanded="false" aria-controls="user">
+                    <i class="mdi mdi-account-circle menu-icon">    </i>
+                    <span class="menu-title">User</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapsing" id="user">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="/Admin/User">Manage Users</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/Admin/User/Create">New User</a></li>
 
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/Role/Create">New Role</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/Role">Manage Roles</a></li>
-                </ul>
-            </div>
-        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#role" aria-expanded="false" aria-controls="role">
+                    <i class="mdi mdi-account-card-details menu-icon">    </i>
+                    <span class="menu-title">Role</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapsing" id="role">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="/Admin/Role">Manage Roles</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/Admin/Role/Create">New Role</a></li>
+
+                    </ul>
+                </div>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#product" aria-expanded="false" aria-controls="product">
                 <i class="mdi mdi-laptop-chromebook menu-icon"></i>
@@ -44,8 +50,9 @@
             </a>
             <div class="collapsing" id="product">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/Product/Create">New Product</a></li>
                     <li class="nav-item"> <a class="nav-link" href="/Admin/Product">Manage Products</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/Admin/Product/Create">New Product</a></li>
+
                 </ul>
             </div>
         </li>
@@ -57,8 +64,9 @@
             </a>
             <div class="collapsing" id="promotion">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/Promotion/Create">New Promotion</a></li>
                     <li class="nav-item"> <a class="nav-link" href="/Admin/Promotion">Manage Promotion</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/Admin/Promotion/Create">New Promotion</a></li>
+
                 </ul>
             </div>
         </li>
@@ -70,8 +78,9 @@
             </a>
             <div class="collapsing" id="category">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="/Admin/Category/Create">New Category</a></li>
                     <li class="nav-item"> <a class="nav-link" href="/Admin/Category">Manage Categories</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/Admin/Category/Create">New Category</a></li>
+
                 </ul>
             </div>
         </li>

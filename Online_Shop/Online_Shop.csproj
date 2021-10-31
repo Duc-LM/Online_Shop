@@ -323,13 +323,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\CartController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SessionAuthorizeAttribute.cs" />
     <Compile Include="Areas\Admin\Controllers\SpecController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -345,11 +346,13 @@
     <Compile Include="Models\DTO\OrderProductsPromotions.cs" />
     <Compile Include="Models\DTO\OrderPromotions.cs" />
     <Compile Include="Models\DTO\Password.cs" />
+    <Compile Include="Models\DTO\Password_User.cs" />
     <Compile Include="Models\DTO\ProductCart.cs" />
     <Compile Include="Models\DTO\ProductCartItem.cs" />
     <Compile Include="Models\DTO\ProductCategory.cs" />
     <Compile Include="Models\DTO\ProductSpec.cs" />
     <Compile Include="Models\DTO\ProductWithCheckSpec.cs" />
+    <Compile Include="Models\DTO\PromotionDesc.cs" />
     <Compile Include="Models\DTO\UserLogin.cs" />
     <Compile Include="Models\DTO\UserRoles.cs" />
     <Compile Include="Models\DTO\UsersRoles.cs" />
@@ -592,15 +595,16 @@
     <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Spec\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Spec\Details.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Create.cshtml" />
     <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\User\UpdatePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\_Password.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\SearchBox.cshtml" />
+    <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <None Include="Include\Web\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Include\Web\Scripts\classie.js" />
     <Content Include="Include\Web\Scripts\imagezoom.js" />
@@ -630,16 +634,16 @@
     <Content Include="Scripts\PaginationStyle.css" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\MailUs.cshtml" />
-    <Content Include="Views\Shared\_Filter.cshtml" />
     <Content Include="Views\ProductView\Category.cshtml" />
     <Content Include="Views\ProductView\Manufacturer.cshtml" />
     <Content Include="Views\ProductView\SingleItem.cshtml" />
     <Content Include="libman.json" />
-    <Content Include="Views\Shared\_Category.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Checkout\Create.cshtml" />
+    <Content Include="Views\Home\UpdatePassword.cshtml" />
+    <Content Include="Views\Home\UpdateProfile.cshtml" />
     <None Include="Views\Shared\_Nav.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -648,11 +652,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Web.Config">
       <SubType>Designer</SubType>
     </Content>
@@ -665,10 +664,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Cart\" />
     <Folder Include="Include\Images\" />
-    <Folder Include="Views\Login\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Include\Web\fonts\glyphicons-halflings-regular.woff2" />

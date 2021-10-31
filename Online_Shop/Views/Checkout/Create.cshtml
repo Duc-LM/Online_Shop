@@ -3,65 +3,143 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Create Order</h2>
-
-@using (Html.BeginForm("Create", "Checkout", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>Order</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Customer_name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Order.Customer_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Order.Customer_name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Phone_number, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Order.Phone_number, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Order.Phone_number, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Place_of_receipt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Order.Place_of_receipt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Order.Place_of_receipt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Created_date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Order.Created_date, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Order.Status, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Order.Total_Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Order.Total_Price, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-12">
-                <input type="submit" value="Make Order" class="btn btn-inverse-primary" />
-            </div>
-        </div>
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active">Checkout</li>
+        </ol>
     </div>
-}
-<div>
-    @Html.ActionLink("Back to List", "Index")
+</div>
+<div class="checkout">
+    <div class="container">
+        <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
+
+
+
+            @using (Html.BeginForm("Create", "Checkout", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <h3>Order</h3>
+                    <hr />
+                    @Html.HiddenFor(model => model.Order.User_id)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Order.Customer_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Order.Customer_name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Order.Customer_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Order.Phone_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Order.Phone_number, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Order.Phone_number, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Order.Place_of_receipt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Order.Place_of_receipt, new { htmlAttributes = new { @class = "form-control" , onchange="ShipPriceCount(this.value)"} })
+                            @Html.ValidationMessageFor(model => model.Order.Place_of_receipt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Order.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Order.Note, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Order.Note, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Order.Payment_method, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Order.Payment_method, new List<SelectListItem>() {
+                                new SelectListItem { Selected = false, Text = "Cash On Delivery", Value = "Cash On Delivery"},
+                                new SelectListItem { Selected = false, Text = "Transfer money", Value = "Transfer money (Card ID: 123456789)" },
+
+                            }, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.Order.Payment_method, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.Order.Promotion_id, "Promotion_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Order.Promotion_id, new SelectList(Model.Promotions, "Id", "Desc"), htmlAttributes: new { @class = "form-control" , onclick="Discount(this)"})
+                            @Html.ValidationMessageFor(model => model.Order.Promotion_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.Order.Total_Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => model.Order.Total_Price, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Make Order" class="btn btn-inverse-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+                <div class="checkout-left">
+                    <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
+                        <h4>About Bill</h4>
+                        <ul>
+                            <li>Sub Total:  <span id="SubTotal">$@Session["Total"] </span></li>
+                            <li >Ship Price:  <span id="Ship_price">$@ViewBag.Ship_Price</span></li>
+                            <li>Discount: <i></i> <span id="Discount">$0 </span></li>
+                            <li> <i></i> <span></span></li>
+                            <li>Total <i>-</i> <span id="Total">$@((decimal)Session["Total"] + ViewBag.Ship_Price)</span></li>
+                        </ul>
+                    </div>
+                    <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+                        <a href="/Cart"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back To Cart</a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            @*<div>
+                    @Html.ActionLink("Back to Cart", "Index", "Cart")
+                </div>*@
+        </div>
+
+    </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    var promotionList = JSON.parse('@Html.Raw(Json.Encode(Model.Promotions))');
+
+    function Discount(e) {
+        var clientId = $(e).find('option:selected').val();
+        console.log(clientId);
+        var desc = "";
+        for (i = 0; i < promotionList.length; i++) {
+            if (promotionList[i].Id == clientId) {
+                console.log(typeof (promotionList[i].Desc));
+                desc = promotionList[i].Desc;
+                desc = desc.split(')')[0].split(' ')[1];
+                desc = desc.substr(0, desc.length - 1);
+                console.log(desc);
+                $('#Discount').text(desc + "%");
+                $('#Total').text('$' + Math.round(Number($('#SubTotal').text().substr(1)) * (100 - Number(desc)) / 100 + Number($('#Ship_price').text().substr(1)
+                )));
+            }
+               
+        }
+    }
+    function ShipPriceCount(val) {
+        console.log(val.toLowerCase());
+        var ship_price = 20
+        if (val.toString().toLowerCase().includes("ha noi") || val.toString().toLowerCase().includes("hà nội")) {
+            console.log(val + "  true");
+            ship_price = 10;
+        }
+        $('#Ship_price').text("$" + ship_price);
+        $('#Total').text('$' + Math.round(Number($('#SubTotal').text().substr(1)) * (100 - Number($('#Discount').text().substr(0, $('#Discount').text().length -1 ))) / 100 + ship_price));
+    }
+    </script>
 }
