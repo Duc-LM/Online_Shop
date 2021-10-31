@@ -42,7 +42,16 @@
                     @foreach (var item in categories)
                     {
 
-                        <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+                        <li><a href="/ProductView/Category/@item.Id">@item.Name</a></li>
+
+                    }
+                </ul>
+                <h3>Manufacturers</h3>
+                <ul class="cate">
+                    @foreach (var item in manufacturers)
+                    {
+
+                    <li>@Html.ActionLink(item, "Manufacturer", "ProductView", new { name = item }, FormMethod.Get)</li>
 
                     }
                 </ul>
@@ -116,7 +125,7 @@
                                 </div>
                             </div>
                             <h4><a href="/ProductView/SingleItem/@item.Id" style="text-align:center">@item.Name</a></h4>
-                            <p>@(item.Short_desc.Substring(0, 20) + "...")</p>
+                            <p>@(item.Short_desc.Substring(0, 15) + "...")</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
                                 <p style="text-align:center">$@item.Price</p>
                                 @if (item.Quantity > 0)

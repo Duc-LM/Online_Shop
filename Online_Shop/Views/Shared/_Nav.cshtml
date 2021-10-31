@@ -96,7 +96,7 @@
                                                 <h6>Manufacturer</h6>
                                                 @foreach (var item in manufacturers)
                                                 {
-                                                    <li><a href="/ProductView/Manufacturer/@item">@item</a></li>
+                                                    <li>@Html.ActionLink(item, "Manufacturer", "ProductView", new { name = item}, FormMethod.Get)</li>
                                                 }
                                             </ul>
                                         </div>

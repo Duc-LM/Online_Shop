@@ -42,7 +42,16 @@
                     @foreach (var item in categories)
                     {
 
-                        <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+                        <li><a href="/ProductView/Category/@item.Id">@item.Name</a></li>
+
+                    }
+                </ul>
+                <h3>Manufacturers</h3>
+                <ul class="cate">
+                    @foreach (var item in manufacturers)
+                    {
+
+                    <li>@Html.ActionLink(item, "Manufacturer", "ProductView", new { name = item }, FormMethod.Get)</li>
 
                     }
                 </ul>
