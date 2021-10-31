@@ -2,6 +2,7 @@
 using Online_Shop.Models;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -13,6 +14,12 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Promotion
         public ActionResult Index(int? page)
         {
+            var list = (List<Promotion>)TempData["Promotions"];
+            if (list != null)
+            {
+                TempData["Promotions"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
             if (page == null)
             {
                 page = 1;
@@ -31,13 +38,15 @@ namespace Online_Shop.Areas.Admin.Controllers
                 var promotions = (from p in db.Promotions.Where(a => a.Name.Contains(searchString) || 
                                   a.Percent_discount.ToString().Contains(searchString) ||
                                   a.Short_desc.Contains(searchString))
-                             select p).OrderBy(a => a.Id);
+                             select p).OrderBy(a => a.Id).ToList();
+                TempData["Promotions"] = promotions;
                 return View(promotions.ToPagedList(page ?? 1, 10));
             }
             else
             {
                 var promotions = (from p in db.Promotions
-                             select p).OrderBy(a => a.Id);
+                             select p).OrderBy(a => a.Id).ToList();
+                TempData["Promotions"] = promotions;
                 return View(promotions.ToPagedList(page ?? 1, 10));
             }
         }

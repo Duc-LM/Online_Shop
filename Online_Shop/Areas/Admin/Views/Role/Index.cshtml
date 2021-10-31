@@ -13,9 +13,9 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <button type="button" class="btn btn-inverse-primary">
-                    @Html.ActionLink("Create New Role", "Create", "Role")
-                </button>
+               
+                    @Html.ActionLink("Create New Role", "Create", "Role", new { type = "button", @class="btn btn-inverse-primary"})
+                
                 <br />
                 <br />
 
@@ -48,7 +48,7 @@
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline" })</button>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { Style = "display: inline", type = "button", @class="btn btn-inverse-primary" })
 
                                         <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
                                         @Html.AntiForgeryToken()

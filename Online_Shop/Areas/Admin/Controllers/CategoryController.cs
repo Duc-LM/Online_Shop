@@ -1,42 +1,49 @@
 ﻿using Online_Shop.Models;
 using PagedList;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-    
+
     public class CategoryController : BaseController
     {
-       
-            // GET: Admin/Category
-            public ActionResult Index(int? page)
+
+        // GET: Admin/Category
+        public ActionResult Index(int? page)
         {
-            var categories = (from c in db.Categories
-                              select c).OrderBy(a => a.Id);
+            List<Category> list = (List<Category>)TempData["Categories"];
+            if (list != null)
+            {
+                TempData["Categories"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
+            IOrderedQueryable<Category> categories = (from c in db.Categories
+                                                      select c).OrderBy(a => a.Id);
             return View(categories.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
         public ActionResult Index(string searchString, int? page)
         {
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                var categories = (from c in db.Categories.Where(a => a.Name.Contains(searchString) ||                         
+                List<Category> categories = (from c in db.Categories.Where(a => a.Name.Contains(searchString) ||
                                   a.Short_desc.Contains(searchString))
-                                  select c).OrderBy(a => a.Id);
+                                             select c).OrderBy(a => a.Id).ToList();
+                TempData["Categories"] = categories;
                 return View(categories.ToPagedList(page ?? 1, 10));
             }
             else
             {
-                var categories = (from c in db.Categories
-                                  select c).OrderBy(a => a.Id);
+                List<Category> categories = (from c in db.Categories
+                                             select c).OrderBy(a => a.Id).ToList();
+                TempData["Categories"] = categories;
                 return View(categories.ToPagedList(page ?? 1, 10));
             }
         }
-    
+
         public ActionResult Create()
         {
             return View();

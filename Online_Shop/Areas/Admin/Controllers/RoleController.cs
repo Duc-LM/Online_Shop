@@ -15,6 +15,12 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Role
         public ActionResult Index(int? page)
         {
+            var list = (List<Role>)TempData["Roles"];
+            if (list!= null)
+            {
+                TempData["Roles"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
             if (page == null)
             {
                 page = 1;
@@ -31,13 +37,15 @@ namespace Online_Shop.Areas.Admin.Controllers
             if (!String.IsNullOrEmpty(searchString)) 
             {
                 var roles = (from r in db.Roles.Where(a => a.Name.Contains(searchString))
-                             select r).OrderBy(a => a.Id);
+                             select r).OrderBy(a => a.Id).ToList();
+                TempData["Roles"] = roles;
                 return View(roles.ToPagedList(page ?? 1, 10));
             }
            else
             {
                 var roles = (from r in db.Roles
-                             select r).OrderBy(a => a.Id);
+                             select r).OrderBy(a => a.Id).ToList();
+                TempData["Roles"] = roles;
                 return View(roles.ToPagedList(page ?? 1, 10));
             }          
         }

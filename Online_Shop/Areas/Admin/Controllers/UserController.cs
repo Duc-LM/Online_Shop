@@ -18,6 +18,12 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/User
         public ActionResult Index(int? page)
         {
+            var list = (List<User>)TempData["Users"];
+            if(list!=null)
+            {
+                TempData["Users"] = list;
+                return View(new UsersRoles() { Users = list.ToPagedList(page ?? 1, 10), Roles = db.Roles.ToList()});
+            }
             var users = db.Users.ToList().ToPagedList(page ?? 1, 10);
             List<Role> roles = db.Roles.ToList();
             UsersRoles usersRoles = new UsersRoles() { Users = users, Roles = roles };
@@ -34,12 +40,15 @@ namespace Online_Shop.Areas.Admin.Controllers
                 a.User_name.Contains(searchString) ||
                 a.Email.Contains(searchString) ||
                 a.Phone_number.Contains(searchString)).ToList().ToPagedList(page ?? 1, 10);
-
+                TempData["Users"] = db.Users.Where(a => a.Name.Contains(searchString) ||
+                a.User_name.Contains(searchString) ||
+                a.Email.Contains(searchString) ||
+                a.Phone_number.Contains(searchString)).ToList();
             }
             else
             {
                  users = db.Users.ToList().ToPagedList(page ?? 1, 10);
-
+                TempData["Users"] = db.Users.ToList();
             }
 
             List<Role> roles = db.Roles.ToList();

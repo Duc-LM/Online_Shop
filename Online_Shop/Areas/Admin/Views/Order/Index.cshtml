@@ -101,8 +101,18 @@
                                      new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
                                     }
                                 <td>
-                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @Style = "display : inline" })</button>
-                                    <button type="button" class="btn btn-inverse-primary">@Html.ActionLink("Detail", "Detail", new { id = item.Id }, new { @Style = "display : inline" })</button>
+                                    @using (Html.BeginForm("Edit", "Order", new { id = item.Id }, FormMethod.Get, new { @Style = "display : inline" }))
+                                    {
+                                        <button type="submit" class="btn btn-inverse-primary ">
+                                            Edit
+                                        </button>
+                                    }
+                                    @using (Html.BeginForm("Detail", "Order", new { id = item.Id }, FormMethod.Get, new { @Style = "display : inline" }))
+                                    {
+                                        <button type="submit" class="btn btn-inverse-primary ">
+                                            Detail
+                                        </button>
+                                    }
                                     <input type="button" class=" btn btn-inverse-danger" onclick="Delete(@item.Id)" value="Delete">
                                     @Html.AntiForgeryToken()
                                 </td>

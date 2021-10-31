@@ -15,6 +15,18 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index(int? page)
         {
+            var list = (List<Order>)TempData["Search"];
+            if (list != null)
+            {
+                TempData["Search"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
+             list = (List<Order>)TempData["Status"];
+            if (list != null)
+            {
+                TempData["Status"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
             List<Order> orders = new List<Order>();
 
             orders = db.Orders.OrderByDescending(o => o.Status).ToList();
@@ -33,7 +45,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 orders = db.Orders.Where(o => o.Status == status).ToList();
             }
-
+            TempData["Status"] = orders;
             return View(orders.ToPagedList(page ?? 1, 10));
         }
         [HttpPost]
@@ -51,6 +63,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             {
                 orders = db.Orders.OrderByDescending(o => o.Status).ToList();
             }
+            TempData["Search"] = orders;
             return View("Index", orders.ToPagedList(page ?? 1, 10));
         }
         public ActionResult Edit(int? id)

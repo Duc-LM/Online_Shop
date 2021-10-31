@@ -17,7 +17,13 @@ namespace Online_Shop.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int? page)
         {
-            List<Product> productList = db.Products.ToList();
+            var list = (List < ProductWithCheckSpec >)TempData["Products"];
+            if(list != null)
+            {
+                TempData["Products"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
+            List <Product> productList = db.Products.ToList();
             List<ProductWithCheckSpec> productsWithCheckSpec = new List<ProductWithCheckSpec>();
             foreach (Product item in productList)
             {
@@ -27,8 +33,8 @@ namespace Online_Shop.Areas.Admin.Controllers
                     CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
                 });
             }
-            IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec
-                                                                 select p).OrderBy(a => a.Product.Id);
+            var products = (from p in productsWithCheckSpec
+                                                                 select p).OrderBy(a => a.Product.Id).ToList();
            
             return View(products.ToPagedList(page ?? 1, 10));
         }
@@ -48,18 +54,19 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(searchString))
             {
-                IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec.Where(a => a.Product.Name.Contains(searchString) ||
+                var products = (from p in productsWithCheckSpec.Where(a => a.Product.Name.Contains(searchString) ||
                                   a.Product.Price.ToString().Contains(searchString) ||
                                   a.Product.Short_desc.Contains(searchString) ||
                                   a.Product.Category.Name.Contains(searchString)
                                   )
-                                                                     select p).OrderBy(a => a.Product.Id);
+                                                                     select p).OrderBy(a => a.Product.Id).ToList();
+                TempData["Products"] = products;
                 return View(products.ToPagedList(page ?? 1, 10));
             }
             else
             {
-                IOrderedEnumerable<ProductWithCheckSpec> products = (from p in productsWithCheckSpec
-                                                                     select p).OrderBy(a => a.Product.Id);
+                var products = (from p in productsWithCheckSpec select p).OrderBy(a => a.Product.Id).ToList();
+                TempData["Products"] = products;
                 return View(products.ToPagedList(page ?? 1, 10));
             }
         }

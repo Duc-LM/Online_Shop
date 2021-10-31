@@ -69,9 +69,9 @@
                         <div style=" margin: 0 auto;display: inline-block">
                             <h4>
 
-                                <button type="button" class="btn btn-inverse-primary btn-sm " style="position: absolute; float:right; right: 110px; ">
-                                    @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = Model.Product.Id })
-                                </button>
+                            
+                                @Html.ActionLink("Edit Specification", "Edit", "Spec", new { productId = Model.Product.Id }, new { type = "button", @class="btn btn-inverse-primary btn-sm ", @style="position: absolute; float:right; right: 110px; "})
+                               
                                 @using (Html.BeginForm("Delete", "Spec", new { productId = Model.Product.Id }, FormMethod.Post, new { @Style = "position: absolute; float:right;right: 38px;", onclick = "return confirm('Are you sure you wish to delete this Specification?');" }))
                                 {
                                 @Html.AntiForgeryToken()

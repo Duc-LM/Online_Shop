@@ -1,39 +1,60 @@
 ﻿using Online_Shop.Models;
 using Online_Shop.Models.DTO;
-using System;
+using PagedList;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using PagedList;
 
 namespace Online_Shop.Controllers
 {
     public class ProductViewController : BaseController
     {
-      
-
-        public ActionResult Category(int ? id, int? page)
+        public ActionResult Index(int? page, string searchString)
         {
-            if(id== null)
+            List<Product> list = (List<Product>)TempData["Products"];
+            if ( list  != null)
             {
-                return RedirectToAction("Index", "Home");
+                TempData["Products"] = list;
+                return View(list.ToPagedList(page ?? 1, 9));
             }
-            var products = db.Categories.Find(id).Products;
-            TempData["Category_Id"] = id;
+            List<Product> products = db.Products.ToList();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+               products = db.Products.Where(a => a.Name.Contains(searchString) ||
+                                  a.Price.ToString().Contains(searchString) ||
+                                  a.Short_desc.Contains(searchString) ||
+                                  a.Category.Name.Contains(searchString)
+                                  ).ToList();
+                TempData["Products"] = products;
+                return View(products.ToPagedList(page ?? 1, 9));
+            }
+
+            TempData["Products"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
+
         }
 
-        [HttpPost]
-        public ActionResult Category(int? id,FormCollection form, int? page)
+        public ActionResult Category(int? id, int? page)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var products = db.Categories.Find(id).Products.ToList();
+            ICollection<Product> products = db.Categories.Find(id).Products;
+            TempData["Category_Id"] = id;
+            return View(products.ToPagedList(page ?? 1, 9));
+        }
 
-         
+        [HttpPost]
+        public ActionResult Category(int? id, FormCollection form, int? page)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Product> products = db.Categories.Find(id).Products.ToList();
+
+
             TempData["Category_Id"] = id;
             switch (form["filter"])
             {
@@ -43,14 +64,14 @@ namespace Online_Shop.Controllers
                 case "decrease":
                     products = db.Categories.Find(id).Products.OrderByDescending(p => p.Price).ToList();
                     break;
-              
+
             }
             return View(products.ToPagedList(page ?? 1, 9));
         }
-        public ActionResult Manufacturer(string name,int? page)
+        public ActionResult Manufacturer(string name, int? page)
         {
             List<Product> products = new List<Product>();
-            if(string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
+            if (string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
             {
                 products = db.Specs.Select(s => s.Product).ToList();
             }
@@ -72,7 +93,7 @@ namespace Online_Shop.Controllers
             else
             {
                 products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList();
-                switch(form["filter"])
+                switch (form["filter"])
                 {
                     case "increase":
                         products = db.Specs.Where(s => s.Manufacturer == name).Select(s => s.Product).ToList().OrderBy(p => p.Price).ToList();
@@ -87,12 +108,12 @@ namespace Online_Shop.Controllers
         }
         public ActionResult SingleItem(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var product = db.Products.Find(id);
-            var spec = db.Specs.FirstOrDefault(s => s.Product_id == id);
+            Product product = db.Products.Find(id);
+            Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == id);
             return View(new ProductSpec() { Product = product, Spec = spec });
         }
     }

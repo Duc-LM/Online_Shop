@@ -105,8 +105,23 @@
                                     </div>
                                 </ul>
                             </li>
+                            <li>
+                                <a>
+                                    @using (Html.BeginForm("Index", "ProductView",FormMethod.Post))
+                                    {
+                                        <div class="">
+
+                                            <p>
+                                                @Html.TextBox("SearchString", null, new { @class = "form-control rounded", @placeholder = "Search Product" })
+                                            </p>
+
+                                        </div>
+                                    }
+                                </a>
+                            </li>
 
                         </ul>
+                      
                     </div>
                 </nav>
             </div>
@@ -160,6 +175,6 @@
     </div>
 </div>
 <script>
-        $('#SessionMessage').delay(3000).fadeOut('slow');
+    $('#SessionMessage').delay(3000).fadeOut('slow');
 </script>
 <!-- //header -->
