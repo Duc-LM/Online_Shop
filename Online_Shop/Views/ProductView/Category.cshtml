@@ -108,8 +108,8 @@
                     <div class="col-md-4 product">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
-                                <div class="new-collections-grid1-image-pos">
+                                <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="200" width="200" class="img-responsive" /></a>
+                                <div class="new-collections-grid1-image-pos" style="text-align:center">
                                     <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
                                 </div>
                                 <div class="new-collections-grid1-right">
@@ -133,7 +133,7 @@
             </div><nav class="numbering animated wow slideInRight" data-wow-delay=".5s" style="text-align:center">
                 <div class="pagination">
 
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                    @Html.PagedListPager(Model, page => Url.Action("Category", new { page }), new PagedListRenderOptions
                                 {
                                          MaximumPageNumbersToDisplay = 5
 
