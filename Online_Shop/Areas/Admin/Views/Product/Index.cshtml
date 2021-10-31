@@ -23,17 +23,13 @@
                 <br />
 
                 <h2 class="card-title">Products:</h2>
-                @using (Html.BeginForm())
-                {
-                    <p>
-                        Title: @Html.TextBox("SearchString") <input type="submit" value="Search" />
-                    </p>
-                }
+                @Html.Partial("SearchBox")
+
                 @*<div class="form-group">
-                        <div class="col-md-offset-2 col-md-10 text-success">
-                            <h3 class=" text-success">@ViewData["Status"]</h3>
-                        </div>
-                    </div>*@
+            <div class="col-md-offset-2 col-md-10 text-success">
+                <h3 class=" text-success">@ViewData["Status"]</h3>
+            </div>
+        </div>*@
                 <br />
                 <div class="table-responsive">
                     <table class="table table-hover ">
