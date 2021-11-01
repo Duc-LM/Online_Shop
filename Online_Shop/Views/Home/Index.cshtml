@@ -38,33 +38,43 @@
         </p>
         <div class="new-collections-grids">
             <div class="product-box-container">
-                @foreach (var item in Model)
+                @{ 
+                    int perRow = 4;
+                    int totalRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.Count() / perRow)));
+                    int index = 0;
+                }
+
+                @for(int i = 1; i <= totalRows; i++)
                 {
-                    var image = Path.Combine("/Include/Images/" + item.Images.Split(';')[0]);
-                    <!-- Product -->
-                    <div class="col-md-3 product">
-                        <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-                            <div class="new-collections-grid1-image">
-                                <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="200" width="200" @*class="img-responsive"*@ /></a>
-                                <div class="new-collections-grid1-image-pos" style="text-align:center">
-                                    <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
+                <div class="row" style="margin-bottom:20px">
+                    @foreach (var item in Model.Skip((i - 1) * perRow).Take(perRow))
+                    {
+                        var image = Path.Combine("/Include/Images/" + item.Images.Split(';')[0]);
+
+                        <div class="col-md-3 product" style="height:300px;">
+                            <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
+                                <div class="new-collections-grid1-image text-center"  >
+                                    <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="100" width="100" /></a>
+                                    <div class="new-collections-grid1-image-pos" style="text-align:center">
+                                        <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
+                                    </div>
+                                </div>
+                                <h4><a href="/ProductView/SingleItem/@item.Id">@((item.Name).Substring(0, 15))</a></h4>
+                                <p>@(item.Short_desc.Substring(0, 20) + "...") </p>
+                                <div class="new-collections-grid1-left simpleCart_shelfItem">
+                                    <p style="text-align:center">$@item.Price</p>
+                                    @if (item.Quantity > 0)
+                                    {
+                                        <p style="text-align:center">  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
+                                    }
+                                    else
+                                    { <p style="text-align:center">  <a class="item_add">Out Of Stock</a></p>}
                                 </div>
                             </div>
-                            <h4><a href="/ProductView/SingleItem/@item.Id" style="text-align:center">@item.Name</a></h4>
-                            <p>@(item.Short_desc.Substring(0,20)+"...") </p>
-                            <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                <p style="text-align:center">$@item.Price</p>
-                                @if (item.Quantity > 0)
-                                {
-                                    <p style="text-align:center">  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
-                                }
-                                else
-                                { <p style="text-align:center">  <a class="item_add">Out Of Stock</a></p>}
-                            </div>
-                        </div>
 
-                    </div>
-                    <!-- Product -->
+                        </div>
+                    }
+                </div>
                 }
             </div>
         </div>
