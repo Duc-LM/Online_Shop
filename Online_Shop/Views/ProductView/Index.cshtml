@@ -42,7 +42,16 @@
                     @foreach (var item in categories)
                     {
 
-                        <li><a href="/ProductView/@item.Id">@item.Name</a></li>
+                        <li>@Html.ActionLink(item.Name, "Category", "ProductView", new { id = item.Id }, FormMethod.Get)</li>
+
+                    }
+                </ul>
+                <h3>Manufacturers</h3>
+                <ul class="cate">
+                    @foreach (var item in manufacturers)
+                    {
+
+                        <li>@Html.ActionLink(item, "Manufacturer", "ProductView", new { name = item }, FormMethod.Get)</li>
 
                     }
                 </ul>
@@ -67,39 +76,6 @@
                     <div class="clearfix"> </div>
                 </div>
             </div>
-
-
-            @*<div class="products-right-grids-bottom">
-
-                    @for (int i = 0; i < counts.Length; i++)
-                    {
-                        var product = Model.Skip(counts[i]).Take(3).ToList();
-
-                        <div class="col-md-4 products-right-grids-bottom-grid">
-                            @foreach (var item in product)
-                            {
-
-                                var image = Path.Combine("/Include/Images/", item.Images.Split(';')[0]);
-                                <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-                                    <div class="new-collections-grid1-image">
-                                        <a href="single.html" class="product-image"><img src="@image" height="100" width="100" class="img-responsive" /></a>
-                                        <div class="new-collections-grid1-image-pos">
-                                            <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
-                                        </div>
-                                        <div class="new-collections-grid1-right">
-                                        </div>
-                                    </div>
-                                    <h4><a href="/ProductView/SingleItem/@item.Id">@item.Name</a></h4>
-                                    <p>@item.Short_desc</p>
-                                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                        <p>$@item.Price  <a class="item_add" href="/Cart/AddToCart/@item.Id">Add to cart </a></p>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-
-                </div>*@
             @if (Model.Count == 0)
             {
                 <em><b>No Result</b></em>
@@ -107,31 +83,48 @@
             else
             {
                 <div class="product-box-container">
-                    @foreach (var item in Model)
+                    @{
+                        int perRow = 3;
+                        int totalRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.Count() / perRow)));
+                        int index = 0;
+                    }
+                    @for (int i = 1; i <= totalRows; i++)
                     {
-                        var image = Path.Combine("/Include/Images/" + item.Images.Split(';')[0]);
-                        <div class="col-md-4 product">
-                            <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-                                <div class="new-collections-grid1-image">
-                                    <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="200" width="200" class="img-responsive" /></a>
-                                    <div class="new-collections-grid1-image-pos" style="text-align:center">
-                                        <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
-                                    </div>
-                                    <div class="new-collections-grid1-right">
+                        <div class="row" style="margin-bottom:30px">
+                            @foreach (var item in Model.Skip((i - 1) * perRow).Take(perRow))
+                            {
+                                var image = Path.Combine("/Include/Images/" + item.Images.Split(';')[0]);
+                                <div class="col-md-4 product">
+                                    <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
+                                        <div class="new-collections-grid1-image text-center">
+                                            <a href="/ProductView/SingleItem/@item.Id" class="product-image"><img src="@image" height="100" width="100" /></a>
+                                            <div class="new-collections-grid1-image-pos" style="text-align:center">
+                                                <a href="/ProductView/SingleItem/@item.Id">Quick View</a>
+                                            </div>
+                                            <div class="new-collections-grid1-right">
+                                            </div>
+                                        </div>
+                                        @{
+                                            string name = item.Name;
+                                            if (name.Length > 30)
+                                            { name = name.Substring(0, 30); }
+                                            else
+                                            { name = name + "           "; }
+                                        }
+                                        <h4><a href="/ProductView/SingleItem/@item.Id">@name</a></h4>
+                                        <p>@(item.Short_desc.Substring(0, 15) + "...")</p>
+                                        <div class="new-collections-grid1-left simpleCart_shelfItem">
+                                            <p style="text-align:center">$@item.Price</p>
+                                            @if (item.Quantity > 0)
+                                            {
+                                                <p style="text-align:center">  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
+                                            }
+                                            else
+                                            { <p style="text-align:center">  <a class="item_add">Out Of Stock</a></p>}
+                                        </div>
                                     </div>
                                 </div>
-                                <h4><a href="/ProductView/SingleItem/@item.Id" style="text-align:center">@item.Name</a></h4>
-                                <p>@(item.Short_desc.Substring(0, 20) + "...")</p>
-                                <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                    <p style="text-align:center">$@item.Price</p>
-                                    @if (item.Quantity > 0)
-                                    {
-                                        <p style="text-align:center">  <a href="javascript:void(0)" class="item_add" onclick="AddToCart(@item.Id,@item.Price)">Add to cart</a></p>
-                                    }
-                                    else
-                                    { <p style="text-align:center">  <a class="item_add">Out Of Stock</a></p>}
-                                </div>
-                            </div>
+                            }
                         </div>
                     }
                     <div class="clearfix"> </div>

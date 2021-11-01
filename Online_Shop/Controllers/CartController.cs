@@ -13,10 +13,9 @@ namespace Online_Shop.Controllers
 
 
         // GET: Cart
+        [SessionAuthentication]
         public ActionResult Index(int? page)
         {
-            if ((User)Session["User"] == null)
-                return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             List<ProductCartItem> items = new List<ProductCartItem>();
             decimal total = 0;
@@ -40,12 +39,10 @@ namespace Online_Shop.Controllers
 
         }
 
-
+        [SessionAuthentication]
         public ActionResult AddToCart(int id)
         {
-
-            if ((User)Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+            
             User user = (User)Session["User"];
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             if (list == null)
@@ -63,55 +60,24 @@ namespace Online_Shop.Controllers
             {
 
                 foreach (var i in list.Where(p => p.Id == id))
-                    i.Quantity += 1;
+                   i.Quantity += 1;
+                
+                   
             }
-            decimal total = (decimal) Session["Total"];
+            decimal total = (decimal)Session["Total"];
             decimal price = db.Products.Find(id).Price;
-            Session["Total"] = (decimal) (total + price);
+            Session["Total"] = (decimal)(total + price);
             Session[Convert.ToString(((User)Session["User"]).Id)] = list;
             Session["Message"] = "Added to Cart successfully";
             return RedirectToAction("Index");
+           
             //return RedirectToAction("SingleItem", "ProductView", new { id = id } );
         }
-        //[HttpPost]
-        //public ActionResult AddToCart(int id, int? quantity)
-        //{
-        //    if (Session[Convert.ToString(((User)Session["User"]).Id)] != null)
-        //    {
-        //        Session[Convert.ToString(((User)Session["User"]).Id)] = new List<ProductCart>();
-        //    }
-        //    else
-        //    {
-        //        List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-        //        if (list.Find(p => p.Id == id) != null)
-        //        {
-        //            list.Where(p => p.Id == id).Select(p => p.Quantity += (quantity ?? 1));
-        //        }
-        //        else
-        //        {
-        //            list.Add(new ProductCart() { Id = id, Quantity = quantity ?? 1 });
-        //        }
-
-        //        Session[Convert.ToString(((User)Session["User"]).Id)] = list;
-        //    }
-        //}
 
         [HttpPost]
-        public ActionResult UpdateQuantity(int newQuantity, int id)
-        {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
-            List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-            list.Where(p => p.Id == id).Select(p => p.Quantity == newQuantity);
-            Session[Convert.ToString(((User)Session["User"]).Id)] = list;
-            return Json(new { success = true, message = "Success!" }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
+        [SessionAuthentication]
         public ActionResult PlusQuantity(int id)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             int stock = db.Products.Find(id).Quantity;
             foreach (var i in list.Where(p => p.Id == id && p.Quantity < stock))
@@ -122,10 +88,9 @@ namespace Online_Shop.Controllers
         }
 
         [HttpPost]
+        [SessionAuthentication]
         public ActionResult SubstractQuantity(int id)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             foreach (var i in list.Where(p => p.Id == id && p.Quantity > 1))
                 i.Quantity -= 1;
@@ -135,10 +100,9 @@ namespace Online_Shop.Controllers
         }
 
         [HttpPost]
+        [SessionAuthentication]
         public ActionResult DeleteItem(int id)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
             List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
             ProductCart p = list.Where(a => a.Id == id).FirstOrDefault();
             if (p != null)

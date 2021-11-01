@@ -96,7 +96,7 @@
                                         @Html.DropDownList("Status", new List<SelectListItem>() {
                                        new SelectListItem { Selected = false, Text = "Pending", Value = "Pending"},
                                        new SelectListItem { Selected = false, Text = "Delivering", Value = "Delivering" },
-                                       new SelectListItem { Selected = false, Text = "Complete", Value = "Complete" }
+                                       new SelectListItem { Selected = false, Text = "Completed", Value = "Completed" }
                                    }, "---" + item.Status + "---",
                                      new { @class = "form-control", @onchange = "this.form.submit()&&document.location.reload(false)", style = "border:1px solid black" })
                                     }

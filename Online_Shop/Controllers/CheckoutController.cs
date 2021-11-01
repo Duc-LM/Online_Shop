@@ -10,10 +10,9 @@ namespace Online_Shop.Controllers
     public class CheckoutController : BaseController
     {
         // GET: Checkout
+        [SessionAuthentication]
         public ActionResult Create()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
            if (Session[Convert.ToString(((User)Session["User"]).Id)] == null)
                 return RedirectToAction("Index", "Cart");
             if (((List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)]).Count == 0)
@@ -75,10 +74,9 @@ namespace Online_Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionAuthentication]
         public ActionResult Create(OrderPromotions op)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
             if (ModelState.IsValid)
             {
                 

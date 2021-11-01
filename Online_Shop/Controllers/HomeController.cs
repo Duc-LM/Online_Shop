@@ -19,18 +19,11 @@ namespace Online_Shop.Controllers
             if ((User)Session["User"] != null)
             {
                 List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
-                List<ProductCartItem> items = new List<ProductCartItem>();
                 if (list != null)
                 {
                     foreach (ProductCart i in list)
                     {
                         Product product = db.Products.Find(i.Id);
-                        items.Add(new ProductCartItem()
-                        {
-                            Product = product,
-                            Quantity = i.Quantity
-
-                        });
                         total += product.Price * i.Quantity;
                     }
 
@@ -155,11 +148,10 @@ namespace Online_Shop.Controllers
             userRoles.Roles = db.Roles.ToList();
             return View();
         }
-
+        [SessionAuthentication]
         public ActionResult UpdatePassword()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+           
             User user = (User)Session["User"];
             var password_User = new Password_User()
             {
@@ -172,10 +164,10 @@ namespace Online_Shop.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionAuthentication]
         public ActionResult UpdatePassword(Password_User pu)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+            
             if (ModelState.IsValid)
             {
                 if (!BCrypt.Net.BCrypt.Verify(pu.CurrentPasswordInput, pu.CurrentPassword))
@@ -198,11 +190,10 @@ namespace Online_Shop.Controllers
             }
             return View(pu);
         }
-
+        [SessionAuthentication]
         public ActionResult UpdateProfile()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+            
             User user = (User)Session["User"];
             user.RePassword = user.Password;
             return View((User)Session["User"]);
@@ -210,10 +201,10 @@ namespace Online_Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionAuthentication]
         public ActionResult UpdateProfile(User user, HttpPostedFileBase file)
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+            
             if (ModelState.IsValid)
             {
                 if (DateTime.Compare(user.Dob, DateTime.Now) > 0)
@@ -274,10 +265,10 @@ namespace Online_Shop.Controllers
             }
             return View(user);
         }
+        [SessionAuthentication]
         public ActionResult Logout()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Login", "Home");
+           
            
             Session.Remove("User");
             Session.Remove("Total");

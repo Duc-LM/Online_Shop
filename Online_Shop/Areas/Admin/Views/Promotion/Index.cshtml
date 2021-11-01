@@ -30,11 +30,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Short_desc</th>
-                                <th>Begin_date</th>
-                                <th>End_date</th>
-                                <th>Percent_discount</th>
-                                <th>Quantity_left</th>
+                                <th>Short Description</th>
+                                <th>Begin Date</th>
+                                <th>End Date</th>
+                                <th>Percent Discount</th>
+                                <th>Quantity Left</th>
                             </tr>
                             @foreach (var item in Model)
                             {
@@ -49,7 +49,7 @@
 
                                     <td>@Html.DisplayFor(modelItem => item.End_date)</td>
 
-                                    <td>@Html.DisplayFor(modelItem => item.Percent_discount)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Percent_discount)%</td>
 
                                     <td>@Html.DisplayFor(modelItem => item.Quantity_left)</td>
 

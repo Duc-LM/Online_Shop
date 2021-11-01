@@ -1,6 +1,7 @@
 ﻿using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,6 +12,7 @@ namespace Online_Shop.Controllers
     {
         public ActionResult Index(int? page, string searchString)
         {
+            GetTotalPriceInCart();
             List<Product> list = (List<Product>)TempData["Products"];
             if ( list  != null)
             {
@@ -36,6 +38,7 @@ namespace Online_Shop.Controllers
 
         public ActionResult Category(int? id, int? page)
         {
+            GetTotalPriceInCart();
             var list = (List<Product>)TempData["Categories"];
             if(list != null)
             {
@@ -55,6 +58,7 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public ActionResult Category(int? id, FormCollection form, int? page)
         {
+            GetTotalPriceInCart();
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -78,6 +82,7 @@ namespace Online_Shop.Controllers
         }
         public ActionResult Manufacturer(string name, int? page)
         {
+            GetTotalPriceInCart();
             var list = (List<Product>)TempData["Manufacturers"];
             if( list != null)
             {
@@ -100,6 +105,7 @@ namespace Online_Shop.Controllers
         [HttpPost]
         public ActionResult Manufacturer(string name, FormCollection form, int? page)
         {
+            GetTotalPriceInCart();
             List<Product> products = new List<Product>();
             if (string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
             {
@@ -124,6 +130,7 @@ namespace Online_Shop.Controllers
         }
         public ActionResult SingleItem(int? id)
         {
+            GetTotalPriceInCart();
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -131,6 +138,31 @@ namespace Online_Shop.Controllers
             Product product = db.Products.Find(id);
             Spec spec = db.Specs.FirstOrDefault(s => s.Product_id == id);
             return View(new ProductSpec() { Product = product, Spec = spec });
+        }
+       
+        public void GetTotalPriceInCart()
+        {
+            
+            decimal total = 0;
+            if ((User)Session["User"] != null)
+            {
+                List<ProductCart> list = (List<ProductCart>)Session[Convert.ToString(((User)Session["User"]).Id)];
+                if (list != null)
+                {
+                    foreach (ProductCart i in list)
+                    {
+                        Product product = db.Products.Find(i.Id);
+
+                        total += product.Price * i.Quantity;
+                    }
+
+                }
+            }
+            else
+            {
+                total =(decimal)0;
+            }
+            Session["Total"] = total;
         }
     }
 }

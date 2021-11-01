@@ -23,6 +23,7 @@ namespace Online_Shop.Models
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Short Description")]
         public string Short_desc { get; set; }
 
         [Required]
