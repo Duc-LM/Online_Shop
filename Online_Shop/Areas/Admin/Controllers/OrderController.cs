@@ -74,7 +74,7 @@ namespace Online_Shop.Areas.Admin.Controllers
             }
 
             Order order = db.Orders.Find(id);
-            List<Promotion> promotions = db.Promotions.Where(p=>DateTime.Compare(p.End_date,DateTime.Now) > 0).ToList();
+            List<Promotion> promotions = db.Promotions.Where(p=>DateTime.Compare(p.End_date,DateTime.Now) > 0 && DateTime.Compare(p.Begin_date, DateTime.Now) <= 0).ToList();
             var promotionDescs = new List<PromotionDesc>();
             foreach( var item in promotions)
             {

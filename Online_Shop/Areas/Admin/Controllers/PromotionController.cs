@@ -65,11 +65,6 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Name", "This name already existed in the Database");
                     return View();
                 }
-                if (DateTime.Compare(promotion.Begin_date, DateTime.Now) < 0)
-                {
-                    ModelState.AddModelError("Begin_date", "Begin date must not be earlier than now");
-                    return View();
-                }
                
                 if (DateTime.Compare(promotion.Begin_date, promotion.End_date) > 0)
                 {
@@ -105,11 +100,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     ModelState.AddModelError("Begin_date", "Begin_date must be earlier than End_date");
                     return View(promotion);
                 }
-                if (DateTime.Compare(promotion.Begin_date, DateTime.Now) < 0)
-                {
-                    ModelState.AddModelError("Begin_date", "Begin date must not be earlier than now");
-                    return View(promotion);
-                }
+               
                 if (DateTime.Compare(promotion.End_date, DateTime.Now) < 0)
                 {
                     ModelState.AddModelError("End_date", "End date must not be earlier than now");

@@ -63,7 +63,7 @@ namespace Online_Shop.Controllers
                 User_id = ((User)Session["User"]).Id
 
             };
-            List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(DateTime.Now, p.End_date) < 0 && p.Quantity_left > 0).ToList();
+            List<Promotion> promotions = db.Promotions.Where(p => DateTime.Compare(DateTime.Now, p.End_date) < 0 && p.Quantity_left > 0 && DateTime.Compare(p.Begin_date, DateTime.Now) <= 0).ToList();
             var promotionDescs = new List<PromotionDesc>();
             foreach (var item in promotions)
             {
@@ -128,7 +128,7 @@ namespace Online_Shop.Controllers
                 }
                 db.SaveChanges();
                 Session[Convert.ToString(((User)Session["User"]).Id)] = new List<ProductCart>();
-                Session["Message"] = "Your order created successfully";
+                Session["Message"] = "Your order created successfully. QTD shop's staff will contact you after 5 minutes.";
                 return RedirectToAction("Index", "Home");
             }
             
