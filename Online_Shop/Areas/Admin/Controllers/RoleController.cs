@@ -9,14 +9,14 @@ using Online_Shop.Models;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-  
+  [AdminSessionAuthorizeAttribute]
     public class RoleController : BaseController
     {
         // GET: Admin/Role
         public ActionResult Index(int? page)
         {
             var list = (List<Role>)TempData["Roles"];
-            if (list!= null)
+            if (list!= null && page != null)
             {
                 TempData["Roles"] = list;
                 return View(list.ToPagedList(page ?? 1, 10));

@@ -13,12 +13,7 @@ namespace Online_Shop.Controllers
         public ActionResult Index(int? page, string searchString)
         {
             GetTotalPriceInCart();
-            List<Product> list = (List<Product>)TempData["Products"];
-            if ( list  != null)
-            {
-                TempData["Products"] = list;
-                return View(list.ToPagedList(page ?? 1, 9));
-            }
+           
             List<Product> products = db.Products.ToList();
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -30,6 +25,15 @@ namespace Online_Shop.Controllers
                 TempData["Products"] = products;
                 return View(products.ToPagedList(page ?? 1, 9));
             }
+            else
+            {
+                List<Product> list = (List<Product>)TempData["Products"];
+                if (list != null)
+                {
+                    TempData["Products"] = list;
+                    return View(list.ToPagedList(page ?? 1, 9));
+                }
+            }
 
             TempData["Products"] = products;
             return View(products.ToPagedList(page ?? 1, 9));
@@ -40,7 +44,7 @@ namespace Online_Shop.Controllers
         {
             GetTotalPriceInCart();
             var list = (List<Product>)TempData["Categories"];
-            if(list != null)
+            if(list != null && page != null)
             {
                 TempData["Categories"] = list;
                 return View(list.ToPagedList(page ?? 1, 9));
@@ -84,9 +88,10 @@ namespace Online_Shop.Controllers
         {
             GetTotalPriceInCart();
             var list = (List<Product>)TempData["Manufacturers"];
-            if( list != null)
+            if (list != null && page != null)
             {
                 TempData["Manufacturers"] = list;
+                var a = list.ToPagedList(page ?? 1, 9).ToList();
                 return View(list.ToPagedList(page ?? 1, 9));
             }
             List<Product> products = new List<Product>();

@@ -11,7 +11,7 @@ using PagedList;
 
 namespace Online_Shop.Areas.Admin.Controllers
 {
-   
+   [AdminSessionAuthorizeAttribute]
     public class UserController : BaseController
     {
 
@@ -19,7 +19,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         public ActionResult Index(int? page)
         {
             var list = (List<User>)TempData["Users"];
-            if(list!=null)
+            if(list!= null && page != null)
             {
                 TempData["Users"] = list;
                 return View(new UsersRoles() { Users = list.ToPagedList(page ?? 1, 10), Roles = db.Roles.ToList()});
@@ -214,23 +214,6 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(userRoles);
         }
 
-        //public ActionResult UpdatePassword(int? id)
-        //{
-
-        //    if (!db.Users.Any(u => u.Id == id) || id == null)
-        //    {
-        //        return RedirectToAction("Index", "Dashboard");
-        //    }
-        //    User user = db.Users.Find(id);
-        //    Password p = new Password()
-        //    {
-        //        UserId = (int)id,
-        //        CurrentPassword = user.Password,
-        //        UserName = user.User_name
-        //    };
-        //    return View(p);
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HandleError]
@@ -339,8 +322,81 @@ namespace Online_Shop.Areas.Admin.Controllers
             return View(pu);
         }
 
-      
-    
+
+        public ActionResult UpdateProfile()
+        {
+
+            User user = (User)Session["User"];
+            user.RePassword = user.Password;
+            return View((User)Session["User"]);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProfile(User user, HttpPostedFileBase file)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (DateTime.Compare(user.Dob, DateTime.Now) > 0)
+                {
+                    ModelState.AddModelError("Dob", "The date of birth is invalid");
+
+                    return View(user);
+                }
+                if (db.Users.Any(m => m.Email == user.Email && m.Id != user.Id))
+                {
+                    ModelState.AddModelError("Email", "This email already existed in the Database ");
+
+                    return View(user);
+                }
+                if (db.Users.Any(m => m.Phone_number == user.Phone_number && m.Id != user.Id))
+                {
+                    ModelState.AddModelError("Phone_number", "This phone number already existed in the Database ");
+
+                    return View(user);
+                }
+                if (db.Users.Any(m => m.User_name == user.User_name && m.Id != user.Id))
+                {
+                    ModelState.AddModelError("User_name", "This user name already existed in the Database");
+
+                    return View(user);
+                };
+                User user1 = db.Users.Find(user.Id);
+                user1.RePassword = user.Password;
+                if (file != null)
+                {
+                    if (user.Avatar != "")
+                    {
+                        System.IO.File.Delete(Path.Combine(Server.MapPath("~/Include/Images"), user.Avatar));
+                    }
+
+
+                    string InputFileName = Path.GetFileName(file.FileName);
+                    string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
+                    file.SaveAs(ServerSavePath);
+
+                    user.Avatar = InputFileName;
+
+                }
+                else
+                {
+                    user.Avatar = user1.Avatar;
+                }
+
+                user.Password = user1.Password;
+                user.RePassword = user.Password;
+                db.Entry(user1)
+                    .CurrentValues.SetValues(user);
+                db.SaveChanges();
+                Session["Message"] = "Updated profile successfully";
+                Session["User"] = db.Users.Find(user.Id);
+                return RedirectToAction("Index");
+
+            }
+            return View(user);
+        }
+
     }
 
 

@@ -85,7 +85,7 @@
                 <div class="product-box-container">
                     @{
                         int perRow = 3;
-                        int totalRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.Count() / perRow)));
+                        int totalRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.Count() / perRow))) < 1 ? 1 : Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.Count() / perRow)));
                         int index = 0;
                     }
                     @for (int i = 1; i <= totalRows; i++)

@@ -18,7 +18,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         public ActionResult Index(int? page)
         {
             var list = (List < ProductWithCheckSpec >)TempData["Products"];
-            if(list != null)
+            if(list != null && page != null)
             {
                 TempData["Products"] = list;
                 return View(list.ToPagedList(page ?? 1, 10));
@@ -33,8 +33,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                     CheckSpec = (db.Specs.FirstOrDefault(s => s.Product_id == item.Id) != null)
                 });
             }
-            var products = (from p in productsWithCheckSpec
-                                                                 select p).OrderBy(a => a.Product.Id).ToList();
+            var products = (from p in productsWithCheckSpec select p).OrderBy(a => a.Product.Id).ToList();
            
             return View(products.ToPagedList(page ?? 1, 10));
         }

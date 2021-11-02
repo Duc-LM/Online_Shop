@@ -14,7 +14,7 @@ namespace Online_Shop.Areas.Admin.Controllers
         public ActionResult Index(int? page)
         {
             List<Category> list = (List<Category>)TempData["Categories"];
-            if (list != null)
+            if (list != null && page != null)
             {
                 TempData["Categories"] = list;
                 return View(list.ToPagedList(page ?? 1, 10));

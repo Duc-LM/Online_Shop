@@ -4,13 +4,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Online_Shop.Controllers
 {
+    [SessionAuthentication]
     public class CheckoutController : BaseController
     {
+        
+        public ActionResult Index(int? page)
+        {
+            var orders = db.Users.Find(((User)Session["User"]).Id).Orders.OrderByDescending(o => o.Status).ToList();
+            var list = (List<Order>)TempData["Orders"];
+            if (list != null)
+            {
+                TempData["Orders"] = list;
+                return View(list.ToPagedList(page ?? 1, 10));
+            }
+
+            TempData["Orders"] = orders;
+            return View(orders.ToPagedList(page ?? 1, 10));
+
+        }
+        [HttpPost]
+        public ActionResult Index (int? page, string searchString)
+        {
+            var orders = db.Users.Find(((User)Session["User"]).Id).Orders.OrderByDescending(o => o.Status).ToList();
+            var list = new List<Order>();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                list = orders.Where(o => o.Customer_name.Contains(searchString) ||
+                o.Created_date.ToString().Contains(searchString) ||
+                o.Phone_number.Contains(searchString) ||
+                o.Place_of_receipt.Contains(searchString) ||
+                o.Note.Contains(searchString)).OrderByDescending(o => o.Status).ToList();
+            }
+            else
+            {
+                list = orders.OrderByDescending(o => o.Status).ToList();
+            }
+            TempData["Orders"] = list;
+            return View(list.ToPagedList(page ?? 1, 10));
+        }
+      
+
         // GET: Checkout
-        [SessionAuthentication]
         public ActionResult Create()
         {
            if (Session[Convert.ToString(((User)Session["User"]).Id)] == null)
@@ -74,7 +112,6 @@ namespace Online_Shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [SessionAuthentication]
         public ActionResult Create(OrderPromotions op)
         {
             if (ModelState.IsValid)
@@ -141,5 +178,23 @@ namespace Online_Shop.Controllers
             op.Promotions = promotionDescs;
             return View(op);
         }
+
+        public ActionResult Detail(int? id )
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            Order order = db.Orders.Find(id);
+            List<Order_Product> products = db.Order_Product.Where(op => op.Order_id == id).ToList();
+            OrderProductsPromotions orderProductsPromotions = new OrderProductsPromotions()
+            {
+                Order = order,
+                Order_Products = products,
+                Promotions = null
+            };
+            return View(orderProductsPromotions);
+        }
+       
     }
 }
