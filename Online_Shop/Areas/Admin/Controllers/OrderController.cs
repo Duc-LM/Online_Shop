@@ -1,5 +1,4 @@
-﻿
-using Online_Shop.Models;
+﻿using Online_Shop.Models;
 using Online_Shop.Models.DTO;
 using System.Collections.Generic;
 using System.Linq;
