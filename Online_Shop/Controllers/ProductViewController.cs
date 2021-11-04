@@ -86,7 +86,8 @@ namespace Online_Shop.Controllers
             List<Product> products = new List<Product>();
             if (string.IsNullOrEmpty(name) || !db.Specs.Any(s => s.Manufacturer == name))
             {
-                products = db.Specs.Select(s => s.Product).ToList();
+                string manu_name = (string)TempData["Manufacturer_Name"];
+                products = db.Specs.Where(s => s.Manufacturer == manu_name).Select(s => s.Product).ToList();
             }
             else
             {
