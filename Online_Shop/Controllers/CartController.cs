@@ -59,7 +59,7 @@ namespace Online_Shop.Controllers
             else
             {
 
-                foreach (var i in list.Where(p => p.Id == id))
+                foreach (var i in list.Where(p => p.Id == id && p.Quantity < db.Products.Find(p.Id).Quantity))
                    i.Quantity += 1;
                 
                    
