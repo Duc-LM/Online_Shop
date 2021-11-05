@@ -36,10 +36,10 @@
                         else
                         {
                             <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i>Hello @user.Name</li>
-                            if (user.Role.Name.ToUpper() != "USER")
+                            @*if (user.Role.Name.ToUpper() != "USER")
                             {
                                 <li><i class="glyphicon glyphicon-check" aria-hidden="true"></i><a href="/Admin/Dashboard">Admin Page</a></li>
-                            }
+                            }*@
                             <li><i class="glyphicon glyphicon-align-justify" aria-hidden="true"></i><a href="/Checkout/Index">My Order</a></li>
                             <li><i class="glyphicon glyphicon-folder-close" aria-hidden="true"></i><a href="/Home/UpdateProfile">Update Profile</a></li>
                             <li><i class="glyphicon glyphicon-check" aria-hidden="true"></i><a href="/Home/UpdatePassword">Change Password</a></li>
