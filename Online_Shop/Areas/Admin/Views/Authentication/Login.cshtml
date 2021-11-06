@@ -46,6 +46,11 @@
 
                                 </div>
                                 @Html.ValidationMessageFor(m => m.user_name, "", new { @class = "text-danger" })
+                                @if(Session["Message"] != null)
+                                {
+                                    <p class="text-danger"> @Session["Message"]</p>
+                                    Session["Message"] = null;
+                                }
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword">Password</label>

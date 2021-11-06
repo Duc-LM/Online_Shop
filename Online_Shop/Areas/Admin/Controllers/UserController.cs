@@ -101,12 +101,6 @@ namespace Online_Shop.Areas.Admin.Controllers
                     userRoles.Roles = db.Roles.ToList();
                     return View(userRoles);
                 }
-                //if (!userRoles.User.Password.Equals(userRoles.User.RePassword))
-                //{
-                //    ModelState.AddModelError("User_name", "This name must have no space ");
-                //    return View();
-                //}
-               
                 if (DateTime.Compare(userRoles.User.Dob, DateTime.Now) > 0)
                 {
                     ModelState.AddModelError("User.Dob", "The date of birth is invalid");
@@ -116,7 +110,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                 if (file != null)
                 {
 
-                    string InputFileName = (db.Products.ToList().Count + 1).ToString() + Path.GetFileName(file.FileName);
+                    string InputFileName = "U"+(db.Products.ToList().Count + 1).ToString() + Path.GetFileName(file.FileName);
                     string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                     file.SaveAs(ServerSavePath);
 
@@ -189,7 +183,7 @@ namespace Online_Shop.Areas.Admin.Controllers
                         }
 
 
-                        string InputFileName = Path.GetFileName(file.FileName);
+                        string InputFileName = "U" + (userRoles.User.Id.ToString()) + Path.GetFileName(file.FileName);
                         string ServerSavePath = Path.Combine(Server.MapPath("~/Include/Images/"), InputFileName);
                         file.SaveAs(ServerSavePath);
 

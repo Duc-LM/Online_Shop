@@ -25,6 +25,8 @@ namespace Online_Shop.Models
         [Required]
         [StringLength(255)]
         [Display(Name = "Phone Number")]
+        [RegularExpression(@"^[0-9]*$",
+            ErrorMessage = "This number is invalid")]
         public string Phone_number { get; set; }
 
         [Required]
