@@ -72,9 +72,9 @@
                                                     </h3>
                                                     @item.Product.Short_desc
                                                 </td>
-                                                <td class="unit"> @item.Product.Price</td>
+                                                <td class="unit"> $@item.Product.Price</td>
                                                 <td class="qty">@item.Quantity</td>
-                                                <td class="total">@item.Price</td>
+                                                <td class="total">$@item.Price</td>
                                             </tr>
 
                                             count++;
@@ -86,7 +86,7 @@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">SUBTOTAL</td>
-                                            <td>@subtotal</td>
+                                            <td>$@subtotal</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"></td>
@@ -97,7 +97,7 @@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">SHIP PRICE</td>
-                                            <td>@Model.Order.Ship_price</td>
+                                            <td>$@Model.Order.Ship_price</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"></td>
