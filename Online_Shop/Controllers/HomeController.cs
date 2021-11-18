@@ -11,8 +11,6 @@ namespace Online_Shop.Controllers
 {
     public class HomeController : BaseController
     {
-
-
         public ActionResult Index()
         {
             decimal total = 0;
